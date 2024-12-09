@@ -1,13 +1,13 @@
 import React from "react";
 import ClientSidebar from "./_components/ClientSidebar";
 
-const AdminDashboardLayout = ({ children }: { children: React.ReactNode }) => {
+const ClientDashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
+    <div className="flex w-full">
       <ClientSidebar />
-      {children}
+      <div className="flex-grow p-8">{children}</div>
     </div>
   );
 };
 
-export default AdminDashboardLayout;
+export default ClientDashboardLayout;
