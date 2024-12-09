@@ -28,16 +28,16 @@ const Header = () => {
         <Nav />
       </div>
       <div className="flex">
-        <Link href="/sign-in" legacyBehavior passHref>
+        <Link href="/auth/sign-in" legacyBehavior passHref>
           <Button
-            className="rounded-full text-orange text-md font-medium"
+            className="rounded-full text-primary text-md font-medium"
             variant="ghost"
           >
             Sign In
           </Button>
         </Link>
-        <Link href="/sign-up" legacyBehavior passHref>
-          <Button className="rounded-full text-md font-medium bg-orange text-gray-900 hover:text-beige">
+        <Link href="/auth/sign-up" legacyBehavior passHref>
+          <Button className="rounded-full text-md font-medium bg-primary text-gray-900 hover:text-beige">
             Create a Free Account
           </Button>
         </Link>
@@ -48,7 +48,7 @@ const Header = () => {
           {theme === "light" ? (
             <Sun className="h-4 w-4" />
           ) : (
-            <Moon className="h-4 w-4 text-orange" />
+            <Moon className="h-4 w-4 text-primary" />
           )}
         </Button>
       </div>

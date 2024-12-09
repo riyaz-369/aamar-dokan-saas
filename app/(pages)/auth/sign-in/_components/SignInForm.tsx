@@ -1,0 +1,107 @@
+"use client";
+
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+import { Toaster } from "@/components/ui/sonner";
+import Link from "next/link";
+import { useState } from "react";
+import PageTitle from "@/components/PageTitle";
+import { SignInFormSchema } from "./SignInFormSchema";
+import PasswordShowClose from "@/components/PasswordShowClose";
+
+const SignInForm = () => {
+  const [eyeOpen, setEyeOpen] = useState(false);
+
+  // Initialize the form with default values and validation
+  const form = useForm<z.infer<typeof SignInFormSchema>>({
+    // resolver: zodResolver(SignInFormSchema),
+    defaultValues: {
+      phone: "",
+      password: "",
+    },
+  });
+
+  // Handle form submission
+  async function onSubmit(data: z.infer<typeof SignInFormSchema>) {
+    console.log(data);
+  }
+
+  return (
+    <div className="flex flex-col justify-center items-center h-screen">
+      <div className="max-w-md w-full space-y-2 border p-6 rounded-md shadow-lg">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <PageTitle title="Create Account" className="pb-4 text-center" />
+
+            {/* Phone */}
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Phone" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Password */}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        type={`${eyeOpen ? "text" : "password"}`}
+                        placeholder="Enter your password"
+                        {...field}
+                      />
+                      <PasswordShowClose
+                        eyeOpen={eyeOpen}
+                        setEyeOpen={setEyeOpen}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <br />
+            <Button className="w-full" type="submit">
+              SIgn In
+            </Button>
+          </form>
+        </Form>
+        <p className="flex items-center mt-4 justify-center">
+          Don&apos;t have an account?
+          <Link href={`/auth/sign-up`}>
+            <Button variant="link" className="px-2 text-md font-semibold">
+              Sign Up
+            </Button>
+          </Link>
+        </p>
+      </div>
+      <Toaster />
+    </div>
+  );
+};
+
+export default SignInForm;
