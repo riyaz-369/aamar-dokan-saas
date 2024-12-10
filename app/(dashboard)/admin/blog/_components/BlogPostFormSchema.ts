@@ -21,17 +21,10 @@ export const BlogPostFormSchema = z.object({
 
   tags: z
     .string()
-    .optional()
-    .transform((value) =>
-      value
-        ? value
-            .split(",")
-            .map((tag) => tag.trim())
-            .filter((tag) => tag.length > 0)
-        : []
-    )
-    .refine((tags) => tags.length <= 10, {
-      message: "You can add up to 10 tags only",
+    .min(3, { message: "Slug must be at least 3 characters long" })
+    .max(50, { message: "Slug cannot exceed 50 characters" })
+    .regex(/^[a-z0-9-]+$/, {
+      message: "Slug can only contain lowercase letters, numbers, and dashes",
     }),
 
   categoryId: z.string().min(1, { message: "Category is required" }),
@@ -48,11 +41,9 @@ export const BlogPostFormSchema = z.object({
     })
     .max(160, { message: "Meta Description cannot exceed 160 characters" }),
 
-  publishDate: z
-    .string()
-    .refine((date) => !isNaN(Date.parse(date)), {
-      message: "Invalid publish date",
-    }),
+  publishDate: z.string().refine((date) => !Number.isNaN(Date.parse(date)), {
+    message: "Invalid publish date",
+  }),
 
   content: z
     .string()
