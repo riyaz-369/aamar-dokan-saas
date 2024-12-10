@@ -2,8 +2,8 @@ import {
   Cog,
   LayoutDashboard,
   LucideIcon,
-  User2Icon,
   User,
+  User2Icon,
 } from "lucide-react";
 import { MdOutlinePostAdd } from "react-icons/md";
 import { RiServiceLine, RiBillLine } from "react-icons/ri";

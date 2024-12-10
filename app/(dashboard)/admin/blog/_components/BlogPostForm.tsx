@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+// import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,6 +16,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { BlogPostFormSchema } from "./BlogPostFormSchema";
 import { useState } from "react";
+import type { z } from "zod";
 
 const BlogPostForm = () => {
   const [photo, setPhoto] = useState<File | null>(null);
@@ -26,6 +27,7 @@ const BlogPostForm = () => {
       title: "",
       slug: "",
       description: "",
+      //@ts-expect-ignore
       tags: "",
       categoryId: "",
       metaTitle: "",

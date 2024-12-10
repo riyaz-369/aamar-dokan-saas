@@ -31,7 +31,7 @@ export function Nav({ links }: NavProps) {
                 variant: link.href === pathName ? "default" : "ghost",
                 size: "lg",
               }),
-              "justify-start px-4"
+              "justify-start px-4",
             )}
           >
             {React.createElement(link.icon as React.ElementType, {
