@@ -1,10 +1,11 @@
-import { Cog, LayoutDashboard, HeartIcon } from "lucide-react";
-import { MdOutlinePayment, MdHelpOutline } from "react-icons/md";
+import { Cog, LayoutDashboard, LucideIcon } from "lucide-react";
+import { MdHelpOutline } from "react-icons/md";
+import { RiServiceLine, RiBillLine } from "react-icons/ri";
 
 type LinkType = {
   title: string;
   label: string;
-  icon: unknown;
+  icon: LucideIcon | unknown;
   variant: string;
   href: string;
 };
@@ -20,14 +21,14 @@ export const clientSidebarLinks: LinkType[] = [
   {
     title: "My Services",
     label: "",
-    icon: HeartIcon,
+    icon: RiServiceLine,
     variant: "ghost",
     href: "/client/my-services",
   },
   {
     title: "Billing",
     label: "",
-    icon: MdOutlinePayment,
+    icon: RiBillLine,
     variant: "ghost",
     href: "/client/billing",
   },

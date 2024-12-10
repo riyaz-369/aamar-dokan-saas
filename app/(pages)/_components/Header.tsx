@@ -29,12 +29,12 @@ const Header = () => {
       </div>
       <div className="flex gap-2">
         <Link href="/auth/sign-in" legacyBehavior passHref>
-          <div className="rounded-full py-2 px-4 text-primary text-md font-medium">
+          <div className="rounded-full py-2 px-4 text-primary text-md font-medium hover:cursor-pointer">
             Sign In
           </div>
         </Link>
         <Link href="/auth/sign-up" legacyBehavior passHref>
-          <div className="rounded-full py-2 px-4 text-md font-medium bg-primary text-gray-900 hover:text-beige">
+          <div className="rounded-full py-2 px-4 text-md font-medium bg-primary text-beige hover:cursor-pointer">
             Create a Free Account
           </div>
         </Link>
