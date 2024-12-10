@@ -1,10 +1,11 @@
-import { Cog, LayoutDashboard, HeartIcon } from "lucide-react";
-import { MdOutlinePayment, MdHelpOutline } from "react-icons/md";
+import { Cog, LayoutDashboard, LucideIcon } from "lucide-react";
+import { MdHelpOutline } from "react-icons/md";
+import { RiServiceLine, RiBillLine } from "react-icons/ri";
 
 type LinkType = {
   title: string;
   label: string;
-  icon: unknown;
+  icon: LucideIcon | unknown;
   variant: string;
   href: string;
 };
@@ -15,55 +16,34 @@ export const clientSidebarLinks: LinkType[] = [
     label: "",
     icon: LayoutDashboard,
     variant: "default",
-    href: "/dashboard/customer",
+    href: "/client",
   },
-  // {
-  //   title: "Order History",
-  //   label: "",
-  //   icon: HistoryIcon,
-  //   variant: "ghost",
-  //   href: "/dashboard/customer/order-history",
-  // },
   {
     title: "My Services",
     label: "",
-    icon: HeartIcon,
+    icon: RiServiceLine,
     variant: "ghost",
-    href: "/dashboard/customer/my-services",
+    href: "/client/my-services",
   },
-  // {
-  //   title: "My Coupon",
-  //   label: "",
-  //   icon: RiCoupon2Line,
-  //   variant: "ghost",
-  //   href: "/dashboard/customer/my-coupon",
-  // },
-  // {
-  //   title: "Live Chat",
-  //   label: "",
-  //   icon: IoChatbubbleEllipsesOutline,
-  //   variant: "ghost",
-  //   href: "/dashboard/customer/chat",
-  // },
   {
     title: "Billing",
     label: "",
-    icon: MdOutlinePayment,
+    icon: RiBillLine,
     variant: "ghost",
-    href: "/dashboard/customer/billing",
+    href: "/client/billing",
   },
   {
-    title: "Setting",
+    title: "Settings",
     label: "",
     icon: Cog,
     variant: "ghost",
-    href: "/dashboard/customer/setting",
+    href: "/client/settings",
   },
   {
     title: "Help Center",
     label: "",
     icon: MdHelpOutline,
     variant: "ghost",
-    href: "/dashboard/customer/help-center",
+    href: "/client/help-center",
   },
 ];

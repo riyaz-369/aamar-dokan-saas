@@ -1,7 +1,12 @@
 import React from "react";
+import DashboardMain from "./_components/ClientDashboardMain";
 
 const ClientDashboard = () => {
-  return <div className="">Client Dashboard</div>;
+  return (
+    <div>
+      <DashboardMain />
+    </div>
+  );
 };
 
 export default ClientDashboard;
