@@ -1,9 +1,12 @@
+import PageTitle from "@/components/PageTitle";
 import React from "react";
+import BlogPostForm from "./_components/BlogPostForm";
 
 const BlogPage = () => {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <h3>Blog page</h3>
+    <div className="">
+      <PageTitle title="Create Blog Post" />
+      <BlogPostForm />
     </div>
   );
 };

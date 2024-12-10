@@ -3,6 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -25,7 +26,7 @@ const SignUpForm = () => {
 
   // Initialize the form with default values and validation
   const form = useForm<z.infer<typeof SignInFormSchema>>({
-    // resolver: zodResolver(SignInFormSchema),
+    resolver: zodResolver(SignInFormSchema),
     defaultValues: {
       name: "",
       phone: "",
