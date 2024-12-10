@@ -27,19 +27,16 @@ const Header = () => {
       <div className="flex  justify-end items-end">
         <Nav />
       </div>
-      <div className="flex">
+      <div className="flex gap-2">
         <Link href="/auth/sign-in" legacyBehavior passHref>
-          <Button
-            className="rounded-full text-primary text-md font-medium"
-            variant="ghost"
-          >
+          <div className="rounded-full py-2 px-4 text-primary text-md font-medium">
             Sign In
-          </Button>
+          </div>
         </Link>
         <Link href="/auth/sign-up" legacyBehavior passHref>
-          <Button className="rounded-full text-md font-medium bg-primary text-gray-900 hover:text-beige">
+          <div className="rounded-full py-2 px-4 text-md font-medium bg-primary text-gray-900 hover:text-beige">
             Create a Free Account
-          </Button>
+          </div>
         </Link>
         <Button
           variant="ghost"
