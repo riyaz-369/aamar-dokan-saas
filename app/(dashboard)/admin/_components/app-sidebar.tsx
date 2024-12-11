@@ -45,7 +45,7 @@ export function AppSidebar() {
                             item?.href === pathName ? "default" : "ghost",
                           size: "lg",
                         }),
-                        "justify-start text-md py-2 px-6 hover:bg-primary hover:text-white",
+                        "justify-start text-md py-2 px-6 hover:text-primary"
                       )}
                     >
                       {React.createElement(item.icon as React.ElementType, {
