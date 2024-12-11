@@ -1,9 +1,12 @@
+// import PageTitle from "@/components/PageTitle";
 import React from "react";
+import HelpCenter from "./_components/HelpCenter";
 
 const HelpCenterPage = () => {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <h3>Help Center page</h3>
+    <div>
+      {/* <PageTitle title="Help Center" /> */}
+      <HelpCenter />
     </div>
   );
 };

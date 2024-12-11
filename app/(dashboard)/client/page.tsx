@@ -3,7 +3,7 @@ import DashboardMain from "./_components/ClientDashboardMain";
 
 const ClientDashboard = () => {
   return (
-    <div>
+    <div className="flex flex-col h-full w-full">
       <DashboardMain />
     </div>
   );

@@ -14,7 +14,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Bell, Languages, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-const AdminBreadCrumb = () => {
+const DashboardBreadCrumb = () => {
   const pathName = usePathname();
   const segments = pathName.split("/").filter((segment) => segment);
   //   console.log(segments);
@@ -76,4 +76,4 @@ const AdminBreadCrumb = () => {
   );
 };
 
-export default AdminBreadCrumb;
+export default DashboardBreadCrumb;
