@@ -14,6 +14,11 @@ export const BlogPostFormSchema = z.object({
       message: "Slug can only contain lowercase letters, numbers, and dashes",
     }),
 
+  description: z
+    .string()
+    .min(10, { message: "Description must be at least 10 characters long" })
+    .max(300, { message: "Description cannot exceed 300 characters" }),
+
   tags: z
     .string()
     .min(3, { message: "Slug must be at least 3 characters long" })
