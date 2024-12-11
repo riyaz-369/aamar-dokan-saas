@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const BlogPostFormSchema = z.object({
+export const CreateUserFormSchema = z.object({
   title: z
     .string()
     .min(5, { message: "Title must be at least 5 characters long" })
@@ -13,11 +13,6 @@ export const BlogPostFormSchema = z.object({
     .regex(/^[a-z0-9-]+$/, {
       message: "Slug can only contain lowercase letters, numbers, and dashes",
     }),
-
-  description: z
-    .string()
-    .min(10, { message: "Description must be at least 10 characters long" })
-    .max(300, { message: "Description cannot exceed 300 characters" }),
 
   tags: z
     .string()
@@ -41,19 +36,17 @@ export const BlogPostFormSchema = z.object({
     })
     .max(160, { message: "Meta Description cannot exceed 160 characters" }),
 
-  publishDate: z.string().refine((date) => !Number.isNaN(Date.parse(date)), {
-    message: "Invalid publish date",
-  }),
+  publishDate: z.date({ required_error: "A date of birth is required." }),
 
   content: z
     .string()
     .min(50, { message: "Content must be at least 50 characters long" }),
 
-  photo: z
-    .instanceof(File)
-    .optional()
-    .or(z.null())
-    .refine((file) => !file || file.size <= 5 * 1024 * 1024, {
-      message: "Photo size must be less than 5MB",
-    }),
+  // photo: z
+  //   .instanceof(File)
+  //   .optional()
+  //   .or(z.null())
+  //   .refine((file) => !file || file.size <= 5 * 1024 * 1024, {
+  //     message: "Photo size must be less than 5MB",
+  //   }),
 });

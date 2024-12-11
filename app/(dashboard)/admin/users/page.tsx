@@ -1,9 +1,36 @@
+import PageTitle from "@/components/PageTitle";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import React from "react";
+import { columns, TBlogPost } from "./_components/columns";
+import { DataTable } from "./_components/data-table";
 
-const UsersPage = () => {
+async function getData(): Promise<TBlogPost[]> {
+  // Fetch data from your API here.
+  return [
+    {
+      id: "009",
+      photo: "http://example.com",
+      title: "Post tile",
+      publishDate: new Date().toLocaleDateString(),
+      category: "Tech",
+    },
+  ];
+}
+
+const UsersPage = async () => {
+  const data = await getData();
+
   return (
-    <div className="flex items-center justify-center h-screen">
-      <h3>Users page</h3>
+    <div>
+      <div className="flex justify-between">
+        <PageTitle title="Users" />
+        <Link href="/admin/users/create">
+          <Button>Create New User</Button>
+        </Link>
+      </div>
+      {/* Blog posts list */}
+      <DataTable columns={columns} data={data} />
     </div>
   );
 };

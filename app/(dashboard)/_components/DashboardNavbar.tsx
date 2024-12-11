@@ -11,7 +11,9 @@ const DashboardNavbar = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <header className={`sticky top-0 px-8 shadow-sm bg-white dark:bg-black`}>
+    <header
+      className={`sticky top-0 z-50 px-8 shadow-sm bg-white dark:bg-black`}
+    >
       <div className="py-2 flex items-center justify-between">
         {/* <Logo /> */}
         <div className="flex items-center gap-4">
