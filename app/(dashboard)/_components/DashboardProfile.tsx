@@ -21,13 +21,13 @@ const DashboardProfile = () => {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="flex flex-col items-start justify-center">
-              <h4 className="text-sm font-bold">Manishankar Vakta</h4>
+              <h4 className="text-sm font-semibold">Manishankar Vakta</h4>
               <p className="text-xs">Admin</p>
             </div>
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel>ManishankarVakta</DropdownMenuLabel>
+          <DropdownMenuLabel>Manishankar Vakta</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer">
             <User className="h-3 w-3" />
