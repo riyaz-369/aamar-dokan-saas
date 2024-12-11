@@ -1,16 +1,27 @@
 import React from "react";
-import ClientSidebar from "./_components/ClientSidebar";
-import DashboardNavbar from "../_components/DashboardNavbar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { AppSidebar } from "../_components/app-sidebar";
+import { Separator } from "@/components/ui/separator";
+import DashboardBreadCrumb from "../_components/dashboard-breadcrumb";
+import { clientSidebarLinks } from "./_components/ClientSidebarLink";
 
 const ClientDashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex w-full">
-      <ClientSidebar />
-      <div className="flex-grow">
-        <DashboardNavbar />
-        <div className="p-8">{children}</div>
-      </div>
-    </div>
+    <SidebarProvider>
+      <AppSidebar links={clientSidebarLinks} />
+      <SidebarInset>
+        <header className="flex sticky top-0 bg-background h-16 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          <DashboardBreadCrumb />
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 };
 

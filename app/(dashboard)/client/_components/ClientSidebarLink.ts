@@ -1,8 +1,10 @@
+"use client";
+
 import { Cog, LayoutDashboard, LucideIcon } from "lucide-react";
 import { MdHelpOutline } from "react-icons/md";
 import { RiServiceLine, RiBillLine } from "react-icons/ri";
 
-type LinkType = {
+export type LinkType = {
   title: string;
   label: string;
   icon: LucideIcon | unknown;

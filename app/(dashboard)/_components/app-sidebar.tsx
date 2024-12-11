@@ -17,11 +17,11 @@ import { cn } from "@/lib/utils";
 // import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import DashboardLogo from "../../_components/DashboardLogo";
-import { adminSidebarLinks } from "./AdminSidebarLink";
-import DashboardProfile from "../../_components/DashboardProfile";
+import DashboardLogo from "./DashboardLogo";
+import DashboardProfile from "./DashboardProfile";
+import { LinkType } from "../client/_components/ClientSidebarLink";
 
-export function AppSidebar() {
+export function AppSidebar({ links }: { links: LinkType[] }) {
   const pathName = usePathname();
   return (
     <Sidebar>
@@ -33,7 +33,7 @@ export function AppSidebar() {
           {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu>
-              {adminSidebarLinks.map((item) => (
+              {links.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link
@@ -45,7 +45,7 @@ export function AppSidebar() {
                             item?.href === pathName ? "default" : "ghost",
                           size: "lg",
                         }),
-                        "justify-start text-md py-2 px-6 hover:text-primary"
+                        "justify-start text-md py-5 px-6 hover:text-primary"
                       )}
                     >
                       {React.createElement(item.icon as React.ElementType, {
