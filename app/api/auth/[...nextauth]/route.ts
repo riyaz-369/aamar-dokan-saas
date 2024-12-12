@@ -34,7 +34,7 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!client || !client.password) {
-            return null; // Return null if no user is found or password is invalid
+            return null;
           }
 
           // Return the user object
