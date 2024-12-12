@@ -26,28 +26,28 @@ model User {
 
 // Define your Customer model
 model Client {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   name         String
-  phone        String    @unique
+  phone        String   @unique
   email        String?
-  address      Json[] //{street, city, state, zip, country}
+  address      Json? //{street, city, state, zip, country}
   photo        String?
   username     String?
   password     String?
   dob          String?
-  status       Status    @default(Active)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  aamardokanId String    @unique
-  services     Json[]
-  payment      Payment[]
+  status       Status   @default(Active)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  aamardokanId String?  @unique
+  services     Json?
+  // payment      Payment[]
 
   @@index([phone, email, username, aamardokanId])
 }
 
 //Services model
 model Services {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
   title         String
   slug          String
   code          String
@@ -58,10 +58,10 @@ model Services {
   description   String?
   tos           String?
   privacyPolicy String?
-  status        Status    @default(Active)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  payment       Payment[]
+  status        Status   @default(Active)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  // payment       Payment[]
 
   @@index([title, code, category])
 }
@@ -103,10 +103,10 @@ model Payment {
   status        Status    @default(Active)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  client        Client    @relation(fields: [clientId], references: [id])
-  clientId      String    @db.ObjectId
-  services      Services  @relation(fields: [serviceId], references: [id])
-  serviceId     String    @db.ObjectId
+  // client        Client    @relation(fields: [clientId], references: [id])
+  // clientId      String    @db.ObjectId
+  // services      Services  @relation(fields: [serviceId], references: [id])
+  // serviceId     String    @db.ObjectId
   transactionId String?
 
   @@index([paymentID, transactionId])
