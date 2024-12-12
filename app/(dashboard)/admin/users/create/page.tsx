@@ -6,7 +6,7 @@ const CreateNewUserPage = () => {
   return (
     <div className="">
       <PageTitle title="Create New User" />
-      <UserForm />
+      <UserForm entry={{}} />
     </div>
   );
 };

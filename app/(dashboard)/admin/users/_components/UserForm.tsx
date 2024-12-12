@@ -25,13 +25,21 @@ import {
 } from "@/components/ui/select";
 import { SaveUserIntoDB } from "../_actions";
 import { TUser } from "./columns";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import Loader from "@/components/Loader";
 
 const UserForm = ({ entry }: { entry: TUser }) => {
   const [eyeOpen, setEyeOpen] = useState(false);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const router = useRouter();
+  const [loader, setLoader] = useState(false);
+  const loaderClose = () => setLoader(false);
+  const loaderShow = () => setLoader(true);
 
   const form = useForm<z.infer<typeof UserFormSchema>>({
     resolver: zodResolver(UserFormSchema),
+
     defaultValues: {
       name: "",
       phone: "",
@@ -52,15 +60,32 @@ const UserForm = ({ entry }: { entry: TUser }) => {
       form.setValue("password", entry.password);
       form.setValue("type", entry?.type);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { id } = entry || {};
 
   async function onSubmit(data: z.infer<typeof UserFormSchema>) {
     const photo = photoFile;
-    const response = await SaveUserIntoDB({ ...data, photo }, id);
-    console.log(response);
+    console.log({ ...data, photo });
+    try {
+      loaderShow();
+      const response = await SaveUserIntoDB({ ...data, photo }, id);
+      console.log(response);
+      if (response) {
+        form.reset();
+        toast.success(
+          id ? "User Updated Successfully" : "User Created Successfully"
+        );
+        loaderClose();
+        router.push("/admin/users");
+      } else {
+        loaderClose();
+        toast.error(id ? "User Update Failed" : "User Creation Failed!");
+      }
+    } catch (error) {
+      loaderClose();
+      console.log(error);
+    }
   }
 
   return (
@@ -227,6 +252,7 @@ const UserForm = ({ entry }: { entry: TUser }) => {
           </form>
         </Form>
       </div>
+      <Loader isOpen={loader} onClose={setLoader} title="Please Wait" />
     </div>
   );
 };

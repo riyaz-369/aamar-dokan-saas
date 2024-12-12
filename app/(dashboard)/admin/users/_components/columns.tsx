@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { UpdateUserStatus } from "../_actions";
+import { Status, UserType } from "@prisma/client";
 
 export type TUser = {
   id: string;
@@ -23,8 +24,8 @@ export type TUser = {
   phone: string;
   password: string;
   photo: string;
-  type: "Admin" | "Manager" | "CustomerSupport";
-  status: string;
+  type: UserType;
+  status: Status;
 };
 
 const handleUpdateStatus = async (user: TUser) => {

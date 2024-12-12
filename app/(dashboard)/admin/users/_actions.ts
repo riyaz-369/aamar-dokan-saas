@@ -16,7 +16,7 @@ export const SaveUserIntoDB = async (data: TUser, id: string) => {
 
     if (!name || !phone || !username || !password) return false;
 
-    if (id === "") {
+    if (!id) {
       const createdUser = await prisma.user.create({
         data: {
           name,

@@ -38,7 +38,7 @@ model Client {
   status       Status   @default(Active)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  aamardokanId String  @unique
+  aamardokanId String   @unique
   services     Json?
   // payment      Payment[]
 
