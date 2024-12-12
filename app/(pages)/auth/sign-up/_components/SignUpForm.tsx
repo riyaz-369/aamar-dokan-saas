@@ -2,7 +2,6 @@
 
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +19,11 @@ import { useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { SignUpFormSchema } from "./SignUpFormSchema";
 import PasswordShowClose from "@/components/PasswordShowClose";
-import axios from "axios";
+import { createClient } from "../../_action";
+import type { z } from "zod";
+// import axios from "axios";
+
+// import bcrypt from "bcrypt";
 
 const SignUpForm = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
@@ -37,12 +40,10 @@ const SignUpForm = () => {
 
   // Handle form submission
   async function onSubmit(data: z.infer<typeof SignUpFormSchema>) {
-    try {
-      const response = await axios.post(`/api/client`, data);
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
+    // data.password = await bcrypt.hash(data.password, 10);
+    console.log(data);
+    const createCustomer = await createClient(data);
+    console.log("createCustomer", createCustomer);
   }
 
   return (
@@ -114,7 +115,7 @@ const SignUpForm = () => {
         </Form>
         <p className="flex items-center mt-4 justify-center">
           Already have an account?
-          <Link href={`/auth/sign-in`}>
+          <Link href={"/auth/sign-in"}>
             <Button variant="link" className="px-2 text-md font-semibold">
               Sign In
             </Button>
