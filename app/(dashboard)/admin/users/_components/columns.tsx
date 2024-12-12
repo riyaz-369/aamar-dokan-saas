@@ -12,47 +12,68 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
+import { UpdateUserStatus } from "../_actions";
 
-export type TBlogPost = {
+export type TUser = {
   id: string;
+  name: string;
+  username: string;
+  email: string;
+  phone: string;
+  password: string;
   photo: string;
-  title: string;
-  category: string;
-  publishDate: string;
+  type: "Admin" | "Manager" | "CustomerSupport";
+  status: string;
 };
 
-export const columns: ColumnDef<TBlogPost>[] = [
+const handleUpdateStatus = async (user: TUser) => {
+  await UpdateUserStatus(
+    user.id,
+    user.status === "Active" ? "Inactive" : "Active"
+  );
+};
+
+export const columns: ColumnDef<TUser>[] = [
   {
-    accessorKey: "photo",
-    header: "Photo",
-  },
-  {
-    accessorKey: "title",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Title
+          Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "category",
-    header: "Category",
+    accessorKey: "username",
+    header: "Username",
   },
   {
-    accessorKey: "publishDate",
-    header: "Publish Date",
+    accessorKey: "email",
+    header: "Email",
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone",
+  },
+  {
+    accessorKey: "type",
+    header: "User Type",
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
   },
   {
     id: "actions",
     header: "Action",
     cell: ({ row }) => {
-      const payment = row.original;
+      const users = row.original;
 
       return (
         <DropdownMenu>
@@ -65,13 +86,23 @@ export const columns: ColumnDef<TBlogPost>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              className="cursor-pointer"
+              onClick={() => navigator.clipboard.writeText(users.id)}
             >
-              Copy Post ID
+              Copy User ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>View details</DropdownMenuItem>
+            <Link href={`/admin/users/update/${users.id}`}>
+              <DropdownMenuItem className="cursor-pointer">
+                Edit
+              </DropdownMenuItem>
+            </Link>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => handleUpdateStatus(users)}
+            >
+              {users.status === "Active" ? "Inactive" : "Active"}
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

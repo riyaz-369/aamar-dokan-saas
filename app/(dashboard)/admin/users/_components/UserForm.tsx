@@ -12,10 +12,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { CreateUserFormSchema } from "./CreateUserFormSchema";
+import { UserFormSchema } from "./UserFormSchema";
 import type { z } from "zod";
 import PasswordShowClose from "@/components/PasswordShowClose";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -23,28 +23,43 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createUser } from "../_actions";
+import { SaveUserIntoDB } from "../_actions";
+import { TUser } from "./columns";
 
-const CreateUserForm = () => {
+const UserForm = ({ entry }: { entry: TUser }) => {
   const [eyeOpen, setEyeOpen] = useState(false);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
-  const form = useForm<z.infer<typeof CreateUserFormSchema>>({
-    resolver: zodResolver(CreateUserFormSchema),
+
+  const form = useForm<z.infer<typeof UserFormSchema>>({
+    resolver: zodResolver(UserFormSchema),
     defaultValues: {
       name: "",
       phone: "",
       email: "",
       username: "",
       password: "",
-      type: "Admin",
+      // type: entry?.type || "",
+      // photo: entry?.photo ? new File([entry.photo], "photo") : null,
     },
   });
 
-  async function onSubmit(data: z.infer<typeof CreateUserFormSchema>) {
-    const photo = photoFile;
-    console.log("User data submitted:", { ...data, photo });
+  useEffect(() => {
+    if (entry?.id) {
+      form.setValue("name", entry.name);
+      form.setValue("phone", entry.phone);
+      form.setValue("email", entry.email);
+      form.setValue("username", entry.username);
+      form.setValue("password", entry.password);
+      form.setValue("type", entry?.type);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    const response = await createUser({ ...data, photo });
+  const { id } = entry || {};
+
+  async function onSubmit(data: z.infer<typeof UserFormSchema>) {
+    const photo = photoFile;
+    const response = await SaveUserIntoDB({ ...data, photo }, id);
     console.log(response);
   }
 
@@ -216,4 +231,4 @@ const CreateUserForm = () => {
   );
 };
 
-export default CreateUserForm;
+export default UserForm;

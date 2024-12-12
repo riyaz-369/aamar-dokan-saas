@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const UserType = z.enum(["Admin", "Manager", "CustomerSupport"]);
 
-export const CreateUserFormSchema = z.object({
+export const UserFormSchema = z.object({
   name: z.string().min(3, { message: "Name is required" }),
   phone: z
     .string()
