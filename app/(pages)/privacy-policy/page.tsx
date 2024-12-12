@@ -74,37 +74,47 @@ const PrivacyPolicy = () => {
         </ul>
       </div>
       <div className="p-4 text-md text-slate-600">
-        <h2 className="font-bold text-2xl mb-2">
-        6. Cookies and Tracking
-        </h2>
-        <p>We use cookies to enhance your experience. You can manage cookie preferences in your browser settings.</p>>
+        <h2 className="font-bold text-2xl mb-2">6. Cookies and Tracking</h2>
+        <p>
+          We use cookies to enhance your experience. You can manage cookie
+          preferences in your browser settings.
+        </p>
       </div>
       <div className="p-4 text-md text-slate-600">
         <h2 className="font-bold text-2xl mb-2">7. Security</h2>
-        <p>We implement industry-standard measures to protect your data. However, no method of transmission or storage is completely secure.</p>
+        <p>
+          We implement industry-standard measures to protect your data. However,
+          no method of transmission or storage is completely secure.
+        </p>
       </div>
       <div className="p-4 text-md text-slate-600">
         <h2 className="font-bold text-2xl mb-2">8. International Users</h2>
         <p>
-        If you are accessing the Service outside [Insert Country], note that your data may be processed in a country with different privacy laws.
+          If you are accessing the Service outside [Insert Country], note that
+          your data may be processed in a country with different privacy laws.
         </p>
       </div>
       <div className="p-4 text-md text-slate-600">
         <h2 className="font-bold text-2xl mb-2">9. Children’s Privacy</h2>
         <p>
-        Our Service is not intended for children under 13, and we do not knowingly collect their data.
+          Our Service is not intended for children under 13, and we do not
+          knowingly collect their data.
         </p>
       </div>
       <div className="p-4 text-md text-slate-600 mb-11">
-        <h2 className="font-bold text-2xl mb-2">10. Changes to Privacy Policy</h2>
+        <h2 className="font-bold text-2xl mb-2">
+          10. Changes to Privacy Policy
+        </h2>
         <p>
-        We may update this Privacy Policy periodically. Continued use of the Service after updates constitutes acceptance of the revised Policy.
+          We may update this Privacy Policy periodically. Continued use of the
+          Service after updates constitutes acceptance of the revised Policy.
         </p>
       </div>
       <div className="p-4 text-md text-slate-600 mb-11">
         <h2 className="font-bold text-2xl mb-2">11. Contact Information</h2>
         <p>
-        For questions about this Privacy Policy, contact us at privacy@aamardokan.com.
+          For questions about this Privacy Policy, contact us at
+          privacy@aamardokan.com.
         </p>
       </div>
     </div>

@@ -12,16 +12,16 @@ const TOS = () => {
       <div className="p-4 text-md text-slate-600">
         <p>
           Welcome to AamarDokan! By accessing or using our services, you agree
-          to comply with these Terms of Service ("Terms"). Please read them
-          carefully before using our platform.
+          to comply with these Terms of Service (&ldquo;Terms&ldquo;). Please
+          read them carefully before using our platform.
         </p>
       </div>
       <div className="p-4 text-md text-slate-600">
         <h2 className="font-bold text-2xl mb-2">1. Acceptance of Terms</h2>
         <p>
-          By registering for or using the AamarDokan application ("Service"),
-          you agree to be bound by these Terms. If you do not agree to these
-          Terms, you may not access or use the Service.
+          By registering for or using the AamarDokan application
+          (&ldquo;Service&ldquo;), you agree to be bound by these Terms. If you
+          do not agree to these Terms, you may not access or use the Service.
         </p>
       </div>
       <div className="p-4 text-md text-slate-600">
