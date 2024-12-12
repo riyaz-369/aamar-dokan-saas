@@ -16,10 +16,10 @@ model User {
   username   String   @unique
   password   String
   type       UserType // Enum for user type
-  status     Status // Enum for user Status
+  status     Status   @default(Active)
   photo      String?
   permission Json?
-  blog       Blog[]
+  // blog       Blog[]
 
   @@index([phone, email, username])
 }
@@ -82,8 +82,8 @@ model Blog {
   status        Status    @default(Active)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  user          User      @relation(fields: [userId], references: [id])
-  userId        String    @db.ObjectId
+  // user          User      @relation(fields: [userId], references: [id])
+  // userId        String    @db.ObjectId
 
   @@index([title, category])
 }

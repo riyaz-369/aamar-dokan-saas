@@ -23,10 +23,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { createUser } from "../_actions";
 
 const CreateUserForm = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
-  const [photo, setPhoto] = useState<File | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const form = useForm<z.infer<typeof CreateUserFormSchema>>({
     resolver: zodResolver(CreateUserFormSchema),
     defaultValues: {
@@ -34,18 +35,22 @@ const CreateUserForm = () => {
       phone: "",
       email: "",
       username: "",
+      password: "",
       type: "Admin",
-      permission: "",
     },
   });
 
   async function onSubmit(data: z.infer<typeof CreateUserFormSchema>) {
-    console.log("User data submitted:", { ...data, photo: photo?.name });
+    const photo = photoFile;
+    console.log("User data submitted:", { ...data, photo });
+
+    const response = await createUser({ ...data, photo });
+    console.log(response);
   }
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="max-w-md w-full space-y-2 border p-6 rounded-md shadow-lg">
+      <div className="max-w-md w-full space-y-2 border p-6 rounded-md">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             {/* Full Name */}
@@ -169,26 +174,37 @@ const CreateUserForm = () => {
                   type="file"
                   accept="image/*"
                   onChange={(e) =>
-                    setPhoto(e.target.files ? e.target.files[0] : null)
+                    setPhotoFile(e.target.files ? e.target.files[0] : null)
                   }
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
+
             {/* Permission */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="permission"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Permission</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter permissions as JSON" {...field} />
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select user permission" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="full">Full</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <Button className="w-full" type="submit">
               Submit

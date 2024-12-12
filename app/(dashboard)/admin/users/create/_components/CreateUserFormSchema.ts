@@ -15,4 +15,11 @@ export const CreateUserFormSchema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
   type: UserType,
   permission: z.any().optional(),
+  photo: z
+    .instanceof(File)
+    .optional()
+    .or(z.null())
+    .refine((file) => !file || file.size <= 5 * 1024 * 1024, {
+      message: "Photo size must be less than 5MB",
+    }),
 });
