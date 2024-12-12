@@ -18,15 +18,16 @@ import { Toaster } from "@/components/ui/sonner";
 import Link from "next/link";
 import { useState } from "react";
 import PageTitle from "@/components/PageTitle";
-import { SignInFormSchema } from "./SignUpFormSchema";
+import { SignUpFormSchema } from "./SignUpFormSchema";
 import PasswordShowClose from "@/components/PasswordShowClose";
+import axios from "axios";
 
 const SignUpForm = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
 
   // Initialize the form with default values and validation
-  const form = useForm<z.infer<typeof SignInFormSchema>>({
-    resolver: zodResolver(SignInFormSchema),
+  const form = useForm<z.infer<typeof SignUpFormSchema>>({
+    resolver: zodResolver(SignUpFormSchema),
     defaultValues: {
       name: "",
       phone: "",
@@ -35,8 +36,13 @@ const SignUpForm = () => {
   });
 
   // Handle form submission
-  async function onSubmit(data: z.infer<typeof SignInFormSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof SignUpFormSchema>) {
+    try {
+      const response = await axios.post(`/api/client`, data);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
