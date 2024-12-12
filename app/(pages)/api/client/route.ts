@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 // import { connectToDatabase } from "@/helper/server-helper";
 // import prisma from "@/prisma";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 
 export const POST = async (req: Request) => {
   //   const data = await req.json();
@@ -13,8 +13,10 @@ export const POST = async (req: Request) => {
       return NextResponse.json({ message: "Invalid data" }, { status: 401 });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
-    console.log(hashedPassword);
+    console.log(name, phone, password);
+
+    // const hashedPassword = await bcrypt.hash(password, 12);
+    // console.log(hashedPassword);
 
     // await connectToDatabase();
 
