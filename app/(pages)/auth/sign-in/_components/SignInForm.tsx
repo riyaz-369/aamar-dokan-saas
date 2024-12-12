@@ -19,9 +19,13 @@ import { useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { SignInFormSchema } from "./SignInFormSchema";
 import PasswordShowClose from "@/components/PasswordShowClose";
+import { signIn } from "next-auth/react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const SignInForm = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
+  const router = useRouter();
 
   // Initialize the form with default values and validation
   const form = useForm<z.infer<typeof SignInFormSchema>>({
@@ -35,6 +39,19 @@ const SignInForm = () => {
   // Handle form submission
   async function onSubmit(data: z.infer<typeof SignInFormSchema>) {
     console.log(data);
+    try {
+      const res = await signIn("clientCredentials", {
+        phone: data.phone,
+        password: data.password,
+        redirect: false,
+      });
+      if (res?.ok) {
+        toast.success("Logged in successfully!");
+        router.push("/client");
+      }
+    } catch (error) {
+      console.error({ error });
+    }
   }
 
   return (
