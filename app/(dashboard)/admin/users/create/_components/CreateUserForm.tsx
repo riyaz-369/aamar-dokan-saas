@@ -12,182 +12,158 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { format } from "date-fns";
 import { CreateUserFormSchema } from "./CreateUserFormSchema";
-import { useState } from "react";
 import type { z } from "zod";
-import { CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import PasswordShowClose from "@/components/PasswordShowClose";
+import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const CreateUserForm = () => {
+  const [eyeOpen, setEyeOpen] = useState(false);
   const [photo, setPhoto] = useState<File | null>(null);
-
   const form = useForm<z.infer<typeof CreateUserFormSchema>>({
     resolver: zodResolver(CreateUserFormSchema),
     defaultValues: {
-      title: "",
-      slug: "",
-      tags: "",
-      categoryId: "",
-      metaTitle: "",
-      metaDescription: "",
-      publishDate: undefined,
-      content: "",
+      name: "",
+      phone: "",
+      email: "",
+      username: "",
+      type: "Admin",
+      permission: "",
     },
   });
 
   async function onSubmit(data: z.infer<typeof CreateUserFormSchema>) {
-    console.log("Blog post data submitted:", {
-      ...data,
-      photo,
-    });
+    console.log("User data submitted:", { ...data, photo: photo?.name });
   }
 
   return (
-    <div className="xl:px-24 2xl:px-48 py-8 lg:py-16">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full grid lg:grid-cols-6 gap-8 relative"
-        >
-          <div className="lg:col-span-4 space-y-4">
-            {/* Title */}
+    <div className="flex flex-col justify-center items-center">
+      <div className="max-w-md w-full space-y-2 border p-6 rounded-md shadow-lg">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {/* Full Name */}
             <FormField
               control={form.control}
-              name="title"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Blog Title</FormLabel>
+                  <FormLabel>Full Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter blog title" {...field} />
+                    <Input placeholder="Enter your full name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            {/* Content */}
+            {/* Phone */}
             <FormField
               control={form.control}
-              name="content"
+              name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Content</FormLabel>
+                  <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <Textarea
-                      className="h-[450px]"
-                      placeholder="Write your blog content here..."
-                      {...field}
-                    />
+                    <Input placeholder="Phone" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-          </div>
-          <div className="space-y-4 lg:col-span-2">
-            {/* Publish Date */}
+
+            {/* Email */}
             <FormField
               control={form.control}
-              name="publishDate"
+              name="email"
               render={({ field }) => (
-                <FormItem className="flex flex-col mt-2">
-                  <FormLabel>Publish Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
-                        initialFocus
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input type="email" placeholder="Email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Username */}
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Username" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Password */}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        type={`${eyeOpen ? "text" : "password"}`}
+                        placeholder="Enter your password"
+                        {...field}
                       />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Slug */}
-            <FormField
-              control={form.control}
-              name="slug"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Slug</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter slug (e.g., my-first-blog)"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* Meta Title */}
-            <FormField
-              control={form.control}
-              name="metaTitle"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Meta Title</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter meta title for SEO" {...field} />
+                      <PasswordShowClose
+                        eyeOpen={eyeOpen}
+                        setEyeOpen={setEyeOpen}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            {/* Meta Description */}
+            {/* User Type */}
             <FormField
               control={form.control}
-              name="metaDescription"
+              name="type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Meta Description</FormLabel>
+                  <FormLabel>User Type</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Enter meta description for SEO"
-                      {...field}
-                    />
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select user type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Admin">Admin</SelectItem>
+                        <SelectItem value="Manager">Manager</SelectItem>
+                        <SelectItem value="CustomerSupport">
+                          Customer Support
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            {/* Photo */}
+            {/*  Photo */}
             <FormItem>
-              <FormLabel>Featured Photo</FormLabel>
+              <FormLabel>Photo</FormLabel>
               <FormControl>
                 <Input
                   type="file"
@@ -199,51 +175,27 @@ const CreateUserForm = () => {
               </FormControl>
               <FormMessage />
             </FormItem>
-
-            {/* Tags */}
+            {/* Permission */}
             <FormField
               control={form.control}
-              name="tags"
+              name="permission"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tags</FormLabel>
+                  <FormLabel>Permission</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Enter tags (comma-separated)"
-                      {...field}
-                    />
+                    <Input placeholder="Enter permissions as JSON" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            {/* Category */}
-            <FormField
-              control={form.control}
-              name="categoryId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter category (e.g., Tech, Health)"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* Submit Button */}
-            <div className="flex justify-end w-full absolute lg:right-1/3 lg:mr-3">
-              <Button type="submit" className="w-full md:w-auto">
-                Submit
-              </Button>
-            </div>
-          </div>
-        </form>
-      </Form>
+            <Button className="w-full" type="submit">
+              Submit
+            </Button>
+          </form>
+        </Form>
+      </div>
     </div>
   );
 };
