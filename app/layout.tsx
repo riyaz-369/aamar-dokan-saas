@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import SessionProvider from "@/providers/AuthProvider";
 import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = localFont({
@@ -33,8 +34,10 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <main>
-          <ThemeProvider attribute="class">{children}</ThemeProvider>
-          <Toaster />
+          <SessionProvider>
+            <ThemeProvider attribute="class">{children}</ThemeProvider>
+            <Toaster />
+          </SessionProvider>
         </main>
       </body>
     </html>

@@ -1,12 +1,12 @@
 import PageTitle from "@/components/PageTitle";
 import React from "react";
-import CreateUserForm from "./_components/CreateUserForm";
+import UserForm from "../_components/UserForm";
 
 const CreateNewUserPage = () => {
   return (
     <div className="">
       <PageTitle title="Create New User" />
-      <CreateUserForm />
+      <UserForm entry={{}} />
     </div>
   );
 };

@@ -19,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -118,5 +119,6 @@ export default function DashboardProfile({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
+
   );
 }

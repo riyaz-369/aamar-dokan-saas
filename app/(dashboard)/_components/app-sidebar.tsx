@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -23,6 +24,7 @@ import { LinkType } from "../client/_components/ClientSidebarLink";
 
 export function AppSidebar({ links }: { links: LinkType[] }) {
   const pathName = usePathname();
+
   return (
     <Sidebar>
       <SidebarHeader>
