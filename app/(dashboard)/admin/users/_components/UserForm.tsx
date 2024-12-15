@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { File } from "node:node:buffer";
+// import { File } from "node:node:buffer";
 import {
   Form,
   FormControl,
@@ -32,7 +32,7 @@ import Loader from "@/components/Loader";
 
 const UserForm = ({ entry }: { entry: TUser }) => {
   const [eyeOpen, setEyeOpen] = useState(false);
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoFile, setPhotoFile] = useState<any | null>(null);
   const router = useRouter();
   const [loader, setLoader] = useState(false);
   const loaderClose = () => setLoader(false);
