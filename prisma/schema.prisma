@@ -26,20 +26,25 @@ model User {
 
 // Define your Customer model
 model Client {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  phone        String   @unique
-  email        String?
-  address      Json? //{street, city, state, zip, country}
-  photo        String?
-  username     String?
-  password     String
-  dob          String?
-  status       Status   @default(Active)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  aamardokanId String   @unique
-  services     Json?
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  phone           String   @unique
+  email           String?
+  street          String?
+  city            String?
+  state           String?
+  zip             String?
+  country         String?
+  photo           String?
+  username        String?
+  password        String
+  dob             String?
+  isPhoneVerified Boolean?
+  status          Status   @default(Active)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  aamardokanId    String   @unique
+  services        Json?
   // payment      Payment[]
 
   @@index([phone, email, username, aamardokanId])

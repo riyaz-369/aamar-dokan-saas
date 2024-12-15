@@ -19,20 +19,10 @@ import { useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { SignUpFormSchema } from "./SignUpFormSchema";
 import PasswordShowClose from "@/components/PasswordShowClose";
-import { createClient, generateAamarDokanPin } from "../../_action";
+import { createClient } from "../../_action";
 import type { z } from "zod";
-import { toast } from "sonner";
-import sendMessage from "@/lib/sms";
-// import axios from "axios";
 
-// import bcrypt from "bcrypt";
-interface SignUpFormProps {
-  setStep: React.Dispatch<React.SetStateAction<number>>;
-  setPin: React.Dispatch<React.SetStateAction<string>>;
-  setId: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const SignUpForm: React.FC<SignUpFormProps> = ({ setStep, setPin, setId }) => {
+const AddressForm = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
 
   // Initialize the form with default values and validation
@@ -48,44 +38,17 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setStep, setPin, setId }) => {
   // Handle form submission
   async function onSubmit(data: z.infer<typeof SignUpFormSchema>) {
     // data.password = await bcrypt.hash(data.password, 10);
-
-    try {
-      console.log(data);
-      const createCustomer = await createClient(data);
-      console.log("createCustomer", createCustomer);
-      if (createCustomer) {
-        const pin = await generateAamarDokanPin();
-        setPin(pin);
-        setId(createCustomer.id);
-        const message = `সম্মানিত গ্রাহক, আপনার আমার দোকানের ভেরিফিকেশন কোড ${pin}`;
-        // await sendMessage(data.phone, message);
-        const to = createCustomer.phone;
-        sendMessage({ to, message });
-        toast.success("Account creation successful");
-        setStep(2);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    console.log(data);
+    const createCustomer = await createClient(data);
+    console.log("createCustomer", createCustomer);
   }
-
-  // const OnchangePhone = async (phone: string) => {
-  //   if (phone.length > 10) {
-  //     const check = await checkPhone(phone);
-  //     setPhoneDupicate(check);
-  //     // console.log(phone, check);
-  //   }
-  // };
 
   return (
     <div className="flex flex-col justify-end items-center  ">
-      <div className=" px-6 py-2 rounded-lg">
+      <div className="border p-6 rounded-lg bg-primary">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-            <PageTitle
-              title="Create Account"
-              className="pb-3 text-primary text-center"
-            />
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <PageTitle title="Business Info" className="pb-4 text-center" />
             {/* Full Name */}
             <FormField
               control={form.control}
@@ -109,11 +72,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setStep, setPin, setId }) => {
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Phone"
-                      // onKeyUp={(e) => OnchangePhone(e.target.value)}
-                      {...field}
-                    />
+                    <Input placeholder="Phone" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -146,7 +105,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setStep, setPin, setId }) => {
             />
 
             <br />
-            <Button className="w-full" type="submit">
+            <Button variant="secondary" className="w-full" type="submit">
               SIgn Up
             </Button>
           </form>
@@ -154,7 +113,10 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setStep, setPin, setId }) => {
         <p className="flex items-center mt-4 justify-center">
           Already have an account?
           <Link href={"/auth/sign-in"}>
-            <Button variant="link" className=" px-2 text-sm font-medium">
+            <Button
+              variant="link"
+              className="text-white px-2 text-sm font-medium"
+            >
               Sign In
             </Button>
           </Link>
@@ -165,4 +127,4 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setStep, setPin, setId }) => {
   );
 };
 
-export default SignUpForm;
+export default AddressForm;

@@ -39,6 +39,7 @@ export default function RootLayout({
             <Toaster />
           </SessionProvider>
         </main>
+        <Toaster />
       </body>
     </html>
   );

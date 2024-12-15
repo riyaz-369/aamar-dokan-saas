@@ -1,10 +1,17 @@
 "use server";
 import prisma from "@/prisma";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 import { SignUpFormSchema } from "./sign-up/_components/SignUpFormSchema";
+import { Client } from "@prisma/client";
 
-// Helper function to generate a random 6-digit unique ID
+// Verification pin
+export const generateAamarDokanPin = async () => {
+  const pin = Math.floor(100000 + Math.random() * 900000).toString();
+
+  return pin;
+};
+
 const generateAamarDokanId = async () => {
   const MAX_RETRIES = 3; // Maximum number of attempts to generate a unique ID
 
@@ -27,26 +34,6 @@ const generateAamarDokanId = async () => {
 
   throw new Error("Failed to generate a unique customer ID");
 };
-
-// export const handleDelete = async (id: string) => {
-//   // TODO:: Update Customer Due || Sales Info for delete transactions
-//   try {
-//     const deleteOffer = await prisma.transactions.delete({
-//       where: {
-//         id: id,
-//       },
-//     });
-//     //  (deleteOffer);
-//     if (deleteOffer) {
-//       `${deleteOffer.name} deleted successful!`;
-//       revalidatePath("/dashboard/accounts");
-//       return deleteOffer;
-//     }
-//   } catch (err) {
-//     err;
-//     return false;
-//   }
-// };
 
 export type TClient = z.infer<typeof SignUpFormSchema>;
 
@@ -71,7 +58,7 @@ export const createClient = async (data: TClient) => {
     });
     console.log(createUser);
     if (createUser) {
-      revalidatePath("/auth/sign-up");
+      // revalidatePath("/auth/sign-up");
       return createUser;
     }
   } catch (err) {
@@ -80,39 +67,34 @@ export const createClient = async (data: TClient) => {
   }
 };
 
-// export const getTransactionByDate = async ({
-//   startDate,
-//   endDate,
-// }: {
-//   startDate?: Date;
-//   endDate?: Date;
-// }) => {
-//   const start = startOfDay(startDate ? new Date(startDate) : new Date());
-//   const end = endOfDay(endDate ? new Date(endDate) : new Date());
-//   // console.log(startDate, endDate);
+export const checkPhone = async (phone: string): Promise<boolean> => {
+  try {
+    // Check if a client exists with the given phone number
+    const client = await prisma.client.findUnique({
+      where: {
+        phone: phone, // Use the correct `where` clause
+      },
+    });
 
-//   const transactions = await prisma.transactions.findMany({
-//     where: {
-//       createdAt: {
-//         gte: start,
-//         lte: end,
-//       },
-//     },
-//     select: {
-//       id: true,
-//       transactionId: true,
-//       name: true,
-//       amount: true,
-//       date: true,
-//       type: true,
-//       createdAt: true,
-//     },
-//   });
+    // Return true if the client exists, otherwise return false
+    return !!client; // `!!` converts to a boolean (true if found, false otherwise)
+  } catch (err) {
+    console.error("Error checking phone number:", err);
+    return false; // Return false in case of an error
+  }
+};
 
-//   const formattedData = transactions.map((transactions) => ({
-//     ...transactions,
-//     createdAt: format(new Date(transactions.createdAt), "MM/dd/yyyy"), // Format createdAt date
-//   }));
-
-//   return formattedData;
-// };
+export const updateClient = async ({ data, id }: { data: any; id: string }) => {
+  if (id) {
+    try {
+      const update = await prisma.client.update({
+        where: { id: id },
+        data: data,
+      });
+      revalidateTag("client-cache");
+      return update;
+    } catch (error) {
+      console.log("[UPDATE CLIENT]", error);
+    }
+  }
+};

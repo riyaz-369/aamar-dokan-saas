@@ -8,12 +8,12 @@ const PasswordShowClose = ({
   setEyeOpen: (value: boolean) => void;
 }) => {
   return (
-    <span
+    <div
       onClick={() => setEyeOpen(!eyeOpen)}
-      className="absolute top-2 right-2"
+      className="absolute top-3 right-2"
     >
-      {eyeOpen ? <Eye size={22} /> : <EyeOff size={22} />}
-    </span>
+      {eyeOpen ? <Eye size={16} /> : <EyeOff size={16} />}
+    </div>
   );
 };
 
