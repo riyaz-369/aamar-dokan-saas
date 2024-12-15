@@ -26,6 +26,7 @@ export type TClient = {
   photo: string;
   type: UserType;
   status: Status;
+  aamardokanId: Status;
 };
 
 const handleUpdateStatus = async (user: TClient) => {
@@ -50,6 +51,10 @@ export const columns: ColumnDef<TClient>[] = [
         </Button>
       );
     },
+  },
+  {
+    accessorKey: "aamardokanId",
+    header: "AamarDokan Id",
   },
   {
     accessorKey: "phone",
