@@ -12,6 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
+import { UpdateBlogStatus } from "../_actions";
 
 export type TBlogPost = {
   id: string;
@@ -19,6 +21,14 @@ export type TBlogPost = {
   title: string;
   category: string;
   publishDate: string;
+  status: string;
+};
+
+const handleUpdateStatus = async (blog: TBlogPost) => {
+  await UpdateBlogStatus(
+    blog.id,
+    blog.status === "Active" ? "Inactive" : "Active"
+  );
 };
 
 export const columns: ColumnDef<TBlogPost>[] = [
@@ -49,10 +59,14 @@ export const columns: ColumnDef<TBlogPost>[] = [
     header: "Publish Date",
   },
   {
+    accessorKey: "status",
+    header: "Status",
+  },
+  {
     id: "actions",
     header: "Action",
     cell: ({ row }) => {
-      const payment = row.original;
+      const blog = row.original;
 
       return (
         <DropdownMenu>
@@ -65,12 +79,22 @@ export const columns: ColumnDef<TBlogPost>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(blog.id)}
             >
               Copy Post ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <Link href={`/admin/blog/${blog.id}`}>
+              <DropdownMenuItem className="cursor-pointer">
+                Edit
+              </DropdownMenuItem>
+            </Link>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => handleUpdateStatus(blog)}
+            >
+              {blog.status === "Active" ? "Inactive" : "Active"}
+            </DropdownMenuItem>
             <DropdownMenuItem>View details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

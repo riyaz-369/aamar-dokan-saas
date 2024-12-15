@@ -1,15 +1,9 @@
 import PageTitle from "@/components/PageTitle";
 import React from "react";
-import UserForm from "../../_components/UserForm";
 import prisma from "@/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import CustomerForm from "../../_components/CustomerForm";
 
 const UpdateUserPage = async () => {
-  const user = await getServerSession(authOptions);
-
-  console.log(user);
-
   const data = await prisma.user.findFirst({
     // where: {
     //   id: "675a92ff2023f29ae580a19c",
@@ -19,8 +13,8 @@ const UpdateUserPage = async () => {
 
   return (
     <div className="">
-      <PageTitle title="Update User" />
-      <UserForm entry={data} />
+      <PageTitle title="Update Customer" />
+      <CustomerForm entry={data} />
     </div>
   );
 };

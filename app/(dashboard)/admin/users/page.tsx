@@ -5,6 +5,7 @@ import React from "react";
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 import prisma from "@/prisma";
+import Image from "next/image";
 
 const UsersPage = async () => {
   const data = await prisma.user.findMany({});
@@ -13,6 +14,7 @@ const UsersPage = async () => {
     <div>
       <div className="flex justify-between">
         <PageTitle title="Users" />
+        {/* <Image src={data[0]?.photo} height={500} width={500} alt="" /> */}
         <Link href="/admin/users/create">
           <Button>Create New User</Button>
         </Link>
