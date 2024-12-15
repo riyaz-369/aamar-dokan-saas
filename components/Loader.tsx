@@ -1,6 +1,7 @@
 import React from "react";
 import { Loader2 } from "lucide-react";
 import { AlertDialog, AlertDialogContent } from "./ui/alert-dialog";
+import Image from "next/image";
 
 interface LoaderProps {
   isOpen: boolean;
@@ -14,9 +15,15 @@ const Loader: React.FC<LoaderProps> = ({ isOpen, onClose, title }) => {
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent>
         <div className="flex flex-col justify-center items-center">
-          <p>
-            <Loader2 size={24} className="animate-spin text-primary" />
-          </p>
+          <Image
+            // className="dark:invert"
+            src="/logo.svg"
+            alt="Aamar Dokan"
+            width={100}
+            height={38}
+            priority
+          />
+          <Loader2 size={24} className="animate-spin text-primary" />
           <p>{title}</p>
         </div>
       </AlertDialogContent>

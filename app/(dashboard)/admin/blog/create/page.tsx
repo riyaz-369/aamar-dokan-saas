@@ -1,12 +1,12 @@
 import PageTitle from "@/components/PageTitle";
 import React from "react";
-import BlogPostForm from "./_components/BlogPostForm";
+import BlogPostForm from "../_components/BlogPostForm";
 
-const BlogPage = () => {
+const BlogPage = async () => {
   return (
     <div className="">
       <PageTitle title="New Blog Post" />
-      <BlogPostForm />
+      <BlogPostForm entry={{}} />
     </div>
   );
 };
