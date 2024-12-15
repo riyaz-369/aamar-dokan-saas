@@ -32,7 +32,7 @@ import Loader from "@/components/Loader";
 
 const UserForm = ({ entry }: { entry: TUser }) => {
   const [eyeOpen, setEyeOpen] = useState(false);
-  const [photoFile, setPhotoFile] = useState<any | null>(null);
+  // const [photoFile, setPhotoFile] = useState<File | null>(null);
   const router = useRouter();
   const [loader, setLoader] = useState(false);
   const loaderClose = () => setLoader(false);
@@ -66,11 +66,11 @@ const UserForm = ({ entry }: { entry: TUser }) => {
   const { id } = entry || {};
 
   async function onSubmit(data: z.infer<typeof UserFormSchema>) {
-    const photo = photoFile;
-    console.log({ ...data, photo });
+    // const photo = photoFile;
+    // console.log({ ...data, photo });
     try {
       loaderShow();
-      const response = await SaveUserIntoDB({ ...data, photo }, id);
+      const response = await SaveUserIntoDB(data, id);
       console.log(response);
       if (response) {
         form.reset();
@@ -208,7 +208,7 @@ const UserForm = ({ entry }: { entry: TUser }) => {
               )}
             />
             {/*  Photo */}
-            <FormItem>
+            {/* <FormItem>
               <FormLabel>Photo</FormLabel>
               <FormControl>
                 <Input
@@ -220,7 +220,7 @@ const UserForm = ({ entry }: { entry: TUser }) => {
                 />
               </FormControl>
               <FormMessage />
-            </FormItem>
+            </FormItem> */}
 
             {/* Permission */}
             {/* <FormField
