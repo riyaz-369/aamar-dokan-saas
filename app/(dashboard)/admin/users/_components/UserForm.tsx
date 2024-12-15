@@ -60,7 +60,7 @@ const UserForm = ({ entry }: { entry: TUser }) => {
       form.setValue("password", entry.password);
       form.setValue("type", entry?.type);
     }
-  }, []);
+  }, [entry]);
 
   const { id } = entry || {};
 
@@ -74,7 +74,7 @@ const UserForm = ({ entry }: { entry: TUser }) => {
       if (response) {
         form.reset();
         toast.success(
-          id ? "User Updated Successfully" : "User Created Successfully"
+          id ? "User Updated Successfully" : "User Created Successfully",
         );
         loaderClose();
         router.push("/admin/users");
