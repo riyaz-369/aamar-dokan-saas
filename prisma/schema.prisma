@@ -58,7 +58,7 @@ model Services {
   code          String
   meta          Json?
   category      String?
-  packages      Json[] //{street, city, state, zip, country}
+  packages      Json[]
   photo         String?
   description   String?
   tos           String?
@@ -79,7 +79,7 @@ model Blog {
   meta          Json?
   category      String?
   tags          String?
-  packages      Json[] //{street, city, state, zip, country}
+  packages      Json[]
   photo         String?
   content       String?
   publish       DateTime?

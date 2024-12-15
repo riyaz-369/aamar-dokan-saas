@@ -4,23 +4,11 @@ import Link from "next/link";
 import React from "react";
 import { columns, TBlogPost } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
-
-async function getData(): Promise<TBlogPost[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "009",
-      photo: "http://example.com",
-      title: "Post tile",
-      publishDate: new Date().toLocaleDateString(),
-      category: "Tech",
-    },
-  ];
-}
+import prisma from "@/prisma";
 
 const CustomersPage = async () => {
-  const data = await getData();
-
+  const data = await prisma.client.findMany({});
+  console.log(data);
   return (
     <div>
       <div className="flex justify-between">

@@ -1,12 +1,12 @@
 import PageTitle from "@/components/PageTitle";
 import React from "react";
-import CreateCustomerForm from "./_components/CreateCustomerForm";
+import CustomerForm from "../_components/CustomerForm";
 
-const CreateNewCustomerPage = () => {
+const CreateNewCustomerPage = async () => {
   return (
     <div className="">
       <PageTitle title="Create New Customer" />
-      <CreateCustomerForm />
+      <CustomerForm entry={{}} />
     </div>
   );
 };
