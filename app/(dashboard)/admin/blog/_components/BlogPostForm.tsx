@@ -46,7 +46,6 @@ export type TCategory = {
 };
 
 const BlogPostForm = ({ entry }: { entry: TBlogPost }) => {
-  // console.log({ entry });
   const [photo, setPhoto] = useState<File | null>(null);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [categories, setCategories] = useState<TCategory[]>([]);
@@ -62,8 +61,10 @@ const BlogPostForm = ({ entry }: { entry: TBlogPost }) => {
       slug: "",
       tags: "",
       categoryId: "",
-      metaTitle: "",
-      metaDescription: "",
+      meta: {
+        metaTitle: "",
+        metaDescription: "",
+      },
       publishDate: undefined,
       content: "",
     },
@@ -71,16 +72,13 @@ const BlogPostForm = ({ entry }: { entry: TBlogPost }) => {
 
   const id = entry?.id;
 
-  // console.log(entry.photo);
-
   useEffect(() => {
     if (id) {
       form.setValue("title", entry.title);
       form.setValue("slug", entry.slug);
       form.setValue("tags", entry.tags);
       form.setValue("categoryId", entry.categoryId);
-      form.setValue("metaTitle", entry.meta.title);
-      form.setValue("metaDescription", entry.meta.description);
+      form.setValue("meta", entry.meta);
       form.setValue("publishDate", entry.publishDate);
       form.setValue("content", entry.content);
     }
@@ -119,22 +117,7 @@ const BlogPostForm = ({ entry }: { entry: TBlogPost }) => {
 
       const { fileUrl } = imgResponse.data;
 
-      const blogPostData = {
-        title: data.title,
-        slug: data.slug,
-        tags: data.tags,
-        categoryId: data.categoryId,
-        publishDate: data.publishDate,
-        content: data.content,
-        meta: {
-          title: data.metaTitle,
-          description: data.metaDescription,
-          keywords: data.tags,
-        },
-        photo: fileUrl,
-      };
-
-      const response = await SaveBlogIntoDB(blogPostData, id);
+      const response = await SaveBlogIntoDB({ ...data, photo: fileUrl }, id);
       if (response) {
         form.reset();
         toast.success(
@@ -299,7 +282,7 @@ const BlogPostForm = ({ entry }: { entry: TBlogPost }) => {
             {/* Meta Title */}
             <FormField
               control={form.control}
-              name="metaTitle"
+              name="meta.metaTitle"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Meta Title</FormLabel>
@@ -314,7 +297,7 @@ const BlogPostForm = ({ entry }: { entry: TBlogPost }) => {
             {/* Meta Description */}
             <FormField
               control={form.control}
-              name="metaDescription"
+              name="meta.metaDescription"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Meta Description</FormLabel>
@@ -350,7 +333,7 @@ const BlogPostForm = ({ entry }: { entry: TBlogPost }) => {
             <FormField
               control={form.control}
               name="photo"
-              render={({ field }) => (
+              render={({}) => (
                 <FormItem>
                   <FormControl>
                     <div className="relative flex items-center bg-muted rounded-lg p-4 border border-dashed border-primary">

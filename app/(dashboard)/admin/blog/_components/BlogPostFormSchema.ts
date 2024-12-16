@@ -24,17 +24,7 @@ export const BlogPostFormSchema = z.object({
 
   categoryId: z.string().min(1, { message: "Category is required" }),
 
-  metaTitle: z
-    .string()
-    .min(5, { message: "Meta Title must be at least 5 characters long" })
-    .max(60, { message: "Meta Title cannot exceed 60 characters" }),
-
-  metaDescription: z
-    .string()
-    .min(5, {
-      message: "Meta Description must be at least 5 characters long",
-    })
-    .max(500, { message: "Meta Description cannot exceed 500 characters" }),
+  meta: z.record(z.any()).optional(),
 
   publishDate: z.date({ required_error: "A date of birth is required." }),
 
