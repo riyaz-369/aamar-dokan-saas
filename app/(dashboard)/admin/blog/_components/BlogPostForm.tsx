@@ -34,10 +34,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getCategoriesFromDB, SaveBlogIntoDB, TBlogPost } from "../_actions";
+import { SaveBlogIntoDB, TBlogPost } from "../_actions";
 import Image from "next/image";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/navigation";
+import { getCategoriesFromDB } from "../../_action";
 
 export type TCategory = {
   id: string;
@@ -70,7 +71,7 @@ const BlogPostForm = ({ entry }: { entry: TBlogPost }) => {
 
   const id = entry?.id;
 
-  console.log(entry.photo);
+  // console.log(entry.photo);
 
   useEffect(() => {
     if (id) {

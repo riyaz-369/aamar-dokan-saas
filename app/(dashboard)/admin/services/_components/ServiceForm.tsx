@@ -18,7 +18,6 @@ import type { z } from "zod";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ImageIcon } from "lucide-react";
-import { getCategoriesFromDB } from "../../blog/_actions";
 import {
   Select,
   SelectContent,
@@ -27,11 +26,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TCategory } from "../../blog/_components/BlogPostForm";
+import { getCategoriesFromDB } from "../../_action";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { SaveServiceIntoDB } from "../_actions";
+import { toast } from "sonner";
+import Loader from "@/components/Loader";
 
-const CreateServiceForm = ({ entry }) => {
+const ServiceForm = ({ entry }) => {
   const [photo, setPhoto] = useState<File | null>(null);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [categories, setCategories] = useState<TCategory[]>([]);
+  const [loader, setLoader] = useState(false);
+  const loaderClose = () => setLoader(false);
+  const loaderShow = () => setLoader(true);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof CreateServiceFormSchema>>({
     resolver: zodResolver(CreateServiceFormSchema),
@@ -40,7 +49,6 @@ const CreateServiceForm = ({ entry }) => {
       slug: "",
       code: "",
       categoryId: "",
-      photo: "",
       description: "",
       tos: "",
       privacyPolicy: "",
@@ -50,6 +58,21 @@ const CreateServiceForm = ({ entry }) => {
       },
     },
   });
+
+  const id = entry?.id;
+
+  useEffect(() => {
+    if (id) {
+      form.setValue("title", entry.title);
+      form.setValue("slug", entry.slug);
+      form.setValue("code", entry.code);
+      form.setValue("categoryId", entry.categoryId);
+      form.setValue("description", entry.description);
+      form.setValue("tos", entry.tos);
+      form.setValue("privacyPolicy", entry.privacyPolicy);
+      form.setValue("meta", entry.meta);
+    }
+  }, []);
 
   const fetchCategories = async () => {
     const res = await getCategoriesFromDB();
@@ -68,10 +91,44 @@ const CreateServiceForm = ({ entry }) => {
   };
 
   async function onSubmit(data: z.infer<typeof CreateServiceFormSchema>) {
-    console.log("Service data submitted:", {
-      ...data,
-      photo,
-    });
+    try {
+      const formData = new FormData();
+      if (photo) {
+        formData.append("photo", photo);
+      }
+      loaderShow();
+      const imgResponse = await axios.post(
+        "/api/upload/service-images",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      const { fileUrl, success } = imgResponse.data;
+      console.log(fileUrl, success);
+
+      console.log("Service data submitted:", {
+        ...data,
+        photo: fileUrl,
+      });
+
+      const response = await SaveServiceIntoDB({ ...data, photo: fileUrl }, id);
+      if (response) {
+        form.reset();
+        toast.success(
+          id ? "Service Updated Successfully" : "Service Created Successfully"
+        );
+        loaderClose();
+        router.push("/admin/services");
+      } else {
+        loaderClose();
+        toast.error(id ? "Service Update Failed" : "Service Creation Failed!");
+      }
+    } catch (error) {
+      console.log(error);
+      loaderClose();
+    }
   }
 
   return (
@@ -337,8 +394,9 @@ const CreateServiceForm = ({ entry }) => {
           </div>
         </form>
       </Form>
+      <Loader isOpen={loader} onClose={setLoader} title="Please Wait" />
     </div>
   );
 };
 
-export default CreateServiceForm;
+export default ServiceForm;
