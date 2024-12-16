@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer } from "@/components/ui/chart";
 import { Line, LineChart } from "recharts";
 
-export function RevenueChart({
+export function PaidUsers({
   data,
   chartConfig,
 }: {
@@ -16,7 +16,7 @@ export function RevenueChart({
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle>Total Revenue</CardTitle>
+        <CardTitle>Paid Users</CardTitle>
       </CardHeader>
       <CardContent className="pb-0">
         <div className="text-2xl font-bold">$15,231.89</div>
