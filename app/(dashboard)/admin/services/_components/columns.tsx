@@ -12,19 +12,42 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Image from "next/image";
+import Link from "next/link";
+import { UpdateServiceStatus } from "../_actions";
 
-export type TBlogPost = {
+export type TService = {
   id: string;
   photo: string;
   title: string;
+  description: string;
   category: string;
-  publishDate: string;
+  status: string;
+  slug: string;
 };
 
-export const columns: ColumnDef<TBlogPost>[] = [
+const handleUpdateStatus = async (service: TService) => {
+  await UpdateServiceStatus(
+    service.id,
+    service.status === "Active" ? "Inactive" : "Active"
+  );
+};
+
+export const columns: ColumnDef<TService>[] = [
   {
     accessorKey: "photo",
     header: "Photo",
+    cell: ({ row }) => {
+      return (
+        <Image
+          src={row.original.photo}
+          alt={row.original.slug}
+          width={100}
+          height={100}
+          className="rounded"
+        />
+      );
+    },
   },
   {
     accessorKey: "title",
@@ -45,14 +68,18 @@ export const columns: ColumnDef<TBlogPost>[] = [
     header: "Category",
   },
   {
-    accessorKey: "publishDate",
-    header: "Publish Date",
+    accessorKey: "packages",
+    header: "Packages",
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
   },
   {
     id: "actions",
     header: "Action",
     cell: ({ row }) => {
-      const payment = row.original;
+      const service = row.original;
 
       return (
         <DropdownMenu>
@@ -65,12 +92,22 @@ export const columns: ColumnDef<TBlogPost>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(service.id)}
             >
               Copy Post ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <Link href={`/admin/services/${service.id}`}>
+              <DropdownMenuItem className="cursor-pointer">
+                Edit
+              </DropdownMenuItem>
+            </Link>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => handleUpdateStatus(service)}
+            >
+              {service.status === "Active" ? "Inactive" : "Active"}
+            </DropdownMenuItem>
             <DropdownMenuItem>View details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
