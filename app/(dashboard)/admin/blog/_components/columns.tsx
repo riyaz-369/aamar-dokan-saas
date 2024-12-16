@@ -14,11 +14,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { UpdateBlogStatus } from "../_actions";
+import Image from "next/image";
 
 export type TBlogPost = {
   id: string;
   photo: string;
   title: string;
+  slug: string;
   category: string;
   publishDate: string;
   status: string;
@@ -35,6 +37,17 @@ export const columns: ColumnDef<TBlogPost>[] = [
   {
     accessorKey: "photo",
     header: "Photo",
+    cell: ({ row }) => {
+      return (
+        <Image
+          src={row.original.photo}
+          alt={row.original.slug}
+          width={100}
+          height={100}
+          className="rounded"
+        />
+      );
+    },
   },
   {
     accessorKey: "title",
