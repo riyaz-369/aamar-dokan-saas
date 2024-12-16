@@ -3,7 +3,7 @@ import prisma from "@/prisma";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 import { SignUpFormSchema } from "./sign-up/_components/SignUpFormSchema";
-import { Client } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 // Verification pin
 export const generateAamarDokanPin = async () => {
@@ -42,7 +42,7 @@ export const createClient = async (data: TClient) => {
     const { name, phone, password } = data;
 
     if (!name || !phone || !password) return false;
-
+    const hashPassword = await bcrypt.hash(password, 10);
     const aamardokanId = await generateAamarDokanId();
 
     console.log(aamardokanId);
@@ -51,7 +51,7 @@ export const createClient = async (data: TClient) => {
       data: {
         name,
         phone,
-        password,
+        password: hashPassword,
         username: phone,
         aamardokanId: aamardokanId.toString(),
       },

@@ -30,9 +30,15 @@ interface SignUpFormProps {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   setPin: React.Dispatch<React.SetStateAction<string>>;
   setId: React.Dispatch<React.SetStateAction<string>>;
+  setAamardokanId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SignUpForm: React.FC<SignUpFormProps> = ({ setStep, setPin, setId }) => {
+const SignUpForm: React.FC<SignUpFormProps> = ({
+  setStep,
+  setPin,
+  setId,
+  setAamardokanId,
+}) => {
   const [eyeOpen, setEyeOpen] = useState(false);
 
   // Initialize the form with default values and validation
@@ -57,6 +63,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setStep, setPin, setId }) => {
         const pin = await generateAamarDokanPin();
         setPin(pin);
         setId(createCustomer.id);
+        setAamardokanId(createCustomer.aamardokanId);
+
         const message = `সম্মানিত গ্রাহক, আপনার আমার দোকানের ভেরিফিকেশন কোড ${pin}`;
         // await sendMessage(data.phone, message);
         const to = createCustomer.phone;
