@@ -11,16 +11,24 @@ const SignUpPage = () => {
   const [step, setStep] = useState(1);
   const [pin, setPin] = useState("");
   const [id, setId] = useState("");
+  const [aamardokanId, setAamardokanId] = useState("");
 
   // console.log(step);
   const StepOne = () => {
-    return <SignUpForm setStep={setStep} setPin={setPin} setId={setId} />;
+    return (
+      <SignUpForm
+        setStep={setStep}
+        setPin={setPin}
+        setId={setId}
+        setAamardokanId={setAamardokanId}
+      />
+    );
   };
   const StepTwo = () => {
     return <VerificationForm setStep={setStep} id={id} pin={pin} />;
   };
   const StepThree = () => {
-    return <InfoForm id={id} />;
+    return <InfoForm id={id} aamardokanId={aamardokanId} />;
   };
 
   const getStep = (step: number): React.ReactNode => {

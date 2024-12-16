@@ -26,16 +26,20 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+// import { useSession } from "next-auth/react";
 
-export default function DashboardProfile({
-  user,
-}: {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}) {
+export default function DashboardProfile() {
+  // const { data: session } = useSession();
+  //   {
+  //   user,
+  // }: {
+  //   user: {
+  //     name: string;
+  //     email: string;
+  //     avatar: string;
+  //   };
+  // }
+  // console.log("Session::", session);
   const { isMobile } = useSidebar();
 
   return (
@@ -119,6 +123,5 @@ export default function DashboardProfile({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-
   );
 }

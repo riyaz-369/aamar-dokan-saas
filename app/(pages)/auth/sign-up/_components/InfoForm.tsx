@@ -20,12 +20,15 @@ import type { z } from "zod";
 // import { Textarea } from "@/components/ui/textarea";
 import { updateClient } from "../../_action";
 import { toast } from "sonner";
+import { signIn } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 interface InfoFormProps {
   id: string;
+  aamardokanId: string;
 }
 
-const InfoForm: React.FC<InfoFormProps> = ({ id }) => {
+const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
   // Initialize the form with default values and validation
   const form = useForm<z.infer<typeof InfoFormSchema>>({
     resolver: zodResolver(InfoFormSchema),
@@ -49,6 +52,17 @@ const InfoForm: React.FC<InfoFormProps> = ({ id }) => {
 
     //TODO:: Login to account
     toast.success("Personal information update successful");
+
+    const loginResult = await signIn("clientAuth", {
+      redirect: false,
+      aamardokanId: aamardokanId,
+    });
+
+    if (loginResult?.ok) {
+      redirect("/client"); // Redirect to the dashboard after login
+    } else {
+      console.error("Login failed");
+    }
     // console.log(data);
     // setStep(4);
   }
