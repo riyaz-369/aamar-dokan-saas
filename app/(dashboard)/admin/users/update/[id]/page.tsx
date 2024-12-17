@@ -8,7 +8,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 const UpdateUserPage = async () => {
   const user = await getServerSession(authOptions);
 
-  console.log(user);
+  console.log("user:", user);
 
   const data = await prisma.user.findFirst({
     // where: {
