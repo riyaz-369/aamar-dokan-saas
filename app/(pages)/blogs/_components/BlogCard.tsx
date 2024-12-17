@@ -15,12 +15,12 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 const BlogCard = ({ blog }: { blog: TBlogPost }) => {
-  const { title, photo, content, publishDate } = blog;
+  const { title, slug, photo, content, publishDate } = blog;
 
   return (
     <Card className="mx-auto shadow-md rounded-lg hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between">
-      <Link href={`/`}>
-        <CardHeader className="p-4 space-y-4">
+      <Link href={`/blogs/${slug}`}>
+        <CardHeader className="space-y-4">
           <Image
             src={photo}
             alt={title}

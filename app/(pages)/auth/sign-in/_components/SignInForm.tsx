@@ -55,13 +55,13 @@ const SignInForm = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <div className="max-w-md w-full space-y-2 border p-6 rounded-md shadow-lg">
+    <div className="flex flex-col justify-center items-center">
+      <div className="max-w-md w-full space-y-2  py-4 ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <PageTitle
               title="Signin Your Account"
-              className="pb-4 text-center"
+              className="pb-4 text-center text-primary"
             />
 
             {/* Phone */}

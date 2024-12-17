@@ -158,7 +158,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/business/blog"
+                  href="/blogs"
                   className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
                 >
                   Blog

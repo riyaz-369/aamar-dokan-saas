@@ -7,6 +7,8 @@ const ClientDashboard = async () => {
   const session = await getServerSession(authOptions);
   console.log("user:", session);
 
+  // if (typeof window === "undefined") return null;
+
   return (
     <div className="flex flex-col h-full w-full">
       <DashboardMain />

@@ -15,16 +15,16 @@ export async function middleware(request: NextRequest) {
   });
   // console.log("Middleware token:", token);
 
-  if (token && pathname === "/auth/sign-in") {
-    return NextResponse.redirect(new URL("/client", request.url));
-  }
-
-  if (token && pathname === "/auth/admin/sign-in") {
-    return NextResponse.redirect(new URL("/admin", request.url));
-  }
-
   if (token) {
     const userRole = token.role || "client";
+
+    if (pathname === "/auth/sign-in") {
+      return NextResponse.redirect(new URL("/client", request.url));
+    }
+
+    if (pathname === "/auth/admin/sign-in") {
+      return NextResponse.redirect(new URL("/admin", request.url));
+    }
 
     // Prevent redirect loops
     if (pathname.startsWith("/admin") && userRole === "admin") {
