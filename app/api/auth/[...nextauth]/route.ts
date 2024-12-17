@@ -143,6 +143,9 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     jwt: ({ token, user }) => {
+      // console.log("JWT Callback - Token:", token);
+      // console.log("JWT Callback - User:", user);
+
       if (user) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const u = user as unknown as any;

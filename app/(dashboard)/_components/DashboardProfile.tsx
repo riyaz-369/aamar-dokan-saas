@@ -26,13 +26,17 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 export default function DashboardProfile() {
   const { data: session } = useSession();
 
   console.log("Session::", session);
   const { isMobile } = useSidebar();
+
+  const handleLogout = async () => {
+    await signOut();
+  };
 
   return (
     <SidebarMenu>
@@ -107,7 +111,7 @@ export default function DashboardProfile() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

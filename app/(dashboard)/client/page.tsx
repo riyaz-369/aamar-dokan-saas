@@ -6,6 +6,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 const ClientDashboard = async () => {
   const session = await getServerSession(authOptions);
   console.log("user:", session);
+
   return (
     <div className="flex flex-col h-full w-full">
       <DashboardMain />
