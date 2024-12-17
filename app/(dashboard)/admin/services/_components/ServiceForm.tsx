@@ -33,7 +33,7 @@ import { SaveServiceIntoDB } from "../_actions";
 import { toast } from "sonner";
 import Loader from "@/components/Loader";
 
-const ServiceForm = ({ entry }) => {
+const ServiceForm = ({ entry }: { entry: any }) => {
   const [photo, setPhoto] = useState<File | null>(null);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [categories, setCategories] = useState<TCategory[]>([]);
@@ -207,7 +207,7 @@ const ServiceForm = ({ entry }) => {
             {/* Packages */}
             <FormField
               control={form.control}
-              name="packages"
+              name="packageId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Packages</FormLabel>
@@ -331,7 +331,7 @@ const ServiceForm = ({ entry }) => {
             <FormField
               control={form.control}
               name="photo"
-              render={({ field }) => (
+              render={({}) => (
                 <FormItem>
                   <FormControl>
                     <div className="relative flex items-center bg-muted rounded-lg p-4 border border-dashed border-primary">
