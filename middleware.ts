@@ -6,14 +6,14 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  console.log("Current Path:", pathname);
+  // console.log("Current Path:", pathname);
 
   // Retrieve the session JWT token
   const token = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
   });
-  console.log("Middleware token:", token);
+  // console.log("Middleware token:", token);
 
   if (token && pathname === "/auth/sign-in") {
     return NextResponse.redirect(new URL("/client", request.url));

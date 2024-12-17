@@ -66,11 +66,11 @@ const CustomerForm = ({ entry }: { entry: TClient }) => {
 
   async function onSubmit(data: z.infer<typeof customerFormSchema>) {
     const photo = photoFile;
-    console.log({ ...data, photo });
+    // console.log({ ...data, photo });
     try {
       loaderShow();
       const response = await SaveUserIntoDB({ ...data, photo }, id);
-      console.log(response);
+      // console.log(response);
       if (response) {
         form.reset();
         toast.success(

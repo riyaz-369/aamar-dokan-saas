@@ -9,7 +9,7 @@ const UpdateUserPage = async ({ params }: { params: { id: string } }) => {
       id: params.id,
     },
   });
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className="">

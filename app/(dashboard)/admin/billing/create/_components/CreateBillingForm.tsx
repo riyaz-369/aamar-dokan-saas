@@ -44,10 +44,10 @@ const CreateBillingForm = () => {
   });
 
   async function onSubmit(data: z.infer<typeof CreateBillingFormSchema>) {
-    console.log("Blog post data submitted:", {
-      ...data,
-      photo,
-    });
+    // console.log("Blog post data submitted:", {
+    //   ...data,
+    //   photo,
+    // });
   }
 
   return (

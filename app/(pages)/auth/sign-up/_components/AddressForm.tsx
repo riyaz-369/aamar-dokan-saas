@@ -38,7 +38,7 @@ const AddressForm = () => {
   // Handle form submission
   async function onSubmit(data: z.infer<typeof SignUpFormSchema>) {
     // data.password = await bcrypt.hash(data.password, 10);
-    console.log(data);
+    // console.log(data);
     const createCustomer = await createClient(data);
     console.log("createCustomer", createCustomer);
   }
