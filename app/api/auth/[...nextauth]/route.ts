@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/prisma";
 import { connectToDatabase } from "@/helper/server-helper";
-import bcrypt from "bcrypt"; // npm i --save-dev @types/bcrypt
+import bcrypt from "bcrypt";
 
 // NextAuth Configuration
 export const authOptions: NextAuthOptions = {
@@ -107,6 +108,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
 
+      //@ts-ignore
       async authorize(credentials) {
         if (!credentials || !credentials.phone || !credentials.password) {
           return null;
@@ -118,15 +120,17 @@ export const authOptions: NextAuthOptions = {
             where: { phone: credentials.phone },
           });
 
-          const isPasswordValid = await bcrypt.compare(
-            credentials.password,
-            admin.password
-          );
+          if (admin) {
+            const isPasswordValid = await bcrypt.compare(
+              credentials.password,
+              admin.password
+            );
 
-          if (!isPasswordValid) {
-            return null; // Password is invalid
+            if (!isPasswordValid) {
+              return null;
+            }
+            return admin;
           }
-          return admin;
         } catch (error) {
           console.error("Admin authorization error:", error);
           return null;
@@ -138,25 +142,33 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    // JWT Callback to add user data and token to JWT
-    async jwt({ token, user }) {
+    jwt: ({ token, user }) => {
       if (user) {
-        // Add user info and token details into the JWT
-        token.id = user.id;
-        token.phone = user.phone;
-        token.role = user.type || "client"; // Default to "client" role if not specified
-        token.authToken = "your-jwt-token"; // If you are generating a separate auth token, you can set it here
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const u = user as unknown as any;
+        return {
+          ...token,
+          id: u.id,
+          phone: u.phone,
+          role: u.type || "client",
+          authToken: token.authToken,
+        };
+      } else {
+        return token;
       }
-      return token;
     },
 
-    // Session Callback to add the JWT data to session
-    async session({ session, token }) {
-      session.id = token.id;
-      session.phone = token.phone;
-      session.role = token.role;
-      session.authToken = token.authToken; // Set the auth token in session
-      return session;
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          phone: token.phone,
+          role: token.role,
+          authToken: token.authToken,
+        },
+      };
     },
   },
 };

@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/form";
 
 import { Toaster } from "@/components/ui/sonner";
-import Link from "next/link";
 import { useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { SignInFormSchema } from "./SignInFormSchema";
@@ -56,7 +55,7 @@ const SignInForm = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
-      <div className="max-w-md w-full space-y-2 border p-6 rounded-md shadow-lg">
+      <div className="max-w-xs  w-full space-y-2 border p-6 rounded-md shadow-lg">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <PageTitle
@@ -110,14 +109,6 @@ const SignInForm = () => {
             </Button>
           </form>
         </Form>
-        <p className="flex items-center mt-4 justify-center">
-          Don&apos;t have an account?
-          <Link href={`/auth/sign-up`}>
-            <Button variant="link" className="px-2 text-md font-semibold">
-              Sign Up
-            </Button>
-          </Link>
-        </p>
       </div>
       <Toaster />
     </div>
