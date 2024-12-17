@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Check, CheckCircle, CheckCircle2, Minus } from "lucide-react";
+import Link from "next/link";
 
 const plansB = [
   {
@@ -335,9 +336,11 @@ const PricingTable = () => {
                     <p className="text-4xl font-bold text-center mb-6">
                       {plan.price}
                     </p>
-                    <Button className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800">
-                      {plan.button}
-                    </Button>
+                    <Link href="/client/payment">
+                      <Button className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800">
+                        {plan.button}
+                      </Button>
+                    </Link>
                   </div>
                 </th>
               ))}
