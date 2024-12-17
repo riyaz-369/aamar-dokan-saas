@@ -48,7 +48,7 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
   // Handle form submission
   async function onSubmit(data: z.infer<typeof VerificationFormSchema>) {
     // data.password = await bcrypt.hash(data.password, 10);
-    console.log("OTP", data.pin, pin);
+    // console.log("OTP", data.pin, pin);
     if (data.pin !== "" && data.pin === pin) {
       await updateClient({
         id: id,

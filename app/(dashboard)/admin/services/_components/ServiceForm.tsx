@@ -106,12 +106,12 @@ const ServiceForm = ({ entry }: { entry: any }) => {
       );
 
       const { fileUrl, success } = imgResponse.data;
-      console.log(fileUrl, success);
+      // console.log(fileUrl, success);
 
-      console.log("Service data submitted:", {
-        ...data,
-        photo: fileUrl,
-      });
+      // console.log("Service data submitted:", {
+      //   ...data,
+      //   photo: fileUrl,
+      // });
 
       const response = await SaveServiceIntoDB({ ...data, photo: fileUrl }, id);
       if (response) {

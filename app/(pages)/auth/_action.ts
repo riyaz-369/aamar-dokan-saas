@@ -17,7 +17,7 @@ const generateAamarDokanId = async () => {
 
   for (let i = 0; i < MAX_RETRIES; i++) {
     const newAamarDokanId = Math.floor(
-      100000 + Math.random() * 900000,
+      100000 + Math.random() * 900000
     ).toString();
 
     // Check if the generated ID already exists in the database
@@ -45,7 +45,7 @@ export const createClient = async (data: TClient) => {
     const hashPassword = await bcrypt.hash(password, 10);
     const aamardokanId = await generateAamarDokanId();
 
-    console.log(aamardokanId);
+    // console.log(aamardokanId);
 
     const createUser = await prisma.client.create({
       data: {
@@ -56,7 +56,7 @@ export const createClient = async (data: TClient) => {
         aamardokanId: aamardokanId.toString(),
       },
     });
-    console.log(createUser);
+    // console.log(createUser);
     if (createUser) {
       // revalidatePath("/auth/sign-up");
       return createUser;

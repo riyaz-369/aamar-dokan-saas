@@ -56,9 +56,9 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
     // data.password = await bcrypt.hash(data.password, 10);
 
     try {
-      console.log(data);
+      // console.log(data);
       const createCustomer = await createClient(data);
-      console.log("createCustomer", createCustomer);
+      // console.log("createCustomer", createCustomer);
       if (createCustomer) {
         const pin = await generateAamarDokanPin();
         setPin(pin);

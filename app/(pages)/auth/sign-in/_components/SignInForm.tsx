@@ -38,7 +38,7 @@ const SignInForm = () => {
 
   // Handle form submission
   async function onSubmit(data: z.infer<typeof SignInFormSchema>) {
-    console.log(data);
+    // console.log(data);
     try {
       const res = await signIn("clientCredentials", {
         phone: data.phone,

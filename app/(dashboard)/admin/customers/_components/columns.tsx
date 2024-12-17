@@ -30,7 +30,7 @@ export type TClient = {
 };
 
 const handleUpdateStatus = async (user: TClient) => {
-  console.log(user);
+  // console.log(user);
   // await UpdateUserStatus(
   //   user.id,
   //   user.status === "Active" ? "Inactive" : "Active"

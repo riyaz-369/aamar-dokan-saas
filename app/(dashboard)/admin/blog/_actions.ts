@@ -9,7 +9,7 @@ import { BlogPostFormSchema } from "./_components/BlogPostFormSchema";
 export type TBlogPost = z.infer<typeof BlogPostFormSchema>;
 
 export const SaveBlogIntoDB = async (data: TBlogPost, id: string) => {
-  console.log(id, data);
+  // console.log(id, data);
   try {
     const { title, content, categoryId, publishDate, meta, slug, tags, photo } =
       data;
