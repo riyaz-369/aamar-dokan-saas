@@ -21,7 +21,7 @@ const MyServicesPage = () => {
           title="Popular Services"
           className="bg-gray-50 py-4 px-4 rounded-lg mt-12"
         />
-        <div className="grid grid-cols-6 gap-6 mt-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 mt-6">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((_, idx) => (
             <ServiceCard key={idx} servicesProduct={idx} />
           ))}

@@ -5,6 +5,7 @@ import { UserFormSchema } from "./_components/UserFormSchema";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { Status } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 type TUser = z.infer<typeof UserFormSchema>;
 
@@ -12,9 +13,10 @@ export const SaveUserIntoDB = async (data: TUser, id: string) => {
   // console.log(id, data);
   try {
     const { name, phone, email, username, password, type } = data;
-    const photo = data?.photo?.name;
 
     if (!name || !phone || !username || !password) return false;
+
+    const hashPassword = await bcrypt.hash(password, 10);
 
     if (!id) {
       const createdUser = await prisma.user.create({
@@ -23,9 +25,8 @@ export const SaveUserIntoDB = async (data: TUser, id: string) => {
           phone,
           email,
           username,
-          password,
+          password: hashPassword,
           type,
-          photo,
         },
       });
       if (createdUser) {
@@ -40,9 +41,8 @@ export const SaveUserIntoDB = async (data: TUser, id: string) => {
           phone,
           email,
           username,
-          password,
+          password: hashPassword,
           type,
-          photo,
         },
       });
       if (updatedUser) {

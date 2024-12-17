@@ -2,7 +2,7 @@ import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/prisma";
 import { connectToDatabase } from "@/helper/server-helper";
-import bcrypt from "bcrypt";
+import bcrypt from "bcrypt"; // npm i --save-dev @types/bcrypt
 
 // NextAuth Configuration
 export const authOptions: NextAuthOptions = {
@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
 
           const isPasswordValid = await bcrypt.compare(
             credentials.password,
-            client.password,
+            client.password
           );
 
           if (!isPasswordValid) {
@@ -120,13 +120,12 @@ export const authOptions: NextAuthOptions = {
 
           const isPasswordValid = await bcrypt.compare(
             credentials.password,
-            admin.password,
+            admin.password
           );
 
           if (!isPasswordValid) {
             return null; // Password is invalid
           }
-
           return admin;
         } catch (error) {
           console.error("Admin authorization error:", error);

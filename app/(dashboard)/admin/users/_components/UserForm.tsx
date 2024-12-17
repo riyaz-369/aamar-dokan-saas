@@ -58,7 +58,7 @@ const UserForm = ({ entry }: { entry: TUser }) => {
       form.setValue("phone", entry.phone);
       form.setValue("email", entry.email);
       form.setValue("username", entry.username);
-      form.setValue("password", entry.password);
+      // form.setValue("password", entry.password);
       form.setValue("type", entry?.type);
     }
   }, [entry]);
@@ -71,11 +71,11 @@ const UserForm = ({ entry }: { entry: TUser }) => {
     try {
       loaderShow();
       const response = await SaveUserIntoDB(data, id);
-      console.log(response);
+      // console.log(response);
       if (response) {
         form.reset();
         toast.success(
-          id ? "User Updated Successfully" : "User Created Successfully",
+          id ? "User Updated Successfully" : "User Created Successfully"
         );
         loaderClose();
         router.push("/admin/users");

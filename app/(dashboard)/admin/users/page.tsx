@@ -5,7 +5,6 @@ import React from "react";
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 import prisma from "@/prisma";
-import Image from "next/image";
 
 const UsersPage = async () => {
   const data = await prisma.user.findMany({});
