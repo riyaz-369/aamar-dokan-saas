@@ -25,6 +25,8 @@ import { VerificationFormSchema } from "./SignUpFormSchema";
 import PageTitle from "@/components/PageTitle";
 import { toast } from "sonner";
 import { updateClient } from "../../_action";
+import { FaSpinner } from "react-icons/fa";
+import { useState } from "react";
 // import axios from "axios";
 interface VerificationFormProps {
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -37,6 +39,7 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
   pin,
   id,
 }) => {
+  const [loading, setLoading] = useState(false);
   // Initialize the form with default values and validation
   const form = useForm<z.infer<typeof VerificationFormSchema>>({
     resolver: zodResolver(VerificationFormSchema),
@@ -50,14 +53,17 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
     // data.password = await bcrypt.hash(data.password, 10);
     // console.log("OTP", data.pin, pin);
     if (data.pin !== "" && data.pin === pin) {
+      setLoading(true);
       await updateClient({
         id: id,
         data: { isPhoneVerified: true },
       });
+      setLoading(false);
       toast.success("Phone Verification successful");
       setStep(3);
     } else {
       toast.error("Code is not matched");
+      setLoading(false);
     }
   }
 
@@ -112,8 +118,8 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
               )}
             />
 
-            <Button type="submit" className="w-full">
-              Verify
+            <Button disabled={loading} type="submit" className="w-full">
+              {loading ? <FaSpinner className="animate-spin" /> : "Verify"}
             </Button>
           </form>
         </Form>

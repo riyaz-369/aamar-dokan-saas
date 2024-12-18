@@ -31,11 +31,15 @@ import { signOut, useSession } from "next-auth/react";
 export default function DashboardProfile() {
   const { data: session } = useSession();
 
-  // console.log("Session::", session);
+  console.log("Session::", session);
   const { isMobile } = useSidebar();
 
   const handleLogout = async () => {
-    await signOut();
+    try {
+      await signOut({ callbackUrl: "/" });
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   return (
