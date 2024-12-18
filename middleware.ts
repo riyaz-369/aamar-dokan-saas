@@ -13,18 +13,20 @@ export async function middleware(request: NextRequest) {
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
   });
-  // console.log("Middleware token:", token);
+  console.log("Middleware token:", token);
 
   if (token) {
     const userRole = token.role || "client";
 
-    if (pathname === "/auth/sign-in") {
+    if (pathname.startsWith("/auth")) {
+      console.log("Middleware Signin:", token);
       return NextResponse.redirect(new URL("/client", request.url));
     }
 
-    if (pathname === "/auth/admin/sign-in") {
-      return NextResponse.redirect(new URL("/admin", request.url));
-    }
+    // if (pathname.startsWith("/auth/admin/sign-in")) {
+    //   console.log("Middleware Signup:", token);
+    //   return NextResponse.redirect(new URL("/admin", request.url));
+    // }
 
     // Prevent redirect loops
     if (pathname.startsWith("/admin") && userRole === "admin") {
