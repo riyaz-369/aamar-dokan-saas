@@ -30,7 +30,7 @@ export default function Home() {
               আমার ব্যবসা, <br />
               আমার নিয়ন্ত্রণ
             </h1>
-            <h2 className="text-gray-700 font-medium text-3xl py-4">
+            <h2 className="text-gray-700 dark:text-gray-400 font-medium text-3xl py-4">
               Aamar Dokan POS!
             </h2>
             <p>বাংলাদেশের ব্যবসাগুলোর জন্য সাশ্রয়ী, সহজ, এবং</p>
@@ -267,7 +267,7 @@ export default function Home() {
           <div className="CTA w-full mt-0 border flex gap-2 rounded-2xl ">
             <div className=" w-2/3 ">
               <div className=" py-4 px-12 ">
-                <h2 className="w-full text-md font-ador font-bold text-brown ">
+                <h2 className="w-full text-md font-ador font-bold text-brown dark:text-primary">
                   ব্যবসা পরিচালনা এখন আরও সহজ এবং সাশ্রয়ী!
                 </h2>
                 <p className="font-light text-sm">
@@ -279,7 +279,7 @@ export default function Home() {
             <div className="flex w-1/3">
               <Button
                 variant="ghost"
-                className="text-lg font-medium font-avro bg-lightWhite h-full w-full hover:bg-orange hover:text-lightWhite justify-center items-center  py-4 px-12 rounded-2xl"
+                className="text-lg font-medium font-avro bg-lightWhite text-black h-full w-full hover:bg-orange hover:text-lightWhite justify-center items-center  py-4 px-12 rounded-2xl"
               >
                 ফ্রি অ্যাকাউন্ট তৈরি করুন
                 <LiaLongArrowAltRightSolid size="30" className="text-xl" />
