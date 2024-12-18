@@ -41,7 +41,7 @@ export const authOptions: NextAuthOptions = {
 
           const isPasswordValid = await bcrypt.compare(
             credentials.password,
-            client.password
+            client.password,
           );
 
           if (!isPasswordValid) {
@@ -123,7 +123,7 @@ export const authOptions: NextAuthOptions = {
           if (admin) {
             const isPasswordValid = await bcrypt.compare(
               credentials.password,
-              admin.password
+              admin.password,
             );
 
             if (!isPasswordValid) {
