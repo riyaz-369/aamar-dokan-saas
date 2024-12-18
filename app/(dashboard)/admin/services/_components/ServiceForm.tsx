@@ -206,7 +206,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
               )}
             />
             {/* Packages */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="packageId"
               render={({ field }) => (
@@ -218,7 +218,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             {/* Terms of Service */}
             <FormField
               control={form.control}

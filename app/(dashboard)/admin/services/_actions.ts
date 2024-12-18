@@ -9,7 +9,7 @@ import { CreateServiceFormSchema } from "./_components/CreateServiceFormSchema";
 export type TService = z.infer<typeof CreateServiceFormSchema>;
 
 export const SaveServiceIntoDB = async (data: TService, id: string) => {
-  // console.log(id, data);
+  console.log(id, data);
   try {
     const {
       title,
@@ -21,7 +21,7 @@ export const SaveServiceIntoDB = async (data: TService, id: string) => {
       privacyPolicy,
       status,
       tos,
-      packageId,
+      // packageId,
       photo,
     } = data;
 
@@ -37,7 +37,7 @@ export const SaveServiceIntoDB = async (data: TService, id: string) => {
           code,
           privacyPolicy,
           tos,
-          packageId,
+          // packageId,
           status,
         },
       });
@@ -58,7 +58,7 @@ export const SaveServiceIntoDB = async (data: TService, id: string) => {
           code,
           privacyPolicy,
           tos,
-          packageId,
+          // packageId,
           status,
         },
       });
