@@ -43,7 +43,7 @@ const Header = () => {
       </div>
       <div className="flex gap-2">
         {session?.user ? (
-          <Link href="/auth/sign-in" legacyBehavior passHref>
+          <Link href="/client" legacyBehavior passHref>
             <Button
               variant="ghost"
               className={cn("rounded-full py-2 px-4 text-md font-medium")}

@@ -86,7 +86,8 @@ const ServiceForm = ({ entry }: { entry: any }) => {
   }, []);
 
   const handleSlug = (title: string) => {
-    const slug = title.split(" ").join("-").toLowerCase();
+    const trimTitle = title.trim();
+    const slug = trimTitle.split(" ").join("-").toLowerCase();
     form.setValue("slug", slug);
   };
 
