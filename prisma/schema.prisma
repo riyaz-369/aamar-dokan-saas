@@ -59,8 +59,8 @@ model Services {
   meta          Json?
   category      Category @relation(fields: [categoryId], references: [id])
   categoryId    String   @db.ObjectId
-  package       Package  @relation(fields: [packageId], references: [id])
-  packageId     String   @db.ObjectId
+  // package       Package  @relation(fields: [packageId], references: [id])
+  // packageId     String   @db.ObjectId
   photo         String?
   description   String?
   tos           String?
@@ -83,9 +83,9 @@ model Package {
   price    Json[] // type: (monthly, yearly)
   status   Status      @default(Active)
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  services  Services[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // services  Services[]
 }
 
 enum PackageType {

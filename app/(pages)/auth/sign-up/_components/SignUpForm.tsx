@@ -23,6 +23,7 @@ import { createClient, generateAamarDokanPin } from "../../_action";
 import type { z } from "zod";
 import { toast } from "sonner";
 import sendMessage from "@/lib/sms";
+import { FaSpinner } from "react-icons/fa";
 // import axios from "axios";
 
 // import bcrypt from "bcrypt";
@@ -40,6 +41,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
   setAamardokanId,
 }) => {
   const [eyeOpen, setEyeOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Initialize the form with default values and validation
   const form = useForm<z.infer<typeof SignUpFormSchema>>({
@@ -57,6 +59,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
 
     try {
       // console.log(data);
+      setLoading(true);
       const createCustomer = await createClient(data);
       // console.log("createCustomer", createCustomer);
       if (createCustomer) {
@@ -70,9 +73,11 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
         const to = createCustomer.phone;
         sendMessage({ to, message });
         toast.success("Account creation successful");
+        setLoading(false);
         setStep(2);
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   }
@@ -154,8 +159,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
             />
 
             <br />
-            <Button className="w-full" type="submit">
-              SIgn Up
+            <Button disabled={loading} className="w-full" type="submit">
+              {loading ? <FaSpinner className="animate-spin" /> : "Sign Up"}
             </Button>
           </form>
         </Form>

@@ -24,7 +24,7 @@ import type { z } from "zod";
 
 const AddressForm = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   // Initialize the form with default values and validation
   const form = useForm<z.infer<typeof SignUpFormSchema>>({
     resolver: zodResolver(SignUpFormSchema),

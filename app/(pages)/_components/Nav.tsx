@@ -58,7 +58,7 @@ const Nav = () => {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="text-md font-medium text-gray-900">
+            <NavigationMenuTrigger className="text-md font-medium text-gray-900 dark:text-gray-200">
               Getting started
             </NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -104,7 +104,7 @@ const Nav = () => {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="text-md font-medium text-gray-900">
+            <NavigationMenuTrigger className="text-md font-medium text-gray-900 dark:text-gray-200">
               Components
             </NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -126,7 +126,7 @@ const Nav = () => {
               <NavigationMenuLink
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "text-md font-medium text-gray-900",
+                  "text-md font-medium text-gray-900 dark:text-gray-200"
                 )}
               >
                 Pricing
@@ -152,7 +152,7 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className,
+            className
           )}
           {...props}
         >

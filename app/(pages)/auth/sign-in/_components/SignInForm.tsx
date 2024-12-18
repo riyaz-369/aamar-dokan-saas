@@ -22,14 +22,17 @@ import PasswordShowClose from "@/components/PasswordShowClose";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { FaSpinner } from "react-icons/fa";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const SignInForm = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   // Initialize the form with default values and validation
   const form = useForm<z.infer<typeof SignInFormSchema>>({
-    // resolver: zodResolver(SignInFormSchema),
+    resolver: zodResolver(SignInFormSchema),
     defaultValues: {
       phone: "",
       password: "",
@@ -38,18 +41,22 @@ const SignInForm = () => {
 
   // Handle form submission
   async function onSubmit(data: z.infer<typeof SignInFormSchema>) {
-    // console.log(data);
+    console.log(data);
     try {
+      setLoading(true);
       const res = await signIn("clientCredentials", {
         phone: data.phone,
         password: data.password,
         redirect: false,
       });
+
       if (res?.ok) {
+        setLoading(false);
         toast.success("Logged in successfully!");
         router.push("/client");
       }
     } catch (error) {
+      setLoading(false);
       console.error({ error });
     }
   }
@@ -105,8 +112,8 @@ const SignInForm = () => {
             />
 
             <br />
-            <Button className="w-full" type="submit">
-              SIgn In
+            <Button disabled={loading} className="w-full" type="submit">
+              {loading ? <FaSpinner className="animate-spin" /> : "Sign In"}
             </Button>
           </form>
         </Form>

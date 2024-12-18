@@ -13,10 +13,12 @@ export async function middleware(request: NextRequest) {
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
   });
-  console.log("Middleware token:", token);
+  console.log("token from Middleware:", token);
 
   if (token) {
     const userRole = token.role || "client";
+
+    console.log(userRole);
 
     if (pathname.startsWith("/auth")) {
       console.log("Middleware Signin:", token);
@@ -29,7 +31,7 @@ export async function middleware(request: NextRequest) {
     // }
 
     // Prevent redirect loops
-    if (pathname.startsWith("/admin") && userRole === "admin") {
+    if (pathname.startsWith("/admin") && userRole === "Admin") {
       return NextResponse.next();
     }
     if (pathname.startsWith("/client") && userRole === "client") {
@@ -59,5 +61,5 @@ export async function middleware(request: NextRequest) {
 
 // Apply middleware to specific routes
 export const config = {
-  matcher: ["/admin/:path*", "/client/:path*"],
+  matcher: ["/admin/:path*", "/client/:path*", "/auth/:path*"],
 };

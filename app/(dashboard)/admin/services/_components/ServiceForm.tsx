@@ -86,7 +86,8 @@ const ServiceForm = ({ entry }: { entry: any }) => {
   }, []);
 
   const handleSlug = (title: string) => {
-    const slug = title.split(" ").join("-").toLowerCase();
+    const trimTitle = title.trim();
+    const slug = trimTitle.split(" ").join("-").toLowerCase();
     form.setValue("slug", slug);
   };
 
@@ -205,7 +206,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
               )}
             />
             {/* Packages */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="packageId"
               render={({ field }) => (
@@ -217,7 +218,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             {/* Terms of Service */}
             <FormField
               control={form.control}
