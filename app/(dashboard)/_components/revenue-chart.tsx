@@ -18,10 +18,10 @@ export function RevenueChart({
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle>Total Revenue</CardTitle>
       </CardHeader>
-      <CardContent className="pb-0">
+      <CardContent>
         <div className="text-2xl font-bold">$15,231.89</div>
         <p className="text-xs text-muted-foreground">+20.1% from last month</p>
-        <ChartContainer config={chartConfig} className="w-full">
+        <ChartContainer config={chartConfig} className="w-full h-[100px]">
           <LineChart
             data={data}
             margin={{

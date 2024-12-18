@@ -272,7 +272,7 @@ export function PaymentHistory() {
             </TableBody>
           </Table>
         </div>
-        <div className="flex items-center justify-end space-x-2 pt-4">
+        {/* <div className="flex items-center justify-end space-x-2 pt-4">
           <div className="flex-1 text-sm text-muted-foreground">
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
@@ -295,7 +295,7 @@ export function PaymentHistory() {
               Next
             </Button>
           </div>
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   );

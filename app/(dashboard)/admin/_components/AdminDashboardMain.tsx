@@ -10,11 +10,11 @@ import { PaymentHistory } from "./payment-history";
 const chartConfig = {
   revenue: {
     label: "Revenue",
-    color: "hsl(var(--primary))",
+    color: "#ff6a39",
   },
   subscription: {
     label: "Subscriptions",
-    color: "hsl(var(--primary))",
+    color: "#ff6a39",
   },
 } satisfies ChartConfig;
 

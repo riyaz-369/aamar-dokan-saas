@@ -21,7 +21,7 @@ const SubscriptionChart = ({
       <CardContent>
         <div className="text-2xl font-bold">+2350</div>
         <p className="text-xs text-muted-foreground">+180.1% from last month</p>
-        <ChartContainer config={chartConfig} className="mt-2 w-full">
+        <ChartContainer config={chartConfig} className="w-full h-[100px]">
           <BarChart data={data}>
             <Bar
               dataKey="subscription"

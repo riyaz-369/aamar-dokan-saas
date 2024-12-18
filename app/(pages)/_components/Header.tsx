@@ -5,15 +5,7 @@ import React from "react";
 import Nav from "./Nav";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-  Moon,
-  Sun,
-  User,
-  User2,
-  User2Icon,
-  UserCircle,
-  UserX2Icon,
-} from "lucide-react";
+import { Moon, Sun, UserCircle } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
@@ -22,10 +14,10 @@ const Header = () => {
   const { theme, setTheme } = useTheme();
   const { data: session } = useSession();
 
-  console.log(session?.user);
+  const userType = session?.user?.role;
 
   return (
-    <div className="flex items-center justify-between px-12 py-4">
+    <div className="flex items-center justify-between px-12 py-4 sticky top-0 bg-white dark:bg-black">
       <div className="flex">
         <Link href="/">
           <Image
@@ -43,7 +35,7 @@ const Header = () => {
       </div>
       <div className="flex gap-2">
         {session?.user ? (
-          <Link href="/client" legacyBehavior passHref>
+          <Link href={userType.toLowerCase()} legacyBehavior passHref>
             <Button
               variant="ghost"
               className={cn("rounded-full py-2 px-4 text-md font-medium")}
