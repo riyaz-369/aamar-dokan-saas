@@ -16,7 +16,7 @@ import { TbReceiptTax } from "react-icons/tb";
 
 const BusinessPlatform = () => {
   return (
-    <div className="features px-32 mb-28">
+    <div className="features container mb-28">
       <h2 className="font-ador text-center text-4xl font-bold mb-4 ">
         একটি প্ল্যাটফর্মে আপনার ব্যবসার সবকিছু!
       </h2>

@@ -1,36 +1,78 @@
+import FAQ from "@/app/(pages)/_components/FAQ";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React from "react";
 
-const HelpCenter = () => {
-  const faqs = [
-    {
-      question: "How do I create an account?",
-      answer:
-        "To create an account, click on the 'Sign Up' button at the top right corner and fill out the registration form.",
-    },
-    {
-      question: "How can I reset my password?",
-      answer:
-        "You can reset your password by clicking on the 'Forgot Password?' link on the login page and following the instructions.",
-    },
-    {
-      question: "How do I contact customer support?",
-      answer:
-        "You can contact us via email at support@example.com or by using the live chat feature available on the website.",
-    },
-    {
-      question: "Where can I find my orders?",
-      answer:
-        "You can find your orders in the 'My Account' section under 'Order History.'",
-    },
-    {
-      question: "What payment methods do you accept?",
-      answer:
-        "We accept major credit cards, PayPal, and other secure payment options.",
-    },
-  ];
+const faqs = [
+  {
+    question: "আমরা কী কার্যকারিতা দিতে পারি?",
+    answer:
+      "আমরা আপনার খরচ কমাবে এবং সময় বাঁচাবে। আমাদের মাধ্যমে ইন্টারনেটের ব্যবহারে আপনার সুবিধা আনতে পারি।",
+    category: "basicQuestions",
+  },
+  {
+    question: "আমি কীভাবে একটি অ্যাকাউন্ট তৈরি করতে পারি?",
+    answer:
+      "অ্যাকাউন্ট তৈরি করতে, উপরের ডান কোণে 'সাইন আপ' বোতামে ক্লিক করুন এবং নিবন্ধন ফর্ম পূরণ করুন।",
+    category: "basicQuestions",
+  },
+  {
+    question: "আমি কীভাবে আমার পাসওয়ার্ড রিসেট করতে পারি?",
+    answer:
+      "আপনি 'পাসওয়ার্ড ভুলে গেছেন?' লিঙ্কে ক্লিক করে এবং নির্দেশনা অনুসরণ করে আপনার পাসওয়ার্ড রিসেট করতে পারবেন।",
+    category: "basicQuestions",
+  },
+  {
+    question: "কীভাবে আমি কাস্টমার সাপোর্টের সাথে যোগাযোগ করতে পারি?",
+    answer:
+      "আপনি আমাদের সাথে ইমেইল support@example.com এর মাধ্যমে বা ওয়েবসাইটে উপলব্ধ লাইভ চ্যাট ফিচার ব্যবহার করে যোগাযোগ করতে পারেন।",
+    category: "basicQuestions",
+  },
+  {
+    question: "আমি কোথায় আমার অর্ডারগুলি দেখতে পারি?",
+    answer:
+      "আপনি 'আমার অ্যাকাউন্ট' সেকশনে 'অর্ডার ইতিহাস' এর নিচে আপনার অর্ডারগুলি দেখতে পাবেন।",
+    category: "basicQuestions",
+  },
+  {
+    question: "আপনারা কী কার্যকারিতা দিতে পারেন?",
+    answer:
+      "আমরা আপনার খরচ কমাবে এবং সময় বাঁচাবে। আমাদের মাধ্যমে ইন্টারনেটের ব্যবহারে আপনার সুবিধা আনতে পারি।",
+    category: "advancedQuestions",
+  },
+  {
+    question: "আমি কীভাবে আমার পাসওয়ার্ড রিসেট করতে পারি?",
+    answer:
+      "আপনি 'পাসওয়ার্ড ভুলে গেছেন?' লিঙ্কে ক্লিক করে এবং নির্দেশনা অনুসরণ করে আপনার পাসওয়ার্ড রিসেট করতে পারবেন।",
+    category: "advancedQuestions",
+  },
+  {
+    question: "আমি কীভাবে আমার অর্ডারগুলি দেখতে পারি?",
+    answer:
+      "আপনি 'আমার অ্যাকাউন্ট' সেকশনে 'অর্ডার ইতিহাস' এর নিচে আপনার অর্ডারগুলি দেখতে পাবেন।",
+    category: "advancedQuestions",
+  },
+  {
+    question: "আমি কীভাবে একটি অ্যাকাউন্ট তৈরি করতে পারি?",
+    answer:
+      "অ্যাকাউন্ট তৈরি করতে, উপরের ডান কোণে 'সাইন আপ' বোতামে ক্লিক করুন এবং নিবন্ধন ফর্ম পূরণ করুন।",
+    category: "paymentQuestions",
+  },
+  {
+    question: "আপনারা কোন পেমেন্ট পদ্ধতি গ্রহণ করেন?",
+    answer:
+      "আমরা প্রধান ক্রেডিট কার্ড, PayPal এবং অন্যান্য নিরাপদ পেমেন্ট অপশন গ্রহণ করি।",
+    category: "paymentQuestions",
+  },
+  {
+    question: "আমি কীভাবে আমার পাসওয়ার্ড রিসেট করতে পারি?",
+    answer:
+      "আপনি 'পাসওয়ার্ড ভুলে গেছেন?' লিঙ্কে ক্লিক করে এবং নির্দেশনা অনুসরণ করে আপনার পাসওয়ার্ড রিসেট করতে পারবেন।",
+    category: "paymentQuestions",
+  },
+];
 
+const HelpCenter = () => {
   return (
     <div className="min-h-screen py-8 px-4 md:px-12">
       <div className="max-w-4xl mx-auto">
@@ -45,23 +87,7 @@ const HelpCenter = () => {
           <Input type="text" placeholder="Search for help..." />
         </div>
 
-        {/* FAQ Section */}
-        <div className="mt-10">
-          <h2 className="text-2xl font-bold ">Frequently Asked Questions</h2>
-          <div className="mt-4 space-y-4">
-            {faqs.map((faq, index) => (
-              <div
-                key={index}
-                className="rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300"
-              >
-                <h3 className="text-lg font-semibold ">{faq.question}</h3>
-                <p className="text-gray-600 dark:text-gray-100 mt-2">
-                  {faq.answer}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <FAQ faqs={faqs} />
 
         {/* Contact Support Section */}
         <div className="mt-12">
