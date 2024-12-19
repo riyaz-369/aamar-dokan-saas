@@ -370,13 +370,19 @@ const PricingTable = () => {
             <tr className="border-t">
               <td className="px-4 py-2 text-left text-sm" />
               <td className="px-4 py-2 text-center text-sm">
-                <Button className="w-full">Get Start</Button>
+                <Link href="/client/payment">
+                  <Button className="w-full">Get Start</Button>
+                </Link>
               </td>
               <td className="px-4 py-2 text-center text-sm">
-                <Button className="w-full">Get Start</Button>
+                <Link href="/client/payment">
+                  <Button className="w-full">Get Start</Button>
+                </Link>
               </td>
               <td className="px-4 py-2 text-center text-sm">
-                <Button className="w-full">Get Start</Button>
+                <Link href="/client/payment">
+                  <Button className="w-full">Get Start</Button>
+                </Link>
               </td>
               <td className="px-4 py-2 text-center text-sm">
                 <Button className="w-full">Contact Us</Button>

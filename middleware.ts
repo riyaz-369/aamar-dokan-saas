@@ -40,9 +40,9 @@ export async function middleware(request: NextRequest) {
 
     // Redirect based on roles
     if (
-      userRole === "admin" ||
-      userRole === "manager" ||
-      userRole === "customerSupport"
+      userRole === "Admin" ||
+      userRole === "Manager" ||
+      userRole === "CustomerSupport"
     ) {
       return NextResponse.redirect(new URL("/admin", request.url));
     }

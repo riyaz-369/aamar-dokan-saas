@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Banner = () => {
@@ -16,11 +17,11 @@ const Banner = () => {
         <p>বাংলাদেশের ব্যবসাগুলোর জন্য সাশ্রয়ী, সহজ, এবং</p>
         <p>কার্যকরী পস সিস্টেম। দোকানের বিক্রি থেকে শুরু করে স্টক</p>
         <p>ব্যবস্থাপনা—সবকিছুই এখন এক প্ল্যাটফর্মে।</p>
-        <div className="space-x-4">
+        <Link href="/price" className="space-x-4">
           <Button size={"lg"} className="mt-6 w-full rounded-full h-12 text-md">
             এখনই শুরু করুন
           </Button>
-        </div>
+        </Link>
       </div>
       <div className="">
         <Image
