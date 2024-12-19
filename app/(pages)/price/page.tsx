@@ -1,10 +1,11 @@
 import React from "react";
 import PricingTable from "./_components/PricingTable";
+import MobilePricingTable from "./_components/MobilePricingTable";
 
 const Price = () => {
   return (
-    <div className="w-full  px-32 min-h-[500px] py-6">
-      <div className="p-4 flex flex-col justify-center ">
+    <div className="w-full  md:px-32 min-h-[500px] py-6">
+      <div className="md:p-4 p-6 flex flex-col justify-center ">
         <h1 className="text-4xl text-center font-bold font-ador">
           আমার দোকান - প্রাইসিং প্ল্যান
         </h1>
@@ -15,8 +16,11 @@ const Price = () => {
           এবং প্রয়োজন অনুযায়ী।
         </p>
       </div>
-      <div>
+      <div className="hidden md:block">
         <PricingTable />
+      </div>
+      <div className="md:hidden block">
+        <MobilePricingTable />
       </div>
     </div>
   );

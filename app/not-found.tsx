@@ -16,7 +16,7 @@ const NotFound = () => {
     <div className="flex-col row-start-2 items-center sm:items-start ">
       <Header />
       <main className="w-full h-screen mx-auto flex-1 flex flex-col md:flex-row justify-center items-center">
-        <div className="flex w-full  md:w-1/2 justify-center items-center mt-16 md:mt-0">
+        <div className="flex w-full  md:w-1/2 justify-center items-center p-4 md:p-0">
           <Image
             className=""
             src="/404.svg"

@@ -53,6 +53,13 @@ export async function middleware(request: NextRequest) {
 
     // Default fallback redirect for other roles
     return NextResponse.redirect(new URL("/", request.url));
+  } else {
+    if (pathname.startsWith("/admin")) {
+      return NextResponse.redirect(new URL("/auth/admin/sign-in", request.url));
+    }
+    if (pathname.startsWith("/client")) {
+      return NextResponse.redirect(new URL("/auth/sign-in", request.url));
+    }
   }
 
   // Allow unauthenticated users to proceed

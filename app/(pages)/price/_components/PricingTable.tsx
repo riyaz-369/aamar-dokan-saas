@@ -325,15 +325,15 @@ const PricingTable = () => {
                 <th key={index} className="pb-4 border-b text-center">
                   <div
                     key={index}
-                    className={`w-52 rounded-lg py-4 px-2 shadow-md ${plan.color}`}
+                    className={`w-56 rounded-lg py-4 px-4 shadow-md ${plan.color}`}
                   >
-                    <h3 className="text-xl font-semibold text-center">
+                    <h3 className="text-xl font-semibold text-left">
                       {plan.name.replace("_", " ")}
                     </h3>
-                    <p className="text-sm text-gray-700 font-light text-center mb-4">
+                    <p className="text-sm text-gray-700 font-light text-left mb-6">
                       {plan.description}
                     </p>
-                    <p className="text-4xl font-bold text-center mb-6">
+                    <p className="text-4xl font-bold text-left mb-4 mt-4">
                       {plan.price}
                     </p>
                     <Link href="/client/cart">
