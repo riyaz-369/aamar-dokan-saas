@@ -17,7 +17,7 @@ const Header = () => {
   const userType = session?.user?.role;
 
   return (
-    <div className="flex items-center justify-between px-12 py-4 sticky top-0 bg-white dark:bg-black">
+    <div className="z-50 flex items-center justify-between px-12 py-4 sticky top-0 bg-white dark:bg-black">
       <div className="flex">
         <Link href="/">
           <Image
