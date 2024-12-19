@@ -7,20 +7,18 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const BlogCard = ({ blog }: { blog: TBlogPost }) => {
-  const { title, slug, photo, content, publishDate } = blog;
+  const { title, slug, photo, content } = blog;
 
   return (
-    <Card className="p-0 pb-4 shadow-md rounded-lg hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between">
+    <Card className="p-0 pb-4 shadow-md rounded-lg hover:shadow-xl dark:bg-slate-50 transition-shadow duration-300 flex flex-col justify-between">
       <Link href={`/blogs/${slug}`}>
         <CardHeader className="p-0">
           <AspectRatio ratio={16 / 9}>
@@ -32,7 +30,7 @@ const BlogCard = ({ blog }: { blog: TBlogPost }) => {
               width={400}
             />
           </AspectRatio>
-          <CardTitle className="text-md font-semibold  pt-10 px-4">
+          <CardTitle className="text-md font-semibold dark:text-slate-700 md:pt-10 px-4">
             {title}
           </CardTitle>
         </CardHeader>

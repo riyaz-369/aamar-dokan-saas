@@ -4,19 +4,21 @@ const TOS = () => {
   return (
     <div className="w-full  md:px-32 px-4 min-h-[500px] py-6">
       <div className="p-4">
-        <h1 className="text-5xl font-bold text-slate-600">Terms of Service</h1>
-        <p className="p-2 text-slate-600">
+        <h1 className="text-5xl font-bold text-slate-700 dark:text-slate-200">
+          Terms of Service
+        </h1>
+        <p className="p-2 text-slate-700 dark:text-slate-200">
           <b>Effective Date:</b> 01/01/2025
         </p>
       </div>
-      <div className="p-4 text-md text-slate-600">
+      <div className="p-4 text-md text-slate-700 dark:text-slate-200">
         <p>
           Welcome to AamarDokan! By accessing or using our services, you agree
           to comply with these Terms of Service (&ldquo;Terms&ldquo;). Please
           read them carefully before using our platform.
         </p>
       </div>
-      <div className="p-4 text-md text-slate-600">
+      <div className="p-4 text-md text-slate-700 dark:text-slate-200">
         <h2 className="font-bold text-2xl mb-2">1. Acceptance of Terms</h2>
         <p>
           By registering for or using the AamarDokan application
@@ -24,7 +26,7 @@ const TOS = () => {
           do not agree to these Terms, you may not access or use the Service.
         </p>
       </div>
-      <div className="p-4 text-md text-slate-600">
+      <div className="p-4 text-md text-slate-700 dark:text-slate-200">
         <h2 className="font-bold text-2xl mb-2">2. Description of Service</h2>
         <p>
           AamarDokan provides a cloud-based platform for managing e-commerce
@@ -33,7 +35,7 @@ const TOS = () => {
           efficiently.
         </p>
       </div>
-      <div className="p-4 text-md text-slate-600">
+      <div className="p-4 text-md text-slate-700 dark:text-slate-200">
         <h2 className="font-bold text-2xl mb-2">3. User Accounts</h2>
         <ul className="ps-4">
           <li className="py-2">
@@ -49,7 +51,7 @@ const TOS = () => {
           </li>
         </ul>
       </div>
-      <div className="p-4 text-md text-slate-600">
+      <div className="p-4 text-md text-slate-700 dark:text-slate-200">
         <h2 className="font-bold text-2xl mb-2">
           4. Subscription and Payments
         </h2>
@@ -67,7 +69,7 @@ const TOS = () => {
           </li>
         </ul>
       </div>
-      <div className="p-4 text-md text-slate-600">
+      <div className="p-4 text-md text-slate-700 dark:text-slate-200">
         <h2 className="font-bold text-2xl mb-2">5. User Responsibilities</h2>
         <ul className="ps-4">
           <li className="py-2">
@@ -83,7 +85,7 @@ const TOS = () => {
           </li>
         </ul>
       </div>
-      <div className="p-4 text-md text-slate-600">
+      <div className="p-4 text-md text-slate-700 dark:text-slate-200">
         <h2 className="font-bold text-2xl mb-2">
           6. Data Ownership and Access
         </h2>
@@ -97,7 +99,7 @@ const TOS = () => {
           </li>
         </ul>
       </div>
-      <div className="p-4 text-md text-slate-600">
+      <div className="p-4 text-md text-slate-700 dark:text-slate-200">
         <h2 className="font-bold text-2xl mb-2">7. Termination</h2>
         <ul className="ps-4">
           <li className="py-2">
@@ -109,21 +111,21 @@ const TOS = () => {
           </li>
         </ul>
       </div>
-      <div className="p-4 text-md text-slate-600">
+      <div className="p-4 text-md text-slate-700 dark:text-slate-200">
         <h2 className="font-bold text-2xl mb-2">8. Limitation of Liability</h2>
         <p>
           AamarDokan is not liable for indirect, incidental, or consequential
           damages arising from your use of the Service.
         </p>
       </div>
-      <div className="p-4 text-md text-slate-600">
+      <div className="p-4 text-md text-slate-700 dark:text-slate-200">
         <h2 className="font-bold text-2xl mb-2">9. Changes to Terms</h2>
         <p>
           We may update these Terms periodically. Continued use of the Service
           after updates constitutes acceptance of the revised Terms.
         </p>
       </div>
-      <div className="p-4 text-md text-slate-600 mb-11">
+      <div className="p-4 text-md text-slate-700 dark:text-slate-200 mb-11">
         <h2 className="font-bold text-2xl mb-2">10. Contact Information</h2>
         <p>
           For questions about these Terms, contact us at support@aamardokan.com.
