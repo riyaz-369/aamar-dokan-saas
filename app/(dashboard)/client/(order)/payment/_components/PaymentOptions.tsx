@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/select";
 import { BsBank } from "react-icons/bs";
 
-import bKashLogo from "../../../../../../public/BKash-Icon2-Logo.wine.svg";
 import Image from "next/image";
 
 export function PaymentOptions() {
