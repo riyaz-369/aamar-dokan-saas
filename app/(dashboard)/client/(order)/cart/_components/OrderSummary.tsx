@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Link from "next/link";
 
 const OrderSummary = () => {
   return (
@@ -68,9 +69,11 @@ const OrderSummary = () => {
             I have read and agree to the terms and conditions.
           </label>
         </div>
-        <Button type="submit" className="w-full mt-4">
-          Place order
-        </Button>
+        <Link href="/client/payment">
+          <Button type="submit" className="w-full mt-4">
+            Place order
+          </Button>
+        </Link>
       </CardContent>
     </Card>
   );
