@@ -57,11 +57,11 @@ const Header = () => {
   return (
     <div
       className={cn(
-        "z-50 flex items-center justify-between px-12 py-4 sticky top-0 transition-all duration-300",
+        "z-50 flex items-center justify-between lg:px-12 px-4 py-4 sticky top-0 transition-all duration-300",
         hidden && "transform -translate-y-full", // Hide navbar when scrolling down
         scrolled
           ? "bg-white bg-opacity-60 backdrop-blur-lg dark:bg-black dark:bg-opacity-60 dark:backdrop-blur-lg"
-          : "bg-transparent"
+          : "bg-transparent",
       )}
     >
       <div className="flex">
@@ -69,8 +69,8 @@ const Header = () => {
           <Image
             src="/logo-h.svg"
             alt="Aamar Dokan"
-            width={200}
-            height={38}
+            width={180}
+            height={30}
             priority
           />
         </Link>
@@ -78,7 +78,7 @@ const Header = () => {
       <div className="hidden lg:flex justify-end items-end">
         <Nav />
       </div>
-      <div className="flex items-center justify-center gap-4 lg:hidden">
+      <div className="flex items-center justify-center gap-3 lg:hidden">
         <Button
           variant="ghost"
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
