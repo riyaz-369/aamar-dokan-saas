@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Nav from "./Nav";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -16,12 +16,56 @@ const Header = () => {
 
   const userType = session?.user?.role;
 
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  let lastScrollY = 0;
+
+  const handleScroll = () => {
+    if (typeof window !== "undefined") {
+      const currentScrollY = window.scrollY;
+
+      // Detect scroll direction
+      if (currentScrollY > lastScrollY && currentScrollY > 10) {
+        // Scrolling down, hide navbar
+        setHidden(true);
+      } else {
+        // Scrolling up, show navbar
+        setHidden(false);
+      }
+
+      // Update last scroll position
+      lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY;
+
+      // Apply glassy effect
+      if (currentScrollY > 10) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="flex items-center justify-between px-12 py-4 sticky top-0 bg-white dark:bg-black">
+    <div
+      className={cn(
+        "z-50 flex items-center justify-between px-12 py-4 sticky top-0 transition-all duration-300",
+        hidden && "transform -translate-y-full", // Hide navbar when scrolling down
+        scrolled
+          ? "bg-white bg-opacity-60 backdrop-blur-lg dark:bg-black dark:bg-opacity-60 dark:backdrop-blur-lg"
+          : "bg-transparent"
+      )}
+    >
       <div className="flex">
         <Link href="/">
           <Image
-            // className="dark:invert"
             src="/logo-h.svg"
             alt="Aamar Dokan"
             width={200}
@@ -30,7 +74,7 @@ const Header = () => {
           />
         </Link>
       </div>
-      <div className="flex  justify-end items-end">
+      <div className="flex justify-end items-end">
         <Nav />
       </div>
       <div className="flex gap-2">

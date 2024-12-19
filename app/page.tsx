@@ -19,7 +19,7 @@ export default function Home() {
 }
 
 {
-  /* <div className="hero flex w-full px-16 justify-center items-end gap-x-8 py-40 space-x-4">
+  /* <div className="flex w-full px-16 justify-center items-end gap-x-8 py-40 space-x-4">
           <div className="">
             <h1 className="text-orange text-6xl font-bold font-ador">
               আমার ব্যবসা, <br />
