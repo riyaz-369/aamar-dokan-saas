@@ -6,7 +6,7 @@ import React from "react";
 const Banner = () => {
   return (
     <div className="flex flex-col-reverse lg:flex-row px-4 md:px-16 justify-center items-center py-16 md:py-48 gap-6 md:space-x-28">
-      <div className="text-center lg:text-left border">
+      <div className="text-center lg:text-left">
         <h1 className="text-orange text-6xl font-bold font-ador">
           আমার ব্যবসা, <br />
           আমার নিয়ন্ত্রণ
@@ -29,7 +29,7 @@ const Banner = () => {
           </Button>
         </Link>
       </div>
-      <div className="border">
+      <div className="">
         <Image
           src="/aamar-dokan-shop.png"
           alt="Aamar Dokan"
