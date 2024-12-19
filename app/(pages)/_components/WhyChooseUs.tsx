@@ -7,8 +7,8 @@ const WhyChooseUs = () => {
   return (
     <div className="container mt-16 lg:mt-24 mb-24 lg:mb-48 flex flex-col gap-8">
       {/* First Section */}
-      <div className="flex flex-col lg:flex-row bg-orange mb-2 border rounded-2xl p-6 lg:p-12 gap-6">
-        <div className="w-full lg:w-1/2">
+      <div className="flex flex-col-reverse md:flex-row bg-orange mb-2 border rounded-2xl p-6 lg:p-12 gap-6">
+        <div className="w-full lg:w-1/2 text-center md:text-start">
           <h2 className="text-xl lg:text-3xl font-ador font-bold text-lightWhite mb-4 lg:mb-6">
             ব্যবসা পরিচালনা এখন আরও <br className="lg:hidden" />
             সহজ এবং সাশ্রয়ী!
