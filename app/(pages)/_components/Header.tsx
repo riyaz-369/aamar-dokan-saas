@@ -9,6 +9,7 @@ import { Moon, Sun, UserCircle } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
+import MobileNav from "./MobileNav";
 
 const Header = () => {
   const { theme, setTheme } = useTheme();
@@ -74,10 +75,23 @@ const Header = () => {
           />
         </Link>
       </div>
-      <div className="flex justify-end items-end">
+      <div className="hidden lg:flex justify-end items-end">
         <Nav />
       </div>
-      <div className="flex gap-2">
+      <div className="flex items-center justify-center gap-4 lg:hidden">
+        <Button
+          variant="ghost"
+          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+        >
+          {theme === "light" ? (
+            <Sun className="h-4 w-4" />
+          ) : (
+            <Moon className="h-4 w-4 text-primary" />
+          )}
+        </Button>
+        <MobileNav />
+      </div>
+      <div className="hidden lg:flex gap-2">
         {session?.user ? (
           <Link href={userType.toLowerCase()} legacyBehavior passHref>
             <Button

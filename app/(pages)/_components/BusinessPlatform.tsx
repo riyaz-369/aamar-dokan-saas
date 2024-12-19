@@ -25,7 +25,7 @@ const BusinessPlatform = () => {
         তুলুন। <br />
         বিক্রি, স্টক, রিপোর্টিং থেকে শুরু করে ই-কমার্স পর্যন্ত—সবকিছু এক জায়গায়।
       </h3>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8 ">
         <div className="border border-orange rounded-xl cursor-pointer hover:bg-orange group  p-8 hover:shadow-md">
           <MdOutlinePointOfSale
             size={50}
