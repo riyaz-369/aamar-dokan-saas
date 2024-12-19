@@ -55,25 +55,15 @@ const data = [
 
 const AdminDashboardMain = () => {
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-        <div className="aspect-video rounded-xl">
-          <RevenueChart data={data} chartConfig={chartConfig} />
-        </div>
-        <div className="aspect-video rounded-xl">
-          <SubscriptionChart data={data} chartConfig={chartConfig} />
-        </div>
-        <div className="aspect-video rounded-xl">
-          <PaidUsers data={data} chartConfig={chartConfig} />
-        </div>
+    <div className="flex flex-col gap-4">
+      <div className="grid auto-rows-min gap-4 lg:grid-cols-3">
+        <RevenueChart data={data} chartConfig={chartConfig} />
+        <SubscriptionChart data={data} chartConfig={chartConfig} />
+        <PaidUsers data={data} chartConfig={chartConfig} />
       </div>
       <div className="grid auto-rows-min gap-4 md:grid-cols-2">
-        <div className="aspect-video rounded-xl">
-          <RecentSales />
-        </div>
-        <div className="aspect-video rounded-xl">
-          <PaymentHistory />
-        </div>
+        <RecentSales />
+        <PaymentHistory />
       </div>
     </div>
   );
