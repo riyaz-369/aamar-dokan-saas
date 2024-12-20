@@ -70,10 +70,10 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/guide"
+                  href="/cookies"
                   className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
                 >
-                  User Guide
+                  Cookies Policy
                 </Link>
               </li>
               <li>
