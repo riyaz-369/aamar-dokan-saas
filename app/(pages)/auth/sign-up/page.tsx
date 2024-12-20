@@ -94,11 +94,13 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex flex-row w-full py-16">
-      <div className="flex w-2/5 justify-end items-center">{getStep(step)}</div>
-      <div className="flex w-3/5 justify-center items-center">
+    <div className="flex flex-col md:flex-row w-full py-8 md:py-16">
+      <div className="flex w-full md:w-2/5 justify-center md:justify-end items-center">
+        {getStep(step)}
+      </div>
+      <div className="flex w-full md:w-3/5 justify-center items-center">
         <div>
-          {getImage(step)}
+          <div className="hidden md:block">{getImage(step)}</div>
           <div className="w-full flex-col flex justify-center items-center">
             {/* <h2 className="text-lg font-semibold pb-3">Create Account</h2> */}
             <div className="flex gap-4 pt-4">
