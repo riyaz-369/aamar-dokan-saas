@@ -21,7 +21,7 @@ import {
 
 import { Toaster } from "@/components/ui/sonner";
 import type { z } from "zod";
-import { VerificationFormSchema } from "./SignUpFormSchema";
+import { VerificationFormSchema } from "./PassFormSchema";
 import PageTitle from "@/components/PageTitle";
 import { toast } from "sonner";
 import { updateClient } from "../../_action";

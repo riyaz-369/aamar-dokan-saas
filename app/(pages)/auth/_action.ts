@@ -17,7 +17,7 @@ const generateAamarDokanId = async () => {
 
   for (let i = 0; i < MAX_RETRIES; i++) {
     const newAamarDokanId = Math.floor(
-      100000 + Math.random() * 900000
+      100000 + Math.random() * 900000,
     ).toString();
 
     // Check if the generated ID already exists in the database
@@ -78,6 +78,26 @@ export const checkPhone = async (phone: string): Promise<boolean> => {
 
     // Return true if the client exists, otherwise return false
     return !!client; // `!!` converts to a boolean (true if found, false otherwise)
+  } catch (err) {
+    console.error("Error checking phone number:", err);
+    return false; // Return false in case of an error
+  }
+};
+
+export const getClientByPhone = async (phone: string): Promise<any> => {
+  try {
+    // Check if a client exists with the given phone number
+    const client = await prisma.client.findUnique({
+      where: {
+        phone: phone, // Use the correct `where` clause
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    // Return true if the client exists, otherwise return false
+    return client; // `!!` converts to a boolean (true if found, false otherwise)
   } catch (err) {
     console.error("Error checking phone number:", err);
     return false; // Return false in case of an error

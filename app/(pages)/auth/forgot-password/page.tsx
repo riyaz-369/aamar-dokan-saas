@@ -1,34 +1,26 @@
 "use client";
 import { useState } from "react";
-import SignUpForm from "./_components/SignUpForm";
+import PasswordForm from "./_components/PhoneForm";
 import VerificationForm from "./_components/VerificationForm";
-import InfoForm from "./_components/InfoForm";
-// import AddressForm from "./_components/AddressForm";
+// import InfoForm from "./_components/InfoForm";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import PhoneForm from "./_components/PhoneForm";
 
-const SignUpPage = () => {
+const ForgotPassword = () => {
   const [step, setStep] = useState(1);
   const [pin, setPin] = useState("");
   const [id, setId] = useState("");
-  const [aamardokanId, setAamardokanId] = useState("");
 
-  // console.log(step);
+  console.log(step, pin, id);
   const StepOne = () => {
-    return (
-      <SignUpForm
-        setStep={setStep}
-        setPin={setPin}
-        setId={setId}
-        setAamardokanId={setAamardokanId}
-      />
-    );
+    return <PhoneForm setStep={setStep} setPin={setPin} setId={setId} />;
   };
   const StepTwo = () => {
     return <VerificationForm setStep={setStep} id={id} pin={pin} />;
   };
   const StepThree = () => {
-    return <InfoForm id={id} aamardokanId={aamardokanId} />;
+    return <PasswordForm id={id} />;
   };
 
   const getStep = (step: number): React.ReactNode => {
@@ -122,12 +114,6 @@ const SignUpPage = () => {
                   step === 3 && "bg-primary",
                 )}
               />
-              {/* <div
-                className={cn(
-                  "h-3 w-10 bg-gray-100 rounded-xl",
-                  step === 4 && "bg-primary",
-                )}
-              /> */}
             </div>
           </div>
         </div>
@@ -136,7 +122,7 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default ForgotPassword;
 
 // sign up
 // otp

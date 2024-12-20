@@ -15,7 +15,7 @@ import {
 
 import { Toaster } from "@/components/ui/sonner";
 import PageTitle from "@/components/PageTitle";
-import { InfoFormSchema } from "./SignUpFormSchema";
+import { InfoFormSchema } from "./PassFormSchema";
 import type { z } from "zod";
 // import { Textarea } from "@/components/ui/textarea";
 import { updateClient } from "../../_action";
@@ -119,7 +119,7 @@ const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
                           variant={"outline"}
                           className={cn(
                             "pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (
