@@ -9,7 +9,7 @@ import { PackageFormSchema } from "./_components/PackageFormSchema";
 export type PackagePropsType = z.infer<typeof PackageFormSchema>;
 
 export const SavePackageIntoDB = async (data: PackagePropsType, id: string) => {
-  console.log(id, data);
+  // console.log(id, data);
   try {
     const { title, subtitle, code, features, price, serviceId, status } = data;
 

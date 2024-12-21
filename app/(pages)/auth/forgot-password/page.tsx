@@ -11,7 +11,7 @@ const ForgotPassword = () => {
   const [pin, setPin] = useState("");
   const [id, setId] = useState("");
 
-  console.log(step, pin, id);
+  // console.log(step, pin, id);
   const StepOne = () => {
     return <PhoneForm setStep={setStep} setPin={setPin} setId={setId} />;
   };

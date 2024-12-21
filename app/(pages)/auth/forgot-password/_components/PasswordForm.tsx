@@ -46,14 +46,14 @@ const PasswordForm = ({ id }: PasswordFormProps) => {
 
   // Handle form submission
   async function onSubmit(data: z.infer<typeof PasswordFormSchema>) {
-    console.log(data);
+    // console.log(data);
     setLoading(true);
     const updateCustomer = await updatePassword({
       id: id,
       data: data,
     });
 
-    console.log("updateCustomer", updateCustomer);
+    // console.log("updateCustomer", updateCustomer);
     if (updateCustomer) {
       toast.success("Password Reset successfully");
       setLoading(false);

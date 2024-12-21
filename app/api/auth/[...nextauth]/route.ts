@@ -155,6 +155,7 @@ export const authOptions: NextAuthOptions = {
           id: u.id,
           phone: u.phone,
           role: u.type || "client",
+          aamardokanId: u.aamardokanId,
           authToken: token.authToken,
         };
       } else {
@@ -170,6 +171,7 @@ export const authOptions: NextAuthOptions = {
           id: token.id,
           phone: token.phone,
           role: token.role,
+          aamardokanId: token.aamardokanId,
           authToken: token.authToken,
         },
       };

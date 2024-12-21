@@ -5,10 +5,10 @@ import React from "react";
 
 const SingleBlog = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
-  console.log(slug);
+  // console.log(slug);
 
   const blog = await prisma.blog.findFirst({ where: { slug: slug } });
-  console.log(blog);
+  // console.log(blog);
   return (
     <main className="w-full flex-1 flex-col flex justify-start items-center py-4 md:py-10">
       <div className="flex md:flex-row flex-col w-full md:px-28 px-4  md:gap-10 items">

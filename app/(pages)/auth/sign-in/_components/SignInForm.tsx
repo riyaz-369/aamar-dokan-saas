@@ -41,7 +41,7 @@ const SignInForm = () => {
 
   // Handle form submission
   async function onSubmit(data: z.infer<typeof SignInFormSchema>) {
-    console.log(data);
+    // console.log(data);
     try {
       setLoading(true);
       const res = await signIn("clientCredentials", {

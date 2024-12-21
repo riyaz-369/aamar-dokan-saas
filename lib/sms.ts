@@ -10,7 +10,7 @@ const sendMessage = async ({
   to: string;
   message: string;
 }) => {
-  console.log(to, message, TOKEN);
+  // console.log(to, message, TOKEN);
   const url = "https://api.greenweb.com.bd/api.php";
   if (to && message) {
     const data = {

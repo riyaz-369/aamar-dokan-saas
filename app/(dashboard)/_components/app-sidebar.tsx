@@ -20,7 +20,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import DashboardLogo from "./DashboardLogo";
 import DashboardProfile from "./DashboardProfile";
-import { LinkType } from "../client/_components/ClientSidebarLink";
+import type { LinkType } from "../client/_components/ClientSidebarLink";
 import { useSession } from "next-auth/react";
 import ClientDashboardProfile from "./ClientDashboardProfile";
 

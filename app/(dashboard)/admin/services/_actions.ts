@@ -9,7 +9,7 @@ import { CreateServiceFormSchema } from "./_components/CreateServiceFormSchema";
 export type TService = z.infer<typeof CreateServiceFormSchema>;
 
 export const SaveServiceIntoDB = async (data: TService, id: string) => {
-  console.log(id, data);
+  // console.log(id, data);
   try {
     const {
       title,

@@ -31,7 +31,7 @@ import { signOut, useSession } from "next-auth/react";
 export default function ClientDashboardProfile() {
   const { data: session } = useSession();
 
-  console.log("Session::", session);
+  // console.log("Session::", session);
   const { isMobile } = useSidebar();
 
   const handleLogout = async () => {
@@ -60,9 +60,11 @@ export default function ClientDashboardProfile() {
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">
-                  {"Manishankar Vakta"}
+                  {session?.user?.name}
                 </span>
-                <span className="truncate text-xs">{"admin"}</span>
+                <span className="truncate text-xs">
+                  Aamar ID: {session?.user?.aamardokanId}
+                </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -80,15 +82,17 @@ export default function ClientDashboardProfile() {
                     src={
                       "https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659652_640.png"
                     }
-                    alt={"Manishankar Vakta"}
+                    alt={"avatar"}
                   />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">
-                    {"Manishankar Vakta"}
+                    {session?.user?.name}
                   </span>
-                  <span className="truncate text-xs">{"Admin"}</span>
+                  <span className="truncate text-xs">
+                    Aamar ID: {session?.user?.aamardokanId}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>

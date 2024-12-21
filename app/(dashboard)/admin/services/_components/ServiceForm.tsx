@@ -104,21 +104,21 @@ const ServiceForm = ({ entry }: { entry: any }) => {
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
-        }
+        },
       );
 
       const { fileUrl } = imgResponse.data;
 
-      console.log("Service data submitted:", {
-        ...data,
-        photo: fileUrl,
-      });
+      // console.log("Service data submitted:", {
+      //   ...data,
+      //   photo: fileUrl,
+      // });
 
       const response = await SaveServiceIntoDB({ ...data, photo: fileUrl }, id);
       if (response) {
         form.reset();
         toast.success(
-          id ? "Service Updated Successfully" : "Service Created Successfully"
+          id ? "Service Updated Successfully" : "Service Created Successfully",
         );
         loaderClose();
         router.push("/admin/services");

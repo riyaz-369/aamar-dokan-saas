@@ -13,15 +13,15 @@ export async function middleware(request: NextRequest) {
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
   });
-  console.log("token from Middleware:", token);
+  // console.log("token from Middleware:", token);
 
   if (token) {
     const userRole = token.role || "client";
 
-    console.log(userRole);
+    // console.log(userRole);
 
     if (pathname.startsWith("/auth")) {
-      console.log("Middleware Signin:", token);
+      // console.log("Middleware Signin:", token);
       return NextResponse.redirect(new URL("/client", request.url));
     }
 

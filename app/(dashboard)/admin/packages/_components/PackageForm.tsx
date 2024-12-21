@@ -72,7 +72,7 @@ type ServicesPropsType = {
   length: number;
   services: ServicesType[];
   map(
-    arg0: (service: any) => import("react").JSX.Element
+    arg0: (service: any) => import("react").JSX.Element,
   ): import("react").ReactNode;
 };
 
@@ -85,7 +85,7 @@ const PackageForm = ({
 }) => {
   const [loader, setLoader] = useState(false);
   const [featuresState, setFeaturesState] = useState<FeatureType[]>(
-    features.map((feature) => ({ ...feature, isGet: false }))
+    features.map((feature) => ({ ...feature, isGet: false })),
   );
   const loaderClose = () => setLoader(false);
   const loaderShow = () => setLoader(true);
@@ -121,17 +121,17 @@ const PackageForm = ({
   }, []);
 
   async function onSubmit(data: z.infer<typeof PackageFormSchema>) {
-    console.log({ ...data, features: featuresState });
+    // console.log({ ...data, features: featuresState });
     try {
       loaderShow();
       const response = await SavePackageIntoDB(
         { ...data, features: featuresState },
-        id
+        id,
       );
       if (response) {
         form.reset();
         toast.success(
-          id ? "Package Updated Successfully" : "Package Created Successfully"
+          id ? "Package Updated Successfully" : "Package Created Successfully",
         );
         loaderClose();
         router.push("/admin/packages");
