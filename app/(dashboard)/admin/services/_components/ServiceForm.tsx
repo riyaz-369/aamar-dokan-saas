@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -106,13 +107,12 @@ const ServiceForm = ({ entry }: { entry: any }) => {
         }
       );
 
-      const { fileUrl, success } = imgResponse.data;
-      // console.log(fileUrl, success);
+      const { fileUrl } = imgResponse.data;
 
-      // console.log("Service data submitted:", {
-      //   ...data,
-      //   photo: fileUrl,
-      // });
+      console.log("Service data submitted:", {
+        ...data,
+        photo: fileUrl,
+      });
 
       const response = await SaveServiceIntoDB({ ...data, photo: fileUrl }, id);
       if (response) {
@@ -168,6 +168,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
+                      className="h-96"
                       placeholder="Enter a detailed description"
                       {...field}
                     />
@@ -205,55 +206,33 @@ const ServiceForm = ({ entry }: { entry: any }) => {
                 </FormItem>
               )}
             />
-            {/* Packages */}
+            {/* Package */}
             {/* <FormField
               control={form.control}
               name="packageId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Packages</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder="Enter packages" {...field} />
-                  </FormControl>
+                  <FormLabel>Package</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a package" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="1">Package 1</SelectItem>
+                      <SelectItem value="2">Package 2</SelectItem>
+                      <SelectItem value="3">Package 3</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             /> */}
-            {/* Terms of Service */}
-            <FormField
-              control={form.control}
-              name="tos"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Terms of Service</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Enter the terms of service"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
-            {/* Privacy Policy */}
-            <FormField
-              control={form.control}
-              name="privacyPolicy"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Privacy Policy</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Enter the privacy policy"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             {/* Submit Button */}
             <div className="flex justify-end w-full absolute lg:right-1/3 lg:mr-3">
               <Button type="submit" className="w-full md:w-auto">
@@ -321,6 +300,42 @@ const ServiceForm = ({ entry }: { entry: any }) => {
                   <FormControl>
                     <Textarea
                       placeholder="Enter meta description for SEO"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Terms of Service */}
+            <FormField
+              control={form.control}
+              name="tos"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Terms of Service</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Enter the terms of service"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Privacy Policy */}
+            <FormField
+              control={form.control}
+              name="privacyPolicy"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Privacy Policy</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Enter the privacy policy"
                       {...field}
                     />
                   </FormControl>

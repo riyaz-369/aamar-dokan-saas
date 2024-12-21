@@ -52,45 +52,45 @@ model Client {
 
 //Services model
 model Services {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   title         String
+  description   String?
   slug          String
   code          String
-  meta          Json?
-  category      Category @relation(fields: [categoryId], references: [id])
-  categoryId    String   @db.ObjectId
-  // package       Package  @relation(fields: [packageId], references: [id])
-  // packageId     String   @db.ObjectId
-  photo         String?
-  description   String?
   tos           String?
+  meta          Json?
+  category      Category  @relation(fields: [categoryId], references: [id])
+  categoryId    String    @db.ObjectId
+  photo         String?
   privacyPolicy String?
-  status        Status   @default(Active)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  status        Status    @default(Active)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  packages      Package[]
   // payment       Payment[]
 
   @@index([title, code])
 }
 
 model Package {
-  id       String      @id @default(auto()) @map("_id") @db.ObjectId
-  title    String
-  subtitle String?
-  code     String
-  type     PackageType @default(Free)
-  features Json[] // maintains a list of ordered
-  price    Json[] // type: (monthly, yearly)
-  status   Status      @default(Active)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  // services  Services[]
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  subtitle  String?
+  code      String
+  type      PackageType @default(Free)
+  features  Json // maintains a list of ordered
+  price     Json // type: (monthly, weekly)
+  service   Services    @relation(fields: [serviceId], references: [id])
+  serviceId String      @db.ObjectId
+  status    Status      @default(Active)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
 enum PackageType {
   Free
-  Paid
+  Basic
+  Premium
 }
 
 // Blog model
