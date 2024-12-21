@@ -63,6 +63,10 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
       setStep(3);
     } else {
       toast.error("Code is not matched");
+      form.setError("pin", {
+        type: "manual",
+        message: "OTP is not matched!",
+      });
       setLoading(false);
     }
   }
@@ -108,12 +112,12 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
                       </InputOTPGroup>
                     </InputOTP>
                   </FormControl>
+                  <FormMessage />
                   <FormDescription>
                     <div>
                       Don&apos;t get OTP <Button variant="link">Resend?</Button>
                     </div>
                   </FormDescription>
-                  <FormMessage />
                 </FormItem>
               )}
             />

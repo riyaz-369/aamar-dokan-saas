@@ -2,7 +2,7 @@
 import prisma from "@/prisma";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
-import { SignUpFormSchema } from "./sign-up/_components/SignUpFormSchema";
+import type { SignUpFormSchema } from "./sign-up/_components/SignUpFormSchema";
 import bcrypt from "bcrypt";
 
 // Verification pin
@@ -107,6 +107,10 @@ export const getClientByPhone = async (phone: string): Promise<any> => {
 export const updateClient = async ({ data, id }: { data: any; id: string }) => {
   if (id) {
     try {
+      if (data.password) {
+        const hashPassword = await bcrypt.hash(data.password, 10);
+        data.password = hashPassword;
+      }
       const update = await prisma.client.update({
         where: { id: id },
         data: data,

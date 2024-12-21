@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
-import PasswordForm from "./_components/PhoneForm";
 import VerificationForm from "./_components/VerificationForm";
-// import InfoForm from "./_components/InfoForm";
+import PasswordForm from "./_components/PasswordForm";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import PhoneForm from "./_components/PhoneForm";

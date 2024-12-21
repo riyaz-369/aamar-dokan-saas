@@ -55,8 +55,6 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
 
   // Handle form submission
   async function onSubmit(data: z.infer<typeof SignUpFormSchema>) {
-    // data.password = await bcrypt.hash(data.password, 10);
-
     try {
       // console.log(data);
       setLoading(true);

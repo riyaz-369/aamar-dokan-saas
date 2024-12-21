@@ -18,7 +18,7 @@ import { useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { PhoneFormSchema } from "./PassFormSchema";
 import { generateAamarDokanPin, getClientByPhone } from "../../_action";
-import { z } from "zod";
+import type { z } from "zod";
 import { toast } from "sonner";
 import sendMessage from "@/lib/sms";
 import { FaSpinner } from "react-icons/fa";
@@ -57,9 +57,9 @@ const PhoneForm: React.FC<SignUpFormProps> = ({ setStep, setPin, setId }) => {
         setPin(pin);
         setId(customer.id);
 
-        // const message = `সম্মানিত গ্রাহক, আপনার আমার দোকানের ভেরিফিকেশন কোড ${pin}`;
-        // const to = customer.phone;
-        // sendMessage({ to, message });
+        const message = `সম্মানিত গ্রাহক, আপনার আমার দোকানের ভেরিফিকেশন কোড ${pin}`;
+        const to = customer.phone;
+        sendMessage({ to, message });
         toast.success("Phone verification code sent to your phone");
         setStep(2);
       } else {
