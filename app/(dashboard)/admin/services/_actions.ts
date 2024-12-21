@@ -21,7 +21,7 @@ export const SaveServiceIntoDB = async (data: TService, id: string) => {
       privacyPolicy,
       status,
       tos,
-      // packageId,
+      packageId,
       photo,
     } = data;
 
@@ -37,7 +37,7 @@ export const SaveServiceIntoDB = async (data: TService, id: string) => {
           code,
           privacyPolicy,
           tos,
-          // packageId,
+          packageId,
           status,
         },
       });
@@ -58,7 +58,7 @@ export const SaveServiceIntoDB = async (data: TService, id: string) => {
           code,
           privacyPolicy,
           tos,
-          // packageId,
+          packageId,
           status,
         },
       });
