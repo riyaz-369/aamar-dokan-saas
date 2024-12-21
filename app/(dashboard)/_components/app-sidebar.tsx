@@ -21,9 +21,12 @@ import { usePathname } from "next/navigation";
 import DashboardLogo from "./DashboardLogo";
 import DashboardProfile from "./DashboardProfile";
 import { LinkType } from "../client/_components/ClientSidebarLink";
+import { useSession } from "next-auth/react";
+import ClientDashboardProfile from "./ClientDashboardProfile";
 
 export function AppSidebar({ links }: { links: LinkType[] }) {
   const pathName = usePathname();
+  const { data: session } = useSession();
 
   return (
     <Sidebar>
@@ -47,7 +50,7 @@ export function AppSidebar({ links }: { links: LinkType[] }) {
                             item?.href === pathName ? "default" : "ghost",
                           size: "lg",
                         }),
-                        "justify-start text-md px-6 hover:text-primary"
+                        "justify-start text-md px-6 hover:text-primary",
                       )}
                     >
                       {React.createElement(item.icon as React.ElementType, {
@@ -63,7 +66,11 @@ export function AppSidebar({ links }: { links: LinkType[] }) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <DashboardProfile />
+        {session?.user?.role === "client" ? (
+          <ClientDashboardProfile />
+        ) : (
+          <DashboardProfile />
+        )}
       </SidebarFooter>
     </Sidebar>
   );
