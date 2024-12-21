@@ -54,6 +54,9 @@ const SignInForm = () => {
         setLoading(false);
         toast.success("Logged in successfully!");
         router.push("/client");
+      } else {
+        setLoading(false);
+        toast.error("Invalid phone or password");
       }
     } catch (error) {
       setLoading(false);
