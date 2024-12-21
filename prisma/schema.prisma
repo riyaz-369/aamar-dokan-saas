@@ -73,24 +73,17 @@ model Services {
 }
 
 model Package {
-  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   subtitle  String?
   code      String
-  type      PackageType @default(Free)
   features  Json // maintains a list of ordered
   price     Json // type: (monthly, weekly)
-  service   Services    @relation(fields: [serviceId], references: [id])
-  serviceId String      @db.ObjectId
-  status    Status      @default(Active)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-}
-
-enum PackageType {
-  Free
-  Basic
-  Premium
+  service   Services @relation(fields: [serviceId], references: [id])
+  serviceId String   @db.ObjectId
+  status    Status   @default(Active)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // Blog model

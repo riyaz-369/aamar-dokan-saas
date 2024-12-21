@@ -11,8 +11,7 @@ export type PackagePropsType = z.infer<typeof PackageFormSchema>;
 export const SavePackageIntoDB = async (data: PackagePropsType, id: string) => {
   console.log(id, data);
   try {
-    const { title, subtitle, code, features, price, serviceId, status, type } =
-      data;
+    const { title, subtitle, code, features, price, serviceId, status } = data;
 
     if (!id) {
       const createdPackage = await prisma.package.create({
@@ -21,7 +20,6 @@ export const SavePackageIntoDB = async (data: PackagePropsType, id: string) => {
           subtitle,
           serviceId,
           code,
-          type,
           features,
           price,
           status,
@@ -39,7 +37,6 @@ export const SavePackageIntoDB = async (data: PackagePropsType, id: string) => {
           subtitle,
           serviceId,
           code,
-          type,
           features,
           status,
           price,
