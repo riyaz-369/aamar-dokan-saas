@@ -96,7 +96,6 @@ const PackageForm = ({
     defaultValues: {
       title: "",
       subtitle: "",
-      type: "Free",
       code: "",
       features: [],
       price: {
@@ -115,7 +114,6 @@ const PackageForm = ({
       form.setValue("title", entry.title);
       form.setValue("subtitle", entry.subtitle);
       form.setValue("code", entry.code);
-      form.setValue("type", entry.type);
       form.setValue("features", entry.features);
       form.setValue("price.monthly", entry.price.monthly);
       form.setValue("price.yearly", entry.price.yearly);
@@ -225,80 +223,51 @@ const PackageForm = ({
               )}
             />
 
-            {/* Type */}
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Type</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+            <div className="flex gap-4">
+              {/* price monthly */}
+              <FormField
+                control={form.control}
+                name="price.monthly"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Monthly Price</FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Package Type" />
-                      </SelectTrigger>
+                      <Input
+                        type="number"
+                        placeholder="Enter price (e.g., 500, 1000)"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(parseInt(e.target.value))
+                        }
+                      />
                     </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Free">Free</SelectItem>
-                      <SelectItem value="Basic">Basic</SelectItem>
-                      <SelectItem value="Premium">Premium</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {form.getValues("type") !== "Free" && (
-              <div className="flex gap-4">
-                {/* price monthly */}
-                <FormField
-                  control={form.control}
-                  name="price.monthly"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Monthly Price</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Enter price (e.g., 500, 1000)"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(parseInt(e.target.value))
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* price */}
-                <FormField
-                  control={form.control}
-                  name="price.yearly"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Yearly Price</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Enter price (e.g., 500, 1000)"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(parseInt(e.target.value))
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            )}
+              {/* price */}
+              <FormField
+                control={form.control}
+                name="price.yearly"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Yearly Price</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Enter price (e.g., 500, 1000)"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(parseInt(e.target.value))
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <div className="flex gap-2 justify-between">
               {/* code */}
