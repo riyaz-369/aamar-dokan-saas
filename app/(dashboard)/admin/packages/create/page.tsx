@@ -13,7 +13,7 @@ const CreateNewPackagePage = async () => {
   // console.log(services);
 
   return (
-    <div className="">
+    <div className=" px-8">
       <PageTitle title="Create New Package" />
       <PackageForm entry={{}} services={services} />
     </div>

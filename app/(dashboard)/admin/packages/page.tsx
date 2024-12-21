@@ -9,6 +9,8 @@ import prisma from "@/prisma";
 const PackagesPage = async () => {
   const data = await prisma.package.findMany();
 
+  console.log(data);
+
   return (
     <div>
       <div className="flex justify-between">

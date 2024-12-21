@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import {
   Form,
   FormControl,
@@ -25,43 +26,19 @@ import {
 } from "@/components/ui/select";
 import Loader from "@/components/Loader";
 import { PackageFormSchema } from "./PackageFormSchema";
-import FeaturesDialog from "./FeaturesDialog";
+// import FeaturesDialog from "./FeaturesDialog";
 import { SavePackageIntoDB } from "../_actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
-const features = [
-  { feature: "Store" },
-  { feature: "Backup" },
-  { feature: "SMS Service" },
-  { feature: "Reports" },
-  { feature: "Custom Branding" },
-  { feature: "Sales Management" },
-  { feature: "Inventory Management" },
-  { feature: "Customer Support" },
-  { feature: "Store Management" },
-  { feature: "Product Management" },
-  { feature: "Customer Records" },
-  { feature: "Sales Tracking" },
-  { feature: "Barcode Printing" },
-  { feature: "Discount Management" },
-  { feature: "Product Stock Alerts" },
-  { feature: "Invoice Receipt Printing" },
-  { feature: "Daily Sales Summary" },
-  { feature: "Excel PDF Reports Export" },
-  { feature: "Role Based Access Control" },
-  { feature: "Supplier Management" },
-  { feature: "Real Time Stock Synchronization" },
-  { feature: "Promotions" },
-  { feature: "Dynamic Tax Settings" },
-  { feature: "Purchase Return Loss Management" },
-  { feature: "Mobile App Access" },
-  { feature: "Self Hosting" },
-];
+import { Monitor, Phone, PlusIcon, X } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export type FeatureType = {
-  feature: string;
-  isGet: boolean;
+  title: string;
+  value: string;
+  isPhone: boolean;
+  isDesktop: boolean;
+  order: number;
 };
 
 type ServicesType = {
@@ -84,9 +61,9 @@ const PackageForm = ({
   services: ServicesPropsType;
 }) => {
   const [loader, setLoader] = useState(false);
-  const [featuresState, setFeaturesState] = useState<FeatureType[]>(
-    features.map((feature) => ({ ...feature, isGet: false })),
-  );
+  const [featuresState, setFeaturesState] = useState<FeatureType[]>([]);
+
+  console.log(featuresState);
   const loaderClose = () => setLoader(false);
   const loaderShow = () => setLoader(true);
   const router = useRouter();
@@ -105,9 +82,37 @@ const PackageForm = ({
     },
   });
 
-  // console.log(entry);
+  console.log(entry);
 
   const id = entry?.id;
+
+  const handleDragEnd = (event) => {
+    const { source, destination } = event;
+
+    // If no destination, exit
+    if (!destination) return;
+
+    const updatedFeatures = [...featuresState];
+    const [movedFeature] = updatedFeatures.splice(source.index, 1);
+    updatedFeatures.splice(destination.index, 0, movedFeature);
+
+    setFeaturesState(updatedFeatures);
+  };
+
+  const handleAddNewFeature = () => {
+    const newFeature = {
+      title: "",
+      value: "",
+      isPhone: false,
+      isDesktop: false,
+      order: featuresState.length + 1,
+    };
+    setFeaturesState([...featuresState, newFeature]);
+  };
+
+  const handleDeleteFeature = (index: number) => {
+    setFeaturesState((prevState) => prevState.filter((_, i) => i !== index));
+  };
 
   useEffect(() => {
     if (id) {
@@ -117,6 +122,7 @@ const PackageForm = ({
       form.setValue("features", entry.features);
       form.setValue("price.monthly", entry.price.monthly);
       form.setValue("price.yearly", entry.price.yearly);
+      setFeaturesState(entry.features);
     }
   }, []);
 
@@ -146,181 +152,271 @@ const PackageForm = ({
   }
 
   return (
-    <div className="xl:px-24 2xl:px-48 py-8 lg:py-16 flex flex-row-reverse">
-      <FeaturesDialog
-        featuresState={featuresState}
-        setFeaturesState={setFeaturesState}
-      />
-
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full grid lg:grid-cols-6 gap-8 relative"
-        >
-          <div className="lg:col-span-4 space-y-4">
-            {/* Title */}
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Title</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter service title" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* subtile */}
-            <FormField
-              control={form.control}
-              name="subtitle"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Subtitle</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      className="h-32"
-                      placeholder="Enter a detailed subtitle"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* service */}
-            <FormField
-              control={form.control}
-              name="serviceId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Services</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Service" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {services.length > 0
-                        ? services.map((service) => (
-                            <SelectItem key={service.id} value={service.id}>
-                              {service.title}
-                            </SelectItem>
-                          ))
-                        : "Service not found"}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="flex gap-4">
-              {/* price monthly */}
+    <div className="xl:px-24 2xl:px-48 py-8 lg:py-16 flex gap-4">
+      <div className="w-1/2">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+            <div className="lg:col-span-4 space-y-4">
+              {/* Title */}
               <FormField
                 control={form.control}
-                name="price.monthly"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Monthly Price</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Enter price (e.g., 500, 1000)"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(parseInt(e.target.value))
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* price */}
-              <FormField
-                control={form.control}
-                name="price.yearly"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Yearly Price</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Enter price (e.g., 500, 1000)"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(parseInt(e.target.value))
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="flex gap-2 justify-between">
-              {/* code */}
-              <FormField
-                control={form.control}
-                name="code"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Code</FormLabel>
-                    <FormControl>
-                      <Input
-                        className=""
-                        placeholder="Enter code (e.g., pack0023)"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* Status */}
-              <FormField
-                control={form.control}
-                name="status"
+                name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-white dark:text-black">
-                      Status
-                    </FormLabel>
+                    <FormLabel>Title</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter service title" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* subtile */}
+              <FormField
+                control={form.control}
+                name="subtitle"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Subtitle</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="h-32"
+                        placeholder="Enter a detailed subtitle"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* service */}
+              <FormField
+                control={form.control}
+                name="serviceId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Services</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Status" />
+                          <SelectValue placeholder="Select Service" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="Active">Active</SelectItem>
-                        <SelectItem value="Inactive">Inactive</SelectItem>
+                        {services.length > 0
+                          ? services.map((service) => (
+                              <SelectItem key={service.id} value={service.id}>
+                                {service.title}
+                              </SelectItem>
+                            ))
+                          : "Service not found"}
                       </SelectContent>
                     </Select>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
+              <div className="flex gap-4">
+                {/* price monthly */}
+                <FormField
+                  control={form.control}
+                  name="price.monthly"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Monthly Price</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Enter price (e.g., 500, 1000)"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseInt(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* price */}
+                <FormField
+                  control={form.control}
+                  name="price.yearly"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Yearly Price</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Enter price (e.g., 500, 1000)"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseInt(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex gap-2 justify-between">
+                {/* code */}
+                <FormField
+                  control={form.control}
+                  name="code"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Code</FormLabel>
+                      <FormControl>
+                        <Input
+                          className=""
+                          placeholder="Enter code (e.g., pack0023)"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* Status */}
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white dark:text-black">
+                        Status
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Status" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Active">Active</SelectItem>
+                          <SelectItem value="Inactive">Inactive</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              {/* Submit Button */}
+              <Button type="submit">Submit</Button>
             </div>
-            {/* Submit Button */}
-            <Button type="submit">Submit</Button>
-          </div>
-        </form>
-      </Form>
+          </form>
+        </Form>
+      </div>
+      <div className="w-1/2 border px-4 rounded-md ">
+        <div className="flex justify-between items-center border-b py-2 ">
+          <h1 className="font-bold text-lg">Features</h1>
+          <Button onClick={handleAddNewFeature}>
+            <PlusIcon className="w-5 h-5 text-white" /> Add Feature
+          </Button>
+        </div>
+        <div className="flex flex-col py-4 gap-2">
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="features">
+              {(provided) => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  {featuresState.map((feature, index) => (
+                    <Draggable
+                      key={feature.order}
+                      draggableId={feature.order.toString()}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className="shadow-sm border rounded-md p-2 w-full flex gap-2 mb-2"
+                        >
+                          <Input
+                            placeholder="Title"
+                            className="max-h-6 rounded-sm text-xs w-3/6 p-1"
+                            value={feature.title}
+                            onChange={(e) =>
+                              setFeaturesState((prevState) =>
+                                prevState.map((f, i) =>
+                                  i === index
+                                    ? { ...f, title: e.target.value }
+                                    : f,
+                                ),
+                              )
+                            }
+                          />
+                          <Input
+                            placeholder="Value"
+                            className="max-h-6 rounded-sm text-xs w-1/6 p-1"
+                            value={feature.value}
+                            onChange={(e) =>
+                              setFeaturesState((prevState) =>
+                                prevState.map((f, i) =>
+                                  i === index
+                                    ? { ...f, value: e.target.value }
+                                    : f,
+                                ),
+                              )
+                            }
+                          />
+                          <div className="w-2/6 flex justify-end items-center gap-2">
+                            <Monitor className="h-4 w-4" />
+                            <Checkbox
+                              checked={feature.isDesktop}
+                              onCheckedChange={(isChecked) =>
+                                setFeaturesState((prevState) =>
+                                  prevState.map((f, i) =>
+                                    i === index
+                                      ? { ...f, isDesktop: isChecked }
+                                      : f,
+                                  ),
+                                )
+                              }
+                            />
+                            <Phone className="h-4 w-4" />
+                            <Checkbox
+                              checked={feature.isPhone}
+                              onCheckedChange={(isChecked) =>
+                                setFeaturesState((prevState) =>
+                                  prevState.map((f, i) =>
+                                    i === index
+                                      ? { ...f, isPhone: isChecked }
+                                      : f,
+                                  ),
+                                )
+                              }
+                            />
+                            <X
+                              className="h-4 w-4 cursor-pointer"
+                              onClick={() => handleDeleteFeature(index)}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </div>
+      </div>
       <Loader isOpen={loader} onClose={setLoader} title="Please Wait" />
     </div>
   );
