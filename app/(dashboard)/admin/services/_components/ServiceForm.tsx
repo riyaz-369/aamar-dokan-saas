@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -107,12 +108,11 @@ const ServiceForm = ({ entry }: { entry: any }) => {
       );
 
       const { fileUrl } = imgResponse.data;
-      // console.log(fileUrl, success);
 
-      // console.log("Service data submitted:", {
-      //   ...data,
-      //   photo: fileUrl,
-      // });
+      console.log("Service data submitted:", {
+        ...data,
+        photo: fileUrl,
+      });
 
       const response = await SaveServiceIntoDB({ ...data, photo: fileUrl }, id);
       if (response) {
@@ -207,7 +207,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
               )}
             />
             {/* Package */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="packageId"
               render={({ field }) => (
@@ -231,7 +231,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             {/* Submit Button */}
             <div className="flex justify-end w-full absolute lg:right-1/3 lg:mr-3">
