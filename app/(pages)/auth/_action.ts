@@ -107,13 +107,33 @@ export const getClientByPhone = async (phone: string): Promise<any> => {
 export const updateClient = async ({ data, id }: { data: any; id: string }) => {
   if (id) {
     try {
-      if (data.password) {
-        const hashPassword = await bcrypt.hash(data.password, 10);
-        data.password = hashPassword;
-      }
       const update = await prisma.client.update({
         where: { id: id },
         data: data,
+      });
+      revalidateTag("client-cache");
+      return update;
+    } catch (error) {
+      console.log("[UPDATE CLIENT]", error);
+    }
+  }
+};
+export const updatePassword = async ({
+  data,
+  id,
+}: {
+  data: any;
+  id: string;
+}) => {
+  if (id) {
+    try {
+      const hashPassword = await bcrypt.hash(data.password, 10);
+      const password = {
+        password: hashPassword,
+      };
+      const update = await prisma.client.update({
+        where: { id: id },
+        data: password,
       });
       revalidateTag("client-cache");
       return update;

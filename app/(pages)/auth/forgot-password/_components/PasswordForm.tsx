@@ -18,11 +18,12 @@ import { useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { PasswordFormSchema } from "./PassFormSchema";
 import PasswordShowClose from "@/components/PasswordShowClose";
-import { updateClient } from "../../_action";
+import { updatePassword } from "../../_action";
 import type { z } from "zod";
 // import bcrypt from "bcrypt";
 import { toast } from "sonner";
 import { FaSpinner } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 interface PasswordFormProps {
   id: string;
@@ -31,6 +32,9 @@ interface PasswordFormProps {
 const PasswordForm = ({ id }: PasswordFormProps) => {
   const [eyeOpen, setEyeOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
   // Initialize the form with default values and validation
   const form = useForm<z.infer<typeof PasswordFormSchema>>({
     resolver: zodResolver(PasswordFormSchema),
@@ -44,7 +48,7 @@ const PasswordForm = ({ id }: PasswordFormProps) => {
   async function onSubmit(data: z.infer<typeof PasswordFormSchema>) {
     console.log(data);
     setLoading(true);
-    const updateCustomer = await updateClient({
+    const updateCustomer = await updatePassword({
       id: id,
       data: data,
     });
@@ -53,6 +57,7 @@ const PasswordForm = ({ id }: PasswordFormProps) => {
     if (updateCustomer) {
       toast.success("Password Reset successfully");
       setLoading(false);
+      router.push("/auth/sign-in");
     }
   }
 
@@ -112,7 +117,7 @@ const PasswordForm = ({ id }: PasswordFormProps) => {
             />
 
             <br />
-            <Button className="w-full" type="submit">
+            <Button disabled={loading} className="w-full" type="submit">
               {loading ? (
                 <FaSpinner className="animate-spin" />
               ) : (
