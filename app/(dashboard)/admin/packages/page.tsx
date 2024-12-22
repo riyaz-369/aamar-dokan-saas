@@ -11,9 +11,19 @@ const PackagesPage = async () => {
     where: {
       status: "Active",
     },
+    select: {
+      id: true,
+      title: true,
+      subtitle: true,
+      status: true,
+      service: true,
+      createdAt: true,
+      updatedAt: true,
+      price: true,
+    },
   });
 
-  // console.log("data: ", data);
+  console.log("data: ", data);
 
   return (
     <div>

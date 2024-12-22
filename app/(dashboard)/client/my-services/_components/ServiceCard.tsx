@@ -1,3 +1,4 @@
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,13 +17,17 @@ const ServiceCard = ({ servicesProduct }: { servicesProduct: number }) => {
     <Card className="max-w-[300px] mx-auto shadow-md rounded-lg hover:shadow-xl transition-shadow duration-300">
       <Link href={`/client/my-services/${servicesProduct + 1}`}>
         <CardHeader className="p-4">
-          <Image
-            className="rounded-lg object-cover"
-            src="/camera.jpg"
-            alt="Camera"
-            height={300}
-            width={400}
-          />
+          <div className="w-full">
+            <AspectRatio ratio={16 / 9}>
+              <Image
+                className="rounded-lg object-cover"
+                src="/camera.jpg"
+                alt="Camera"
+                height={300}
+                width={400}
+              />
+            </AspectRatio>
+          </div>
           <CardTitle className="text-xl font-bold mt-4">
             Camera Services
           </CardTitle>

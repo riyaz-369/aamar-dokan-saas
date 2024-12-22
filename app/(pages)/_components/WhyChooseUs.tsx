@@ -5,7 +5,7 @@ import { LiaLongArrowAltRightSolid } from "react-icons/lia";
 
 const WhyChooseUs = () => {
   return (
-    <div className="container mt-16 lg:mt-24 mb-24 lg:mb-48 flex flex-col gap-8">
+    <div className="container mt-16 lg:mt-24 mb-24 lg:mb-24 flex flex-col gap-8">
       {/* First Section */}
       <div className="flex flex-col-reverse md:flex-row bg-orange mb-2 border rounded-2xl p-6 lg:p-12 gap-6">
         <div className="w-full lg:w-1/2 text-center md:text-start">

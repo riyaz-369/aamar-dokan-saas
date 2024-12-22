@@ -3,6 +3,7 @@ import Footer from "./(pages)/_components/Footer";
 import Banner from "./(pages)/_components/Banner";
 import BusinessPlatform from "./(pages)/_components/BusinessPlatform";
 import WhyChooseUs from "./(pages)/_components/WhyChooseUs";
+import Testimonials from "./(pages)/_components/Testimonials";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
         <Banner />
         <BusinessPlatform />
         <WhyChooseUs />
+        <Testimonials />
       </main>
       <Footer />
     </div>

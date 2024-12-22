@@ -139,7 +139,7 @@ export default function AboutUs() {
       </div>
 
       {/* Call-to-Action Section */}
-      <div className="relative bg-primary py-24">
+      {/* <div className="relative bg-primary py-24">
         <div className="container mx-auto px-6 lg:px-0 text-center">
           <h2 className="text-4xl font-extrabold mb-6">
             Ready to Shop with Us?
@@ -156,11 +156,11 @@ export default function AboutUs() {
           viewBox="0 0 1440 100"
         >
           <path
-            fill="#FFFFFF" /* Match this to the background of the next section */
+            fill="#FFFFFF" 
             d="M0,80 C360,100 1080,40 1440,80 L1440,100 L0,100 Z"
           ></path>
         </svg>
-      </div>
+      </div> */}
     </section>
   );
 }

@@ -4,7 +4,7 @@ import OrderCart from "./_components/OrderCart";
 
 const OrderCartPage = () => {
   return (
-    <div className="flex justify-between gap-8">
+    <div className="flex justify-between gap-4">
       <div className="flex-1">
         <OrderCart />
       </div>

@@ -28,7 +28,7 @@ export type TService = {
 const handleUpdateStatus = async (service: TService) => {
   await UpdatePackageStatus(
     service.id,
-    service.status === "Active" ? "Inactive" : "Active"
+    service.status === "Active" ? "Inactive" : "Active",
   );
 };
 
@@ -48,12 +48,16 @@ export const columns: ColumnDef<TService>[] = [
     },
   },
   {
-    accessorKey: "type",
-    header: "Type",
+    accessorKey: "service.title",
+    header: "Service",
   },
   {
     accessorKey: "subtitle",
     header: "Subtitle",
+  },
+  {
+    accessorKey: "price.monthly",
+    header: "Price",
   },
   {
     accessorKey: "status",

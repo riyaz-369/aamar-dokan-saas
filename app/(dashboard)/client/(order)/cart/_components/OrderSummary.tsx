@@ -13,12 +13,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const OrderSummary = () => {
   return (
     <Card className="space-y-4 shadow-none max-w-lg">
       <CardHeader>
-        <CardTitle>Your order</CardTitle>
+        <CardTitle className="text-xl">Your order</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
@@ -56,17 +57,28 @@ const OrderSummary = () => {
             Your personal data will be used to process your order, support your
             experience throughout this website, and for other purposes described
             in our{" "}
-            <span className="hover:underline">
-              <b>Privacy policy.</b>
-            </span>
+            <Link
+              target="_blank"
+              href="/privacy-policy"
+              className="text-primary hover:underline font-semibold"
+            >
+              Privacy policy.
+            </Link>
           </p>
         </div>
         <div className="flex items-center space-x-2 mb-2">
           <label
             htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            className="text-sm font-medium flex items-center gap-2 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            I have read and agree to the terms and conditions.
+            <Checkbox /> I have read and agree to the{" "}
+            <Link
+              target="_blank"
+              href="/terms"
+              className="text-primary hover:underline font-semibold"
+            >
+              terms and conditions.
+            </Link>
           </label>
         </div>
         <Link href="/client/payment">
