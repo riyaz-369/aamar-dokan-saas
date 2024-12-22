@@ -30,8 +30,11 @@ import { PackageFormSchema } from "./PackageFormSchema";
 import { SavePackageIntoDB } from "../_actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Monitor, Phone, PlusIcon, X } from "lucide-react";
+import { Monitor, Phone, PlusIcon, Smartphone, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { FaMobile } from "react-icons/fa";
+import { BsAndroid } from "react-icons/bs";
+import { Label } from "@/components/ui/label";
 
 export type FeatureType = {
   title: string;
@@ -49,7 +52,7 @@ type ServicesPropsType = {
   length: number;
   services: ServicesType[];
   map(
-    arg0: (service: any) => import("react").JSX.Element,
+    arg0: (service: any) => import("react").JSX.Element
   ): import("react").ReactNode;
 };
 
@@ -63,7 +66,6 @@ const PackageForm = ({
   const [loader, setLoader] = useState(false);
   const [featuresState, setFeaturesState] = useState<FeatureType[]>([]);
 
-  console.log(featuresState);
   const loaderClose = () => setLoader(false);
   const loaderShow = () => setLoader(true);
   const router = useRouter();
@@ -75,6 +77,7 @@ const PackageForm = ({
       subtitle: "",
       code: "",
       features: [],
+      custom: false,
       price: {
         monthly: 0,
         yearly: 0,
@@ -120,6 +123,7 @@ const PackageForm = ({
       form.setValue("subtitle", entry.subtitle);
       form.setValue("code", entry.code);
       form.setValue("features", entry.features);
+      form.setValue("custom", entry.custom);
       form.setValue("price.monthly", entry.price.monthly);
       form.setValue("price.yearly", entry.price.yearly);
       setFeaturesState(entry.features);
@@ -132,12 +136,12 @@ const PackageForm = ({
       loaderShow();
       const response = await SavePackageIntoDB(
         { ...data, features: featuresState },
-        id,
+        id
       );
       if (response) {
         form.reset();
         toast.success(
-          id ? "Package Updated Successfully" : "Package Created Successfully",
+          id ? "Package Updated Successfully" : "Package Created Successfully"
         );
         loaderClose();
         router.push("/admin/packages");
@@ -191,36 +195,48 @@ const PackageForm = ({
                 )}
               />
 
-              {/* service */}
-              <FormField
-                control={form.control}
-                name="serviceId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Services</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select Service" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {services.length > 0
-                          ? services.map((service) => (
-                              <SelectItem key={service.id} value={service.id}>
-                                {service.title}
-                              </SelectItem>
-                            ))
-                          : "Service not found"}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div>
+                {/* service */}
+                <FormField
+                  control={form.control}
+                  name="serviceId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Services</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Service" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {services.length > 0
+                            ? services.map((service) => (
+                                <SelectItem key={service.id} value={service.id}>
+                                  {service.title}
+                                </SelectItem>
+                              ))
+                            : "Service not found"}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="flex items-center gap-2 justify-end my-4">
+                  <Label className="font-semibold">Custom Price?</Label>
+                  <Checkbox
+                    // checked={feature.isDesktop}
+                    onCheckedChange={(isChecked) =>
+                      form.setValue("custom", isChecked)
+                    }
+                  />
+                </div>
+              </div>
 
               <div className="flex gap-4">
                 {/* price monthly */}
@@ -355,8 +371,8 @@ const PackageForm = ({
                                 prevState.map((f, i) =>
                                   i === index
                                     ? { ...f, title: e.target.value }
-                                    : f,
-                                ),
+                                    : f
+                                )
                               )
                             }
                           />
@@ -369,8 +385,8 @@ const PackageForm = ({
                                 prevState.map((f, i) =>
                                   i === index
                                     ? { ...f, value: e.target.value }
-                                    : f,
-                                ),
+                                    : f
+                                )
                               )
                             }
                           />
@@ -383,12 +399,12 @@ const PackageForm = ({
                                   prevState.map((f, i) =>
                                     i === index
                                       ? { ...f, isDesktop: isChecked }
-                                      : f,
-                                  ),
+                                      : f
+                                  )
                                 )
                               }
                             />
-                            <Phone className="h-4 w-4" />
+                            <Smartphone className="h-4 w-4" />
                             <Checkbox
                               checked={feature.isPhone}
                               onCheckedChange={(isChecked) =>
@@ -396,8 +412,8 @@ const PackageForm = ({
                                   prevState.map((f, i) =>
                                     i === index
                                       ? { ...f, isPhone: isChecked }
-                                      : f,
-                                  ),
+                                      : f
+                                  )
                                 )
                               }
                             />
