@@ -7,9 +7,13 @@ import { DataTable } from "./_components/data-table";
 import prisma from "@/prisma";
 
 const PackagesPage = async () => {
-  const data = await prisma.package.findMany();
+  const data = await prisma.package.findMany({
+    where: {
+      status: "Active",
+    },
+  });
 
-  console.log(data);
+  // console.log("data: ", data);
 
   return (
     <div>

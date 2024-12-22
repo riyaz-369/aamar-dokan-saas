@@ -4,8 +4,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const ClientDashboard = async () => {
-  const session = await getServerSession(authOptions);
-  console.log("user:", session);
+  // const session = await getServerSession(authOptions);
+  // console.log("user:", session);
 
   // if (typeof window === "undefined") return null;
 
