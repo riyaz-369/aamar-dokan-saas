@@ -1,7 +1,15 @@
+"use client";
+
+import { RootState } from "@/app/_redux-store/store";
 import Image from "next/image";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const OrderCart = () => {
+  const packages = useSelector((state: RootState) => state.cartSlice);
+
+  console.log("packages:", packages);
+
   return (
     <div className="p-6 rounded-lg border border-dotted shadow">
       <div className="flex flex-col md:flex-row gap-8">
