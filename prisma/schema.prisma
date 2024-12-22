@@ -78,8 +78,9 @@ model Package {
   subtitle  String?
   code      String
   features  Json // maintains a list of ordered
-  price     Json // type: (monthly, weekly)
   service   Services @relation(fields: [serviceId], references: [id])
+  custom    Boolean  @default(false)
+  price     Json // type: (monthly, weekly)
   serviceId String   @db.ObjectId
   status    Status   @default(Active)
   createdAt DateTime @default(now())
