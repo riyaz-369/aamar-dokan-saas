@@ -30,10 +30,8 @@ import { PackageFormSchema } from "./PackageFormSchema";
 import { SavePackageIntoDB } from "../_actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Monitor, Phone, PlusIcon, Smartphone, X } from "lucide-react";
+import { Monitor, PlusIcon, Smartphone, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { FaMobile } from "react-icons/fa";
-import { BsAndroid } from "react-icons/bs";
 import { Label } from "@/components/ui/label";
 
 export type FeatureType = {
