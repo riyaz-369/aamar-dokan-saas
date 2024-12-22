@@ -58,6 +58,14 @@ export const columns: ColumnDef<TService>[] = [
   {
     accessorKey: "price.monthly",
     header: "Price",
+    cell: ({ row }) => {
+      const price = row.original.price;
+      return (
+        <span className="text-center">
+          {price.monthly <= 0 ? " - " : price.monthly}
+        </span>
+      );
+    },
   },
   {
     accessorKey: "status",
