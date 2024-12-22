@@ -10,8 +10,6 @@ const Price = async () => {
     },
   });
 
-  // console.log(typeof packages);
-
   return (
     <div className="w-full  md:px-32 min-h-[500px] py-6">
       <div className="md:p-4 p-6 flex flex-col justify-center ">
@@ -29,7 +27,7 @@ const Price = async () => {
         <PricingTable plans={packages} />
       </div>
       <div className="md:hidden block">
-        <MobilePricingTable />
+        <MobilePricingTable plans={packages} />
       </div>
     </div>
   );

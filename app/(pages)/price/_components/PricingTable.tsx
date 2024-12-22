@@ -4,7 +4,25 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle2, Minus } from "lucide-react";
 import Link from "next/link";
 
-const PricingTable = ({ plans }) => {
+type FeatureType = {
+  title: string;
+  value: string;
+};
+
+type PlanType = {
+  id: string;
+  title: string;
+  subtitle: string;
+  price: { monthly: number; yearly: number; custom: boolean };
+  features: FeatureType[];
+  custom: boolean;
+};
+
+type PricingTableProps = {
+  plans: PlanType[];
+};
+
+const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
   // console.log("Packages:", plans, typeof plans);
 
   return (
