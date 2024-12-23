@@ -36,7 +36,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-10">
+    <div className="container mx-auto py-10">
       {/* Features Comparison Table */}
       <div className="overflow-x-auto">
         <table className="table-auto w-full border-collapse border-none border-gray-200">

@@ -35,7 +35,7 @@ const MobilePricingTable: React.FC<MobilePricingTableProps> = ({ plans }) => {
   };
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="space-y-6">
       {plans.map((plan) => (
         <div key={plan.id} className="w-full rounded-lg py-6 px-6 shadow-md">
           <h3 className="text-xl font-semibold text-left">{plan.title}</h3>
