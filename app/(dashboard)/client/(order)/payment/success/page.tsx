@@ -23,7 +23,7 @@ const PaymentSuccessPage = () => {
   const handleCopyTransactionId = () => {
     navigator.clipboard.writeText(transactionId).then(() => {
       setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000); // Reset after 2 seconds
+      setTimeout(() => setCopySuccess(false), 2000);
     });
   };
 
@@ -45,7 +45,7 @@ const PaymentSuccessPage = () => {
           ctx.closePath();
         }}
       />
-      <div className="max-w-md w-full shadow-lg rounded-lg px-8 py-12 text-center flex flex-col items-center gap-6 dark:bg-gray-950 border">
+      <div className="max-w-md w-full px-8 py-12 text-center flex flex-col items-center gap-6">
         <CheckCircle className="text-primary h-16 w-16 animate-bounce" />
         <div>
           <h1 className="text-3xl font-bold mb-2">Payment Successful!</h1>
@@ -58,7 +58,11 @@ const PaymentSuccessPage = () => {
               onClick={handleCopyTransactionId}
               className="ml-3 text-primary"
             >
-              {copySuccess ? <Check /> : <Copy className="h-5 w-5" />}
+              {copySuccess ? (
+                <Check className="h-5 w-5" />
+              ) : (
+                <Copy className="h-5 w-5" />
+              )}
             </button>
           </div>
         </div>

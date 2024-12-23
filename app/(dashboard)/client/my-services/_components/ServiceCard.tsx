@@ -35,7 +35,7 @@ type ServiceCardPropsType = {
 
 const ServiceCard: React.FC<ServiceCardPropsType> = ({ service }) => {
   return (
-    <Card className="max-w-[300px] mx-auto shadow-md rounded-lg hover:shadow-xl transition-shadow duration-300">
+    <Card className="max-w-[300px] mx-auto shadow-md rounded-md  transition-all duration-300 hover:bg-primary/5">
       <Link href={`/client/my-services/${service.id}`}>
         <CardHeader className="p-4">
           <div className="w-full">
@@ -56,13 +56,15 @@ const ServiceCard: React.FC<ServiceCardPropsType> = ({ service }) => {
             Category: <span>{service.category.name || "N/A"}</span>
           </CardDescription>
         </CardHeader>
-        <CardContent className="p-4">
-          <p className="text-sm">{service.description}</p>
+        <CardContent className="p-4 pt-0">
+          <p className="text-sm line-clamp-2">{service.description}</p>
         </CardContent>
+        <CardFooter className="p-4 pt-0">
+          <Button variant="link" className={cn("p-0")}>
+            View Details
+          </Button>
+        </CardFooter>
       </Link>
-      <CardFooter className="p-4 border-t flex justify-between items-center">
-        <Button className={cn("h-8 w-full")}>View Details</Button>
-      </CardFooter>
     </Card>
   );
 };
