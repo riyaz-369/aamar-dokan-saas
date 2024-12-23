@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -15,7 +13,9 @@ import {
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const OrderSummary = () => {
+const OrderSummary = ({ packages }) => {
+  console.log(packages);
+
   return (
     <Card className="space-y-4 shadow-none max-w-lg">
       <CardHeader>
@@ -25,28 +25,22 @@ const OrderSummary = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="">Product</TableHead>
+              <TableHead className="">Service</TableHead>
               <TableHead className="text-right">Subtotal</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell className="font-medium">
-                Product Name x <b>4</b>
+              <TableCell className="font-medium">Service Name</TableCell>
+              <TableCell className="text-right">
+                {packages?.service?.title}
               </TableCell>
-              <TableCell className="text-right">900 BDT.</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="font-medium">Subtotal</TableCell>
-              <TableCell className="text-right">
-                <b>990 BDT.</b>
-              </TableCell>
-            </TableRow>
-            <TableRow>
               <TableCell className="font-medium">Total</TableCell>
               <TableCell className="text-right">
-                <b>900 BDT.</b>
+                <b>{packages?.price?.monthly} BDT.</b>
               </TableCell>
             </TableRow>
           </TableBody>
