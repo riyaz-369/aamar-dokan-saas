@@ -125,7 +125,10 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                         : "/client/cart"
                     }
                   >
-                    <Button className="w-full">
+                    <Button
+                      onClick={() => handleByPackage(plan.code, plan.serviceId)}
+                      className="w-full"
+                    >
                       {" "}
                       {plan.custom ? "Contact Us" : "Get Started"}
                     </Button>

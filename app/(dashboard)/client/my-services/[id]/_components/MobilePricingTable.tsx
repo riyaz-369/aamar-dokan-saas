@@ -4,6 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2 } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/app/_redux-store/slice/cartSlice";
 
 type FeatureType = {
   title: string;
@@ -17,6 +19,8 @@ type PlanType = {
   price: { monthly: number; yearly: number; custom: boolean };
   features: FeatureType[];
   custom: boolean;
+  code: string;
+  serviceId: string;
 };
 
 type MobilePricingTableProps = {
@@ -24,6 +28,12 @@ type MobilePricingTableProps = {
 };
 
 const MobilePricingTable: React.FC<MobilePricingTableProps> = ({ plans }) => {
+  const dispatch = useDispatch();
+
+  const handleByPackage = async (packageCode: string, serviceId: string) => {
+    dispatch(addToCart({ packageCode, serviceId }));
+  };
+
   return (
     <div className="p-8 space-y-6">
       {plans.map((plan) => (
@@ -64,8 +74,9 @@ const MobilePricingTable: React.FC<MobilePricingTableProps> = ({ plans }) => {
             ))}
           </div>
 
-          <Link href="/client/cart">
+          <Link href={plan.custom ? "/contact" : "/client/cart"}>
             <Button
+              onClick={() => handleByPackage(plan.code, plan.serviceId)}
               size="lg"
               className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
             >

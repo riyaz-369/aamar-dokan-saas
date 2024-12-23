@@ -21,7 +21,7 @@ import type { z } from "zod";
 import { updateClient } from "../../_action";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import {
@@ -33,6 +33,8 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
+import { RootState } from "@/app/_redux-store/store";
+import { useSelector } from "react-redux";
 
 interface InfoFormProps {
   id: string;
@@ -41,6 +43,10 @@ interface InfoFormProps {
 
 const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
   const [loading, setLoading] = useState(false);
+  const packs = useSelector((state: RootState) => state.cartSlice);
+
+  const router = useRouter();
+
   // Initialize the form with default values and validation
   const form = useForm<z.infer<typeof InfoFormSchema>>({
     resolver: zodResolver(InfoFormSchema),
@@ -74,7 +80,11 @@ const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
 
     if (loginResult?.ok) {
       setLoading(false);
-      redirect("/client"); // Redirect to the dashboard after login
+      if (packs.packageCode && packs.serviceId) {
+        router.push(`/client/cart`);
+      } else {
+        router.push("/client");
+      }
     } else {
       setLoading(false);
       console.error("Login failed");

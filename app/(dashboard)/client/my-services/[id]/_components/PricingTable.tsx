@@ -2,6 +2,7 @@
 
 import { addToCart } from "@/app/_redux-store/slice/cartSlice";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { CheckCircle2, Minus } from "lucide-react";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
@@ -27,7 +28,7 @@ type PricingTableProps = {
 };
 
 const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
-  // console.log("Packages:", plans, typeof plans);
+  // console.log("Packages:", plans);
   const dispatch = useDispatch();
 
   const handleByPackage = async (packageCode: string, serviceId: string) => {
@@ -44,30 +45,34 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
               <th className="p-4 text-left border-b">Features</th>
               {plans.length > 0 ? (
                 plans?.map((plan, index) => (
-                  <th key={index} className="pb-4 border-b text-center">
-                    <div className={`w-56 rounded-lg py-4 px-4 shadow-md`}>
-                      <h3 className="text-xl font-semibold text-center">
+                  <th key={index} className="pb-4 border-b text-left">
+                    <div
+                      className={cn(
+                        "w-56 rounded-lg py-4 px-4 shadow-md border border-primary"
+                      )}
+                    >
+                      <h3 className="text-xl font-semibold text-left">
                         {plan.title}
                       </h3>
-                      <p className="text-sm text-gray-700 font-light text-center mb-6">
+                      <p className="text-sm font-normal text-gray-800 text-left mb-6">
                         {plan.subtitle}
                       </p>
-                      <p className="text-4xl font-bold text-center mb-4 mt-4">
-                        {plan.custom
-                          ? "Contact"
+                      <p className="text-4xl font-bold text-left mb-4 mt-4">
+                        {plan.custom === true
+                          ? "Custom"
                           : plan?.price?.monthly === 0 ||
                             plan.price.yearly === 0
                           ? "Free"
                           : plan.price.monthly + "/mo"}
                       </p>
-                      <Link href="/client/cart">
+                      <Link href={plan.custom ? "/contact" : "/client/cart"}>
                         <Button
                           onClick={() =>
                             handleByPackage(plan.code, plan.serviceId)
                           }
                           className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
                         >
-                          {plan.custom ? "Contact" : "Get Started"}
+                          {plan.custom ? "Contact Us" : "Get Started"}
                         </Button>
                       </Link>
                     </div>
@@ -107,10 +112,13 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
               <td className="px-4 py-2 text-left text-sm" />
               {plans?.map((plan, index) => (
                 <td key={index} className="px-4 py-2 text-center text-sm">
-                  <Link href="/client/cart">
-                    <Button className="w-full">
+                  <Link href={plan.custom ? "/contact" : "/client/cart"}>
+                    <Button
+                      onClick={() => handleByPackage(plan.code, plan.serviceId)}
+                      className="w-full"
+                    >
                       {" "}
-                      {plan.custom ? "Contact" : "Get Started"}
+                      {plan.custom ? "Contact Us" : "Get Started"}
                     </Button>
                   </Link>
                 </td>

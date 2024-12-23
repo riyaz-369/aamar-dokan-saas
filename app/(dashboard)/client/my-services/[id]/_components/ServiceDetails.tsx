@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator";
 type ServiceDetailsProps = {
   service: {
     id: string;
-    name: string;
+    title: string;
     description: string;
     photo: string;
     category: {
@@ -33,7 +33,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service }) => {
         />
         <div>
           <CardTitle className="text-xl font-bold mt-4">
-            {service.name}
+            {service.title}
           </CardTitle>
           <CardDescription className="my-3">
             {service.category.name || "N/A"}
