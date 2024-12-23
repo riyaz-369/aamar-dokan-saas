@@ -20,6 +20,7 @@ import {
 import { BsBank } from "react-icons/bs";
 
 import Image from "next/image";
+import Link from "next/link";
 
 export function PaymentOptions() {
   return (
@@ -132,10 +133,10 @@ export function PaymentOptions() {
             <Input id="cvc" placeholder="CVC" />
           </div>
         </div>
+        <Link href="/client/payment/success">
+          <Button className="w-full">Continue</Button>
+        </Link>
       </CardContent>
-      <CardFooter>
-        <Button className="w-full">Continue</Button>
-      </CardFooter>
     </Card>
   );
 }
