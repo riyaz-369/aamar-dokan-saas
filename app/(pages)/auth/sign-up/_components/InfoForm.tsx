@@ -43,7 +43,7 @@ interface InfoFormProps {
 
 const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
   const [loading, setLoading] = useState(false);
-  const packs = useSelector((state: RootState) => state.cartSlice);
+  const packs = useSelector((state: RootState) => state.orderSlice);
 
   const router = useRouter();
 

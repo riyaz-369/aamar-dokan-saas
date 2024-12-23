@@ -24,7 +24,7 @@ import type { z } from "zod";
 
 const AddressForm = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   // Initialize the form with default values and validation
   const form = useForm<z.infer<typeof SignUpFormSchema>>({
     resolver: zodResolver(SignUpFormSchema),
@@ -40,7 +40,7 @@ const AddressForm = () => {
     // data.password = await bcrypt.hash(data.password, 10);
     // console.log(data);
     const createCustomer = await createClient(data);
-    console.log("createCustomer", createCustomer);
+    // console.log("createCustomer", createCustomer);
   }
 
   return (

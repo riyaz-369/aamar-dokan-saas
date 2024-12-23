@@ -37,7 +37,7 @@ const ContactUs = () => {
   });
 
   async function onSubmit(data: z.infer<typeof ContactFormSchema>) {
-    console.log(data);
+    // console.log(data);
   }
 
   return (

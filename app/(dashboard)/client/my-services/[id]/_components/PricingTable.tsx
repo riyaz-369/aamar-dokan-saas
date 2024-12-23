@@ -1,6 +1,6 @@
 "use client";
 
-import { addToCart } from "@/app/_redux-store/slice/cartSlice";
+import { addToCart } from "@/app/_redux-store/slice/orderSlice";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, Minus } from "lucide-react";

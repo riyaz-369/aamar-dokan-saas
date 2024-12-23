@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2 } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { addToCart } from "@/app/_redux-store/slice/cartSlice";
+import { addToCart } from "@/app/_redux-store/slice/orderSlice";
 
 type FeatureType = {
   title: string;

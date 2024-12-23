@@ -9,7 +9,7 @@ import { RootState } from "@/app/_redux-store/store";
 
 const OrderCartPage = () => {
   const [packages, setPackages] = useState({});
-  const packs = useSelector((state: RootState) => state.cartSlice);
+  const packs = useSelector((state: RootState) => state.orderSlice);
 
   const getPackage = async () => {
     const res = await GetPackageFromDB(packs.packageCode);
@@ -20,7 +20,7 @@ const OrderCartPage = () => {
     getPackage();
   }, []);
 
-  console.log(packages);
+  // console.log(packages);
 
   return (
     <div className="flex justify-between gap-4">

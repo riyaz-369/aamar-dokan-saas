@@ -17,7 +17,7 @@ const UpdatePackagePage = async ({ params }: { params: { id: string } }) => {
     },
   });
 
-  console.log(packages);
+  // console.log(packages);
 
   return (
     <div className="">
