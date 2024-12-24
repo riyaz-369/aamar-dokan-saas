@@ -2,11 +2,11 @@
 
 import prisma from "@/prisma";
 
-export const GetPackageFromDB = async (packCode: string) => {
+export const GetAPackageFromDB = async (packageId: string) => {
   try {
     const pack = await prisma.package.findFirst({
       where: {
-        code: packCode,
+        id: packageId,
       },
       select: {
         id: true,
@@ -18,7 +18,7 @@ export const GetPackageFromDB = async (packCode: string) => {
         service: true,
       },
     });
-    // console.log("pack:", pack);
+    console.log("package from action:", pack);
     return pack;
   } catch (error) {
     console.error(error);

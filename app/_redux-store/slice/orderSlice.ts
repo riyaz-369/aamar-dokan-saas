@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { Orders } from "@prisma/client";
 
-interface OrderState {
-  serviceId: string;
-  packageCode: string;
-}
-
-const initialState: OrderState = {
+type OrderType = Orders;
+const initialState: OrderType = {
+  aamardokanId: "",
+  clientId: "",
   serviceId: "",
-  packageCode: "",
+  packageId: "",
+  amount: 0,
+  paymentTerms: "Monthly",
+  status: "Complete",
 };
 
 const orderSlice = createSlice({
@@ -15,11 +17,24 @@ const orderSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      state.serviceId = action.payload.serviceId;
-      state.packageCode = action.payload.packageCode;
+      return {
+        ...state,
+        serviceId: action.payload.serviceId,
+        packageId: action.payload.packageId,
+        amount: action.payload.amount,
+        // paymentTerms: action.payload.paymentTerms,
+      };
+    },
+    setOrderInfo: (state, action) => {
+      return {
+        ...state,
+
+        aamardokanId: action.payload.aamardokanId,
+        clientId: action.payload.clientId,
+      };
     },
   },
 });
 
-export const { addToCart } = orderSlice.actions;
+export const { addToCart, setOrderInfo } = orderSlice.actions;
 export default orderSlice.reducer;

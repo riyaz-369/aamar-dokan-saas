@@ -30,12 +30,12 @@ type MobilePricingTableProps = {
 const MobilePricingTable: React.FC<MobilePricingTableProps> = ({ plans }) => {
   const dispatch = useDispatch();
 
-  const handleByPackage = async (packageCode: string, serviceId: string) => {
-    dispatch(addToCart({ packageCode, serviceId }));
+  const handleByPackage = async (packageId: string, serviceId: string) => {
+    dispatch(addToCart({ packageId, serviceId }));
   };
 
   return (
-    <div className="container space-y-6">
+    <div className="space-y-6">
       {plans.map((plan) => (
         <div key={plan.id} className="w-full rounded-lg py-6 px-6 shadow-md">
           <h3 className="text-xl font-semibold text-left">{plan.title}</h3>
@@ -74,13 +74,9 @@ const MobilePricingTable: React.FC<MobilePricingTableProps> = ({ plans }) => {
             ))}
           </div>
 
-          <Link
-            href={
-              plan.custom ? "https://techsoulbd.com/contact" : "/client/cart"
-            }
-          >
+          <Link href={plan.custom ? "/contact" : "/client/cart"}>
             <Button
-              onClick={() => handleByPackage(plan.code, plan.serviceId)}
+              onClick={() => handleByPackage(plan.id, plan.serviceId)}
               size="lg"
               className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
             >

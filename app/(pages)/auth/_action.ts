@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
+
 import prisma from "@/prisma";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import type { SignUpFormSchema } from "./sign-up/_components/SignUpFormSchema";
 import bcrypt from "bcrypt";
@@ -17,7 +19,7 @@ const generateAamarDokanId = async () => {
 
   for (let i = 0; i < MAX_RETRIES; i++) {
     const newAamarDokanId = Math.floor(
-      100000 + Math.random() * 900000,
+      100000 + Math.random() * 900000
     ).toString();
 
     // Check if the generated ID already exists in the database
@@ -67,6 +69,25 @@ export const createClient = async (data: TClient) => {
   }
 };
 
+export const getClientServicesList = async (phone: string): Promise<any> => {
+  try {
+    // Check if a client exists with the given phone number
+    const clientServicesList = await prisma.client.findUnique({
+      where: {
+        phone: phone,
+      },
+      select: {
+        services: true,
+      },
+    });
+    // console.log(clientServicesList);
+    return clientServicesList;
+  } catch (err) {
+    console.error("Error checking phone number:", err);
+    return false;
+  }
+};
+
 export const checkPhone = async (phone: string): Promise<boolean> => {
   try {
     // Check if a client exists with the given phone number
@@ -105,6 +126,7 @@ export const getClientByPhone = async (phone: string): Promise<any> => {
 };
 
 export const updateClient = async ({ data, id }: { data: any; id: string }) => {
+  // console.log("form update client action:", data, id);
   if (id) {
     try {
       const update = await prisma.client.update({
