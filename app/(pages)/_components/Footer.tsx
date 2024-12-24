@@ -29,12 +29,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/careers"
+                <a
+                  href="https://techsoulbd.com/career"
+                  target="_blank"
                   className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
                 >
                   Careers
-                </Link>
+                </a>
               </li>
               <li>
                 <Link

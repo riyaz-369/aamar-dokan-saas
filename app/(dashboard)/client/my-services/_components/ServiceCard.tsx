@@ -1,4 +1,6 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio";
+"use client";
+
+// import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,39 +13,58 @@ import {
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 
-const ServiceCard = ({ servicesProduct }: { servicesProduct: number }) => {
+type ServiceCardPropsType = {
+  service: {
+    id: string;
+    title: string;
+    description: string;
+    slug: string;
+    photo: string;
+    meta: {
+      metaTitle: string;
+      metaDescription: string;
+    };
+    category: {
+      name: string;
+      id: string;
+    };
+  };
+};
+
+const ServiceCard: React.FC<ServiceCardPropsType> = ({ service }) => {
   return (
-    <Card className="max-w-[300px] mx-auto shadow-md rounded-lg hover:shadow-xl transition-shadow duration-300">
-      <Link href={`/client/my-services/${servicesProduct + 1}`}>
+    <Card className="max-w-[300px] mx-auto shadow-md rounded-md  transition-all duration-300 hover:bg-primary/5">
+      <Link href={`/client/my-services/${service.id}`}>
         <CardHeader className="p-4">
           <div className="w-full">
-            <AspectRatio ratio={16 / 9}>
-              <Image
-                className="rounded-lg object-cover"
-                src="/camera.jpg"
-                alt="Camera"
-                height={300}
-                width={400}
-              />
-            </AspectRatio>
+            {/* <AspectRatio ratio={16 / 9}> */}
+            <Image
+              className="rounded-lg object-cover"
+              src={service.photo}
+              alt={service.slug}
+              height={300}
+              width={400}
+            />
+            {/* </AspectRatio> */}
           </div>
           <CardTitle className="text-xl font-bold mt-4">
-            Camera Services
+            {service.title}
           </CardTitle>
-          <CardDescription className="">TECH</CardDescription>
+          <CardDescription className="">
+            Category: <span>{service.category.name || "N/A"}</span>
+          </CardDescription>
         </CardHeader>
-        <CardContent className="p-4">
-          <p className="text-sm">
-            Capture your moments with high-quality cameras and professional
-            editing services. Perfect for events, portraits, and more.
-          </p>
+        <CardContent className="p-4 pt-0">
+          <p className="text-sm line-clamp-2">{service.description}</p>
         </CardContent>
+        <CardFooter className="p-4 pt-0">
+          <Button variant="link" className={cn("p-0")}>
+            View Details
+          </Button>
+        </CardFooter>
       </Link>
-      <CardFooter className="p-4 border-t flex justify-between items-center">
-        <span className="text-sm">Starting at $99</span>
-        <Button className={cn("h-8")}>Purchase</Button>
-      </CardFooter>
     </Card>
   );
 };

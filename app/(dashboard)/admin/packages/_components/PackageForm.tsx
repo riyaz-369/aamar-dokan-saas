@@ -83,7 +83,7 @@ const PackageForm = ({
     },
   });
 
-  console.log(entry);
+  // console.log(entry);
 
   const id = entry?.id;
 

@@ -24,11 +24,14 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { FaSpinner } from "react-icons/fa";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/_redux-store/store";
 
 const SignInForm = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const packs = useSelector((state: RootState) => state.orderSlice);
 
   // Initialize the form with default values and validation
   const form = useForm<z.infer<typeof SignInFormSchema>>({
@@ -53,7 +56,11 @@ const SignInForm = () => {
       if (res?.ok) {
         setLoading(false);
         toast.success("Logged in successfully!");
-        router.push("/client");
+        if (packs.packageCode && packs.serviceId) {
+          router.push(`/client/cart`);
+        } else {
+          router.push("/client");
+        }
       } else {
         setLoading(false);
         toast.error("Invalid phone or password");

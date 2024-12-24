@@ -1,6 +1,6 @@
 "use client";
 
-import { addToCart } from "@/app/_redux-store/slice/cartSlice";
+import { addToCart } from "@/app/_redux-store/slice/orderSlice";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, Minus } from "lucide-react";
@@ -28,7 +28,7 @@ type PricingTableProps = {
 };
 
 const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
-  console.log("Packages:", plans);
+  // console.log("Packages:", plans);
   const dispatch = useDispatch();
 
   const handleByPackage = async (packageCode: string, serviceId: string) => {
@@ -36,7 +36,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-10">
+    <div className="container mx-auto py-10">
       {/* Features Comparison Table */}
       <div className="overflow-x-auto">
         <table className="table-auto w-full border-collapse border-none border-gray-200">
@@ -48,7 +48,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                   <th key={index} className="pb-4 border-b text-left">
                     <div
                       className={cn(
-                        "w-56 rounded-lg py-4 px-4 shadow-md border border-primary",
+                        "w-56 rounded-lg py-4 px-4 shadow-md border border-primary"
                       )}
                     >
                       <h3 className="text-xl font-semibold text-left">
@@ -61,9 +61,9 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                         {plan.custom === true
                           ? "Custom"
                           : plan?.price?.monthly === 0 ||
-                              plan.price.yearly === 0
-                            ? "Free"
-                            : plan.price.monthly + "/mo"}
+                            plan.price.yearly === 0
+                          ? "Free"
+                          : plan.price.monthly + "/mo"}
                       </p>
                       <Link
                         href={
@@ -97,7 +97,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                 <td className="px-4 py-2 text-left text-sm">{feature.title}</td>
                 {plans.map((plan, index) => {
                   const planFeature = plan.features.find(
-                    (f) => f.title === feature.title,
+                    (f) => f.title === feature.title
                   );
                   return (
                     <td key={index} className="px-4 py-2 text-center text-sm">
@@ -125,7 +125,10 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                         : "/client/cart"
                     }
                   >
-                    <Button className="w-full">
+                    <Button
+                      onClick={() => handleByPackage(plan.code, plan.serviceId)}
+                      className="w-full"
+                    >
                       {" "}
                       {plan.custom ? "Contact Us" : "Get Started"}
                     </Button>

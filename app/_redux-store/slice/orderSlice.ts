@@ -1,26 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface CartState {
+interface OrderState {
   serviceId: string;
   packageCode: string;
 }
 
-const initialState: CartState = {
+const initialState: OrderState = {
   serviceId: "",
   packageCode: "",
 };
 
-const cartSlice = createSlice({
-  name: "cart",
+const orderSlice = createSlice({
+  name: "order",
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      console.log("Reducer action payload:", action.payload);
       state.serviceId = action.payload.serviceId;
       state.packageCode = action.payload.packageCode;
     },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
-export default cartSlice.reducer;
+export const { addToCart } = orderSlice.actions;
+export default orderSlice.reducer;
