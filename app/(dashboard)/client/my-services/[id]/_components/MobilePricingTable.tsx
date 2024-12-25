@@ -30,8 +30,8 @@ type MobilePricingTableProps = {
 const MobilePricingTable: React.FC<MobilePricingTableProps> = ({ plans }) => {
   const dispatch = useDispatch();
 
-  const handleByPackage = async (packageCode: string, serviceId: string) => {
-    dispatch(addToCart({ packageCode, serviceId }));
+  const handleByPackage = async (packageId: string, serviceId: string) => {
+    dispatch(addToCart({ packageId, serviceId }));
   };
 
   return (
@@ -76,7 +76,7 @@ const MobilePricingTable: React.FC<MobilePricingTableProps> = ({ plans }) => {
 
           <Link href={plan.custom ? "/contact" : "/client/cart"}>
             <Button
-              onClick={() => handleByPackage(plan.code, plan.serviceId)}
+              onClick={() => handleByPackage(plan.id, plan.serviceId)}
               size="lg"
               className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
             >

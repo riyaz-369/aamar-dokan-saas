@@ -31,8 +31,12 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
   // console.log("Packages:", plans);
   const dispatch = useDispatch();
 
-  const handleByPackage = async (packageCode: string, serviceId: string) => {
-    dispatch(addToCart({ packageCode, serviceId }));
+  const handleByPackage = async (
+    packageId: string,
+    serviceId: string,
+    price: number
+  ) => {
+    dispatch(addToCart({ packageId, serviceId, amount: price }));
   };
 
   return (
@@ -74,7 +78,11 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                       >
                         <Button
                           onClick={() =>
-                            handleByPackage(plan.code, plan.serviceId)
+                            handleByPackage(
+                              plan.id,
+                              plan.serviceId,
+                              plan.price.monthly
+                            )
                           }
                           className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
                         >
@@ -126,7 +134,13 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                     }
                   >
                     <Button
-                      onClick={() => handleByPackage(plan.code, plan.serviceId)}
+                      onClick={() =>
+                        handleByPackage(
+                          plan.id,
+                          plan.serviceId,
+                          plan.price.monthly
+                        )
+                      }
                       className="w-full"
                     >
                       {" "}

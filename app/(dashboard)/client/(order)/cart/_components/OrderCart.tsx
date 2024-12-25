@@ -5,7 +5,7 @@ const OrderCart = ({ packages }) => {
   return (
     <div className="p-6 rounded-lg border border-dotted shadow">
       <div className="flex flex-col md:flex-row gap-4">
-        <div className="w-1/3">
+        <div className="w-1/4 ">
           <div className="w-full">
             <AspectRatio ratio={1 / 1}>
               <Image

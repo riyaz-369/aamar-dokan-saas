@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -12,9 +14,37 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import Loader from "@/components/Loader";
+import { useDispatch } from "react-redux";
+import { setOrderInfo } from "@/app/_redux-store/slice/orderSlice";
+import { useSession } from "next-auth/react";
 
 const OrderSummary = ({ packages }) => {
   // console.log(packages);
+  const [checkTrams, setCheckTrams] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const loaderClose = () => setLoader(false);
+  const loaderShow = () => setLoader(true);
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  const dispatch = useDispatch();
+
+  const { id, aamardokanId } = session?.user || "";
+
+  const handlePlaceOrder = () => {
+    loaderShow();
+    dispatch(setOrderInfo({ aamardokanId: aamardokanId, clientId: id }));
+    if (!checkTrams) {
+      toast.warning("Please checked our trams and conditions");
+      loaderClose();
+    } else {
+      loaderClose();
+      router.push("/client/payment");
+    }
+  };
 
   return (
     <Card className="space-y-4 shadow-none max-w-lg">
@@ -65,7 +95,8 @@ const OrderSummary = ({ packages }) => {
             htmlFor="terms"
             className="text-sm font-medium flex items-center gap-2 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            <Checkbox /> I have read and agree to the{" "}
+            <Checkbox onCheckedChange={(e) => setCheckTrams(e)} /> I have read
+            and agree to the{" "}
             <Link
               target="_blank"
               href="/terms"
@@ -75,12 +106,15 @@ const OrderSummary = ({ packages }) => {
             </Link>
           </label>
         </div>
-        <Link href="/client/payment">
-          <Button type="submit" className="w-full mt-4">
-            Place order
-          </Button>
-        </Link>
+        <Button
+          onClick={handlePlaceOrder}
+          type="submit"
+          className="w-full mt-4"
+        >
+          Place order
+        </Button>
       </CardContent>
+      <Loader isOpen={loader} onClose={setLoader} title="Please Wait" />
     </Card>
   );
 };

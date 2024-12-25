@@ -36,7 +36,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
   };
 
   return (
-    <div className="py-10">
+    <div className="container mx-auto py-10">
       {/* Features Comparison Table */}
       <div className="overflow-x-auto">
         <table className="table-auto w-full border-collapse border-none border-gray-200">
@@ -65,10 +65,16 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                           ? "Free"
                           : plan.price.monthly + "/mo"}
                       </p>
-                      <Link href={plan.custom ? "/contact" : "/client/cart"}>
+                      <Link
+                        href={
+                          plan.custom
+                            ? "https://techsoulbd.com/contact"
+                            : "/client/cart"
+                        }
+                      >
                         <Button
                           onClick={() =>
-                            handleByPackage(plan.code, plan.serviceId)
+                            handleByPackage(plan.id, plan.serviceId)
                           }
                           className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
                         >
@@ -112,7 +118,13 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
               <td className="px-4 py-2 text-left text-sm" />
               {plans?.map((plan, index) => (
                 <td key={index} className="px-4 py-2 text-center text-sm">
-                  <Link href={plan.custom ? "/contact" : "/client/cart"}>
+                  <Link
+                    href={
+                      plan.custom
+                        ? "https://techsoulbd.com/contact"
+                        : "/client/cart"
+                    }
+                  >
                     <Button
                       onClick={() => handleByPackage(plan.code, plan.serviceId)}
                       className="w-full"
