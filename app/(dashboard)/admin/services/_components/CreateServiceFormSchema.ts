@@ -5,6 +5,8 @@ export const CreateServiceFormSchema = z.object({
   slug: z.string().min(1, "Slug is required"),
   code: z.string().min(1, "Code is required"),
   categoryId: z.string(),
+  link1: z.string().optional(),
+  link2: z.string().optional(),
   meta: z.record(z.any()).optional(),
   photo: z.string().optional(),
   description: z.string().min(1, "Description is required"),

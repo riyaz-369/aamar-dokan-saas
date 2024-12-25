@@ -35,6 +35,7 @@ import { toast } from "sonner";
 import Loader from "@/components/Loader";
 
 const ServiceForm = ({ entry }: { entry: any }) => {
+  console.log(entry.category.name);
   const [photo, setPhoto] = useState<File | null>(null);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [categories, setCategories] = useState<TCategory[]>([]);
@@ -49,7 +50,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
       title: "",
       slug: "",
       code: "",
-      categoryId: "",
+      categoryId: entry.category.id || "",
       description: "",
       tos: "",
       privacyPolicy: "",
@@ -67,11 +68,13 @@ const ServiceForm = ({ entry }: { entry: any }) => {
       form.setValue("title", entry.title);
       form.setValue("slug", entry.slug);
       form.setValue("code", entry.code);
-      form.setValue("categoryId", entry.categoryId);
+      form.setValue("categoryId", entry.category.id);
       form.setValue("description", entry.description);
       form.setValue("tos", entry.tos);
       form.setValue("privacyPolicy", entry.privacyPolicy);
       form.setValue("meta", entry.meta);
+      form.setValue("link1", entry.link1);
+      form.setValue("link2", entry.link2);
     }
   }, []);
 
@@ -104,7 +107,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
-        },
+        }
       );
 
       const { fileUrl } = imgResponse.data;
@@ -118,7 +121,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
       if (response) {
         form.reset();
         toast.success(
-          id ? "Service Updated Successfully" : "Service Created Successfully",
+          id ? "Service Updated Successfully" : "Service Created Successfully"
         );
         loaderClose();
         router.push("/admin/services");
@@ -168,7 +171,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      className="h-96"
+                      className="h-80"
                       placeholder="Enter a detailed description"
                       {...field}
                     />
@@ -206,32 +209,37 @@ const ServiceForm = ({ entry }: { entry: any }) => {
                 </FormItem>
               )}
             />
-            {/* Package */}
-            {/* <FormField
-              control={form.control}
-              name="packageId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Package</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+
+            <div className="flex justify-between gap-4">
+              {/* Link 1  */}
+              <FormField
+                control={form.control}
+                name="link1"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Link 1</FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a package" />
-                      </SelectTrigger>
+                      <Input placeholder="Enter link 1" {...field} />
                     </FormControl>
-                    <SelectContent>
-                      <SelectItem value="1">Package 1</SelectItem>
-                      <SelectItem value="2">Package 2</SelectItem>
-                      <SelectItem value="3">Package 3</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Link 1  */}
+              <FormField
+                control={form.control}
+                name="link2"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Link 2</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter link 2" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             {/* Submit Button */}
             <div className="flex justify-end w-full absolute lg:right-1/3 lg:mr-3">

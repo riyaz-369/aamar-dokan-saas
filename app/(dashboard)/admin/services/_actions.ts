@@ -22,6 +22,8 @@ export const SaveServiceIntoDB = async (data: TService, id: string) => {
       status,
       tos,
       photo,
+      link1,
+      link2,
     } = data;
 
     if (!id) {
@@ -37,6 +39,8 @@ export const SaveServiceIntoDB = async (data: TService, id: string) => {
           privacyPolicy,
           tos,
           status,
+          link1,
+          link2,
         },
       });
       if (createdService) {
@@ -57,6 +61,8 @@ export const SaveServiceIntoDB = async (data: TService, id: string) => {
           privacyPolicy,
           tos,
           status,
+          link1,
+          link2,
         },
       });
       if (updatedService) {
