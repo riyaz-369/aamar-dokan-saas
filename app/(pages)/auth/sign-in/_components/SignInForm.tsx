@@ -56,7 +56,7 @@ const SignInForm = () => {
       if (res?.ok) {
         setLoading(false);
         toast.success("Logged in successfully!");
-        if (packs.packageCode && packs.serviceId) {
+        if (packs.packageId && packs.serviceId) {
           router.push(`/client/cart`);
         } else {
           router.push("/client");

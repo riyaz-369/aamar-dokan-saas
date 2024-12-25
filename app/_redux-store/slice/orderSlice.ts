@@ -17,12 +17,12 @@ const orderSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
+      console.log(action.payload);
       return {
         ...state,
         serviceId: action.payload.serviceId,
         packageId: action.payload.packageId,
         amount: action.payload.amount,
-        // paymentTerms: action.payload.paymentTerms,
       };
     },
     setOrderInfo: (state, action) => {

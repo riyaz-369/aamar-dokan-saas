@@ -45,6 +45,8 @@ export function PaymentOptions() {
   const orderData = useSelector((state: RootState) => state.orderSlice);
   const router = useRouter();
 
+  console.log(orderData);
+
   const handleRadioSelect = (method: string) => {
     setSelectedPaymentMethod(method);
   };

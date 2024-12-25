@@ -45,7 +45,6 @@ model Client {
   updatedAt       DateTime      @updatedAt
   aamardokanId    String        @unique
   services        Json[]
-  // payment      Payment[]
   orders          Orders[]
   transactions    Transaction[]
 
@@ -71,7 +70,6 @@ model Services {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   packages      Package[]
-  // payment       Payment[]
   orders        Orders[]
 
   @@index([title, code])
