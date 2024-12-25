@@ -3,10 +3,27 @@ import React from "react";
 import prisma from "@/prisma";
 import BlogPostForm from "../_components/BlogPostForm";
 
-const UpdateUserPage = async ({ params }: { params: { id: string } }) => {
+const UpdateBlogPage = async ({ params }: { params: { id: string } }) => {
   const data = await prisma.blog.findFirst({
     where: {
       id: params.id,
+    },
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      tags: true,
+      meta: true,
+      content: true,
+      publishDate: true,
+      photo: true,
+      privacyPolicy: true,
+      category: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   });
   // console.log(data);
@@ -19,4 +36,4 @@ const UpdateUserPage = async ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default UpdateUserPage;
+export default UpdateBlogPage;
