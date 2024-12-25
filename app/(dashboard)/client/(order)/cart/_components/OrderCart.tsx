@@ -1,7 +1,13 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Image from "next/image";
+import React from "react";
+import { PackageType } from "../page";
 
-const OrderCart = ({ packages }) => {
+type OrderCartProps = {
+  packages: PackageType;
+};
+
+const OrderCart: React.FC<OrderCartProps> = ({ packages }) => {
   return (
     <div className="p-6 rounded-lg border border-dotted shadow">
       <div className="flex flex-col md:flex-row gap-4">
