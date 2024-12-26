@@ -18,7 +18,7 @@ export const GetAPackageFromDB = async (packageId: string) => {
         service: true,
       },
     });
-    console.log("package from action:", pack);
+    // console.log("package from action:", pack);
     return pack;
   } catch (error) {
     console.error(error);

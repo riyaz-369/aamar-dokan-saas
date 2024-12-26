@@ -34,7 +34,7 @@ type OrderDataProsType = {
 
 export const SaveOrderIntoDB = async (data: OrderDataProsType) => {
   const orderId = await generateOrderId();
-  console.log("data from action:", data, "orderId:", orderId);
+  // console.log("data from action:", data, "orderId:", orderId);
   const { aamardokanId, clientId, serviceId, packageId, amount, paymentTerms } =
     data;
 
@@ -71,10 +71,10 @@ type TransactionDataProsType = {
 };
 
 export const CreateTransactionIntoDB = async (
-  data: TransactionDataProsType
+  data: TransactionDataProsType,
 ) => {
   const trxId = await generateTransactionId();
-  console.log("data from action trx:", data, "trxId:", trxId);
+  // console.log("data from action trx:", data, "trxId:", trxId);
 
   try {
     if (trxId) {
@@ -100,7 +100,7 @@ export const CreateTransactionIntoDB = async (
 };
 
 export const updateClientServiceList = async (data, id) => {
-  console.log("form update client action:", data, id);
+  // console.log("form update client action:", data, id);
   if (id) {
     try {
       const update = await prisma.client.update({

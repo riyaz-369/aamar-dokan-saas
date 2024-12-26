@@ -45,7 +45,7 @@ export function PaymentOptions() {
   const orderData = useSelector((state: RootState) => state.orderSlice);
   const router = useRouter();
 
-  console.log(orderData);
+  // console.log(orderData);
 
   const handleRadioSelect = (method: string) => {
     setSelectedPaymentMethod(method);
@@ -70,7 +70,7 @@ export function PaymentOptions() {
           method: selectedPaymentMethod,
         };
         const transaction = await CreateTransactionIntoDB(transactionInfo);
-        console.log("transaction", transaction);
+        // console.log("transaction", transaction);
 
         const clientServices = [
           ...services,
@@ -85,9 +85,9 @@ export function PaymentOptions() {
         if (transaction) {
           const updateClientInfo = await updateClientServiceList(
             clientServices,
-            id
+            id,
           );
-          console.log(updateClientInfo);
+          // console.log(updateClientInfo);
           if (updateClientInfo) {
             router.push("/client/payment/success");
             loaderClose();
