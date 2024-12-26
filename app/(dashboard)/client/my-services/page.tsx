@@ -6,7 +6,6 @@ import ServiceCard from "./_components/ServiceCard";
 import prisma from "@/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import StoreSetupDialog from "./_components/StoreSetupDialog";
 
 const MyServicesPage = async () => {
   const client = await getServerSession(authOptions);
@@ -52,8 +51,8 @@ const MyServicesPage = async () => {
         category: true,
         photo: true,
         slug: true,
-        link1: true,
-        link2: true,
+        apiUrl: true,
+        loginUrl: true,
         code: true,
         tos: true,
         // packages: {
@@ -75,11 +74,8 @@ const MyServicesPage = async () => {
   return (
     <div className="flex flex-col h-[50vh] justify-between">
       <div>
-        <div className="flex justify-between">
-          <PageTitle title="My Services" />
-          {/* store setup dialog button */}
-          <StoreSetupDialog />
-        </div>
+        <PageTitle title="My Services" />
+
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 my-6">
           {resolvedServices.length > 0
             ? resolvedServices.map((service) => (

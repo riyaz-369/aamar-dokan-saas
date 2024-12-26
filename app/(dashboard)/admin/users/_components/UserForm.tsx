@@ -85,7 +85,7 @@ const UserForm = ({ entry }: { entry: TUser }) => {
       }
     } catch (error) {
       loaderClose();
-      console.log(error);
+      console.error(error);
     }
   }
 

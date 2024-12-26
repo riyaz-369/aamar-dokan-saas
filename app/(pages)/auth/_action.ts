@@ -64,7 +64,7 @@ export const createClient = async (data: TClient) => {
       return createUser;
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return false;
   }
 };
@@ -136,7 +136,7 @@ export const updateClient = async ({ data, id }: { data: any; id: string }) => {
       revalidateTag("client-cache");
       return update;
     } catch (error) {
-      console.log("[UPDATE CLIENT]", error);
+      console.error("[UPDATE CLIENT]", error);
     }
   }
 };
@@ -160,7 +160,7 @@ export const updatePassword = async ({
       revalidateTag("client-cache");
       return update;
     } catch (error) {
-      console.log("[UPDATE CLIENT]", error);
+      console.error("[UPDATE CLIENT]", error);
     }
   }
 };

@@ -58,6 +58,8 @@ const ServiceForm = ({ entry }: { entry: any }) => {
         metaTitle: "",
         metaDescription: "",
       },
+      apiUrl: "",
+      loginUrl: "",
     },
   });
 
@@ -73,8 +75,8 @@ const ServiceForm = ({ entry }: { entry: any }) => {
       form.setValue("tos", entry.tos);
       form.setValue("privacyPolicy", entry.privacyPolicy);
       form.setValue("meta", entry.meta);
-      form.setValue("link1", entry.link1);
-      form.setValue("link2", entry.link2);
+      form.setValue("apiUrl", entry.apiUrl);
+      form.setValue("loginUrl", entry.loginUrl);
     }
   }, []);
 
@@ -107,7 +109,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
-        },
+        }
       );
 
       const { fileUrl } = imgResponse.data;
@@ -121,7 +123,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
       if (response) {
         form.reset();
         toast.success(
-          id ? "Service Updated Successfully" : "Service Created Successfully",
+          id ? "Service Updated Successfully" : "Service Created Successfully"
         );
         loaderClose();
         router.push("/admin/services");
@@ -130,7 +132,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
         toast.error(id ? "Service Update Failed" : "Service Creation Failed!");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       loaderClose();
     }
   }
@@ -211,29 +213,29 @@ const ServiceForm = ({ entry }: { entry: any }) => {
             />
 
             <div className="flex justify-between gap-4">
-              {/* Link 1  */}
+              {/* apiUrl  */}
               <FormField
                 control={form.control}
-                name="link1"
+                name="apiUrl"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel>Link 1</FormLabel>
+                    <FormLabel>Api URL</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter link 1" {...field} />
+                      <Input placeholder="Enter api url" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              {/* Link 1  */}
+              {/* loginUrl  */}
               <FormField
                 control={form.control}
-                name="link2"
+                name="loginUrl"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel>Link 2</FormLabel>
+                    <FormLabel>Login URL</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter link 2" {...field} />
+                      <Input placeholder="Enter login url" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

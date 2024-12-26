@@ -64,8 +64,8 @@ model Services {
   categoryId    String    @db.ObjectId
   photo         String?
   privacyPolicy String?
-  link1         String?
-  link2         String?
+  apiUrl        String?
+  loginUrl      String?
   status        Status    @default(Active)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt

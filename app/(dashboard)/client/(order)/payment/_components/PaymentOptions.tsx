@@ -97,7 +97,7 @@ export function PaymentOptions() {
       }
     } catch (error) {
       loaderClose();
-      console.log(error);
+      console.error(error);
     }
   };
 

@@ -76,7 +76,7 @@ export const CreateTransactionIntoDB = async (
   data: TransactionDataProsType
 ) => {
   const trxId = await generateTransactionId();
-  console.log("data from action trx:", data, "trxId:", trxId);
+  // console.log("data from action trx:", data, "trxId:", trxId);
 
   try {
     if (trxId) {
@@ -93,11 +93,11 @@ export const CreateTransactionIntoDB = async (
       });
       return transaction;
     } else {
-      console.log("Failed to generate transaction ID");
+      // console.log("Failed to generate transaction ID");
       return null;
     }
   } catch (error) {
-    console.log("Error to create transaction", error);
+    console.error("Error to create transaction", error);
     return null;
   }
 };
@@ -114,7 +114,7 @@ export const updateClientServiceList = async (data, id) => {
       });
       return update;
     } catch (error) {
-      console.log("[UPDATE CLIENT]", error);
+      console.error("[UPDATE CLIENT]", error);
     }
   }
 };

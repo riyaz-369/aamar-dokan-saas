@@ -84,7 +84,7 @@ const CustomerForm = ({ entry }: { entry: TClient }) => {
       }
     } catch (error) {
       loaderClose();
-      console.log(error);
+      console.error(error);
     }
   }
 
