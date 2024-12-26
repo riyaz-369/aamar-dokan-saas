@@ -2,7 +2,8 @@ import PageTitle from "@/components/PageTitle";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
-import { columns, TBlogPost } from "./_components/columns";
+import { columns } from "./_components/columns";
+import type { TBlogPost } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 
 async function getData(): Promise<TBlogPost[]> {

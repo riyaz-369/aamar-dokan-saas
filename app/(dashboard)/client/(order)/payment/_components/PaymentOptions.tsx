@@ -66,6 +66,7 @@ export function PaymentOptions() {
         const transactionInfo = {
           ...orderData,
           orderId: order.id,
+          aamarDokanId: order.aamardokanId,
           paymentId: "comeAfterPay",
           method: selectedPaymentMethod,
         };
@@ -96,7 +97,7 @@ export function PaymentOptions() {
       }
     } catch (error) {
       loaderClose();
-      console.error(error);
+      console.log(error);
     }
   };
 

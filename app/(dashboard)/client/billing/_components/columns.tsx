@@ -1,6 +1,6 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,10 +15,13 @@ import {
 
 export type TBlogPost = {
   id: string;
-  photo: string;
-  title: string;
-  category: string;
-  publishDate: string;
+  aamarDokanId: string;
+  amount: number;
+  transtransactionId: string;
+  paymentId: string;
+  method: string;
+  status: string;
+  createdAt: string;
 };
 
 export const columns: ColumnDef<TBlogPost>[] = [

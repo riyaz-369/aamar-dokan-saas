@@ -30,6 +30,7 @@ type OrderDataProsType = {
   packageId: string;
   amount: number;
   paymentTerms: paymentTermsStatus;
+  aamarDokanId: string;
 };
 
 export const SaveOrderIntoDB = async (data: OrderDataProsType) => {
@@ -68,13 +69,14 @@ type TransactionDataProsType = {
   method: string;
   amount: number;
   orderId: string;
+  aamarDokanId: string;
 };
 
 export const CreateTransactionIntoDB = async (
   data: TransactionDataProsType,
 ) => {
   const trxId = await generateTransactionId();
-  // console.log("data from action trx:", data, "trxId:", trxId);
+  console.log("data from action trx:", data, "trxId:", trxId);
 
   try {
     if (trxId) {
@@ -82,6 +84,7 @@ export const CreateTransactionIntoDB = async (
         data: {
           clientId: data.clientId,
           orderId: data.orderId,
+          aamarDokanId: data.aamarDokanId,
           paymentId: data.paymentId,
           method: data.method,
           amount: data.amount,
@@ -90,7 +93,7 @@ export const CreateTransactionIntoDB = async (
       });
       return transaction;
     } else {
-      console.error("Failed to generate transaction ID");
+      console.log("Failed to generate transaction ID");
       return null;
     }
   } catch (error) {
