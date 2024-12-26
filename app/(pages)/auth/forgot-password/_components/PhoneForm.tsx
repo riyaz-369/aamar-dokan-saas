@@ -72,7 +72,7 @@ const PhoneForm: React.FC<SignUpFormProps> = ({ setStep, setPin, setId }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      console.error(error);
     }
   }
 

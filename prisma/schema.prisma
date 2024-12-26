@@ -64,8 +64,8 @@ model Services {
   categoryId    String    @db.ObjectId
   photo         String?
   privacyPolicy String?
-  link1         String?
-  link2         String?
+  apiUrl        String?
+  loginUrl      String?
   status        Status    @default(Active)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -152,7 +152,7 @@ model Transaction {
   clientId      String   @db.ObjectId
   order         Orders   @relation(fields: [orderId], references: [id])
   orderId       String   @db.ObjectId
-  aamardokanId String
+  aamardokanId  String
   paymentId     String?
   method        String?
   amount        Int      @default(0)

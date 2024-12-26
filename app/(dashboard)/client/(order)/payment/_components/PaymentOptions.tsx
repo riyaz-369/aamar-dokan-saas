@@ -66,7 +66,7 @@ export function PaymentOptions() {
         const transactionInfo = {
           ...orderData,
           orderId: order.id,
-          aamarDokanId: order.aamardokanId,
+          aamardokanId: order.aamardokanId,
           paymentId: "comeAfterPay",
           method: selectedPaymentMethod,
         };
@@ -86,7 +86,7 @@ export function PaymentOptions() {
         if (transaction) {
           const updateClientInfo = await updateClientServiceList(
             clientServices,
-            id,
+            id
           );
           // console.log(updateClientInfo);
           if (updateClientInfo) {
@@ -97,7 +97,7 @@ export function PaymentOptions() {
       }
     } catch (error) {
       loaderClose();
-      console.log(error);
+      console.error(error);
     }
   };
 

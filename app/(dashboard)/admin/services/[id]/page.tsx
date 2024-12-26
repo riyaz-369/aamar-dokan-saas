@@ -18,8 +18,8 @@ const UpdateUserPage = async ({ params }: { params: { id: string } }) => {
       meta: true,
       photo: true,
       privacyPolicy: true,
-      link1: true,
-      link2: true,
+      apiUrl: true,
+      loginUrl: true,
       category: {
         select: {
           id: true,

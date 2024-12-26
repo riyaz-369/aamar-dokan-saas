@@ -148,7 +148,7 @@ const PackageForm = ({
         toast.error(id ? "Package Update Failed" : "Package Creation Failed!");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       loaderClose();
     }
   }

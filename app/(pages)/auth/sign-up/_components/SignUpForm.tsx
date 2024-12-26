@@ -76,7 +76,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      console.error(error);
     }
   }
 

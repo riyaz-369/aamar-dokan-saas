@@ -59,7 +59,7 @@ export const SavePackageIntoDB = async (data: PackagePropsType, id: string) => {
       }
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 

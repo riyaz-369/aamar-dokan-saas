@@ -21,7 +21,7 @@ async function getData(): Promise<TBlogPost[]> {
 
 const BillingPage = async () => {
   const data = await getData();
-  console.log(data);
+  // console.log(data);
   return (
     <div>
       <div className="flex justify-between">
