@@ -152,7 +152,7 @@ model Transaction {
   clientId      String   @db.ObjectId
   order         Orders   @relation(fields: [orderId], references: [id])
   orderId       String   @db.ObjectId
-  aamardokanId String
+  aamardokanId  String
   paymentId     String?
   method        String?
   amount        Int      @default(0)

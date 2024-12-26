@@ -69,11 +69,11 @@ type TransactionDataProsType = {
   method: string;
   amount: number;
   orderId: string;
-  aamarDokanId: string;
+  aamardokanId: string;
 };
 
 export const CreateTransactionIntoDB = async (
-  data: TransactionDataProsType,
+  data: TransactionDataProsType
 ) => {
   const trxId = await generateTransactionId();
   console.log("data from action trx:", data, "trxId:", trxId);
@@ -84,7 +84,7 @@ export const CreateTransactionIntoDB = async (
         data: {
           clientId: data.clientId,
           orderId: data.orderId,
-          aamarDokanId: data.aamarDokanId,
+          aamardokanId: data.aamardokanId,
           paymentId: data.paymentId,
           method: data.method,
           amount: data.amount,
