@@ -50,7 +50,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
       title: "",
       slug: "",
       code: "",
-      categoryId: entry.category.id || "",
+      categoryId: entry.category?.id || "",
       description: "",
       tos: "",
       privacyPolicy: "",
@@ -68,7 +68,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
       form.setValue("title", entry.title);
       form.setValue("slug", entry.slug);
       form.setValue("code", entry.code);
-      form.setValue("categoryId", entry.category.id);
+      form.setValue("categoryId", entry?.category?.id);
       form.setValue("description", entry.description);
       form.setValue("tos", entry.tos);
       form.setValue("privacyPolicy", entry.privacyPolicy);
