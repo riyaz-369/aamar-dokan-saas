@@ -35,7 +35,7 @@ import { toast } from "sonner";
 import Loader from "@/components/Loader";
 
 const ServiceForm = ({ entry }: { entry: any }) => {
-  console.log(entry.category.name);
+  // console.log(entry.category.name);
   const [photo, setPhoto] = useState<File | null>(null);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [categories, setCategories] = useState<TCategory[]>([]);
@@ -107,7 +107,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
-        }
+        },
       );
 
       const { fileUrl } = imgResponse.data;
@@ -121,7 +121,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
       if (response) {
         form.reset();
         toast.success(
-          id ? "Service Updated Successfully" : "Service Created Successfully"
+          id ? "Service Updated Successfully" : "Service Created Successfully",
         );
         loaderClose();
         router.push("/admin/services");
@@ -198,8 +198,8 @@ const ServiceForm = ({ entry }: { entry: any }) => {
                     </FormControl>
                     <SelectContent>
                       {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
-                          {category.name}
+                        <SelectItem key={category?.id} value={category?.id}>
+                          {category?.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
