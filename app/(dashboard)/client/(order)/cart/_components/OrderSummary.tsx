@@ -20,9 +20,13 @@ import Loader from "@/components/Loader";
 import { useDispatch } from "react-redux";
 import { setOrderInfo } from "@/app/_redux-store/slice/orderSlice";
 import { useSession } from "next-auth/react";
+import { PackageType } from "../page";
 
-const OrderSummary = ({ packages }) => {
-  // console.log(packages);
+type OrderSummaryProps = {
+  packages: PackageType;
+};
+
+const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
   const [checkTrams, setCheckTrams] = useState(false);
   const [loader, setLoader] = useState(false);
   const loaderClose = () => setLoader(false);
@@ -32,13 +36,18 @@ const OrderSummary = ({ packages }) => {
 
   const dispatch = useDispatch();
 
-  const { id, aamardokanId } = session?.user || "";
+  const user = session?.user as { id: string; aamardokanId: string } | null;
 
   const handlePlaceOrder = () => {
     loaderShow();
-    dispatch(setOrderInfo({ aamardokanId: aamardokanId, clientId: id }));
+    if (user) {
+      dispatch(
+        setOrderInfo({ aamardokanId: user.aamardokanId, clientId: user.id })
+      );
+    }
+
     if (!checkTrams) {
-      toast.warning("Please checked our trams and conditions");
+      toast.error("Please check our terms and conditions");
       loaderClose();
     } else {
       loaderClose();
@@ -55,22 +64,15 @@ const OrderSummary = ({ packages }) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="">Service</TableHead>
+              <TableHead>Service</TableHead>
               <TableHead className="text-right">Subtotal</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell className="font-medium">Service Name</TableCell>
+              <TableCell className="font-medium">{packages.title}</TableCell>
               <TableCell className="text-right">
-                {packages?.service?.title}
-              </TableCell>
-            </TableRow>
-
-            <TableRow>
-              <TableCell className="font-medium">Total</TableCell>
-              <TableCell className="text-right">
-                <b>{packages?.price?.monthly} BDT.</b>
+                {packages.price.monthly} BDT
               </TableCell>
             </TableRow>
           </TableBody>
@@ -95,7 +97,7 @@ const OrderSummary = ({ packages }) => {
             htmlFor="terms"
             className="text-sm font-medium flex items-center gap-2 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            <Checkbox onCheckedChange={(e) => setCheckTrams(e)} /> I have read
+            <Checkbox onCheckedChange={(e) => setCheckTrams(!!e)} /> I have read
             and agree to the{" "}
             <Link
               target="_blank"
@@ -114,7 +116,7 @@ const OrderSummary = ({ packages }) => {
           Place order
         </Button>
       </CardContent>
-      <Loader isOpen={loader} onClose={setLoader} title="Please Wait" />
+      <Loader isOpen={loader} onClose={loaderClose} title="Please Wait" />
     </Card>
   );
 };

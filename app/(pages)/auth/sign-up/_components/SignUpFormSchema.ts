@@ -14,7 +14,7 @@ export const SignUpFormSchema = z.object({
       },
       {
         message: "Phone number already exists",
-      },
+      }
     ),
   password: z.string().min(6, { message: "Password minimum 6 character" }),
 });

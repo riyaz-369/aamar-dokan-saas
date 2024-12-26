@@ -45,7 +45,6 @@ model Client {
   updatedAt       DateTime      @updatedAt
   aamardokanId    String        @unique
   services        Json[]
-  // payment      Payment[]
   orders          Orders[]
   transactions    Transaction[]
 
@@ -65,11 +64,12 @@ model Services {
   categoryId    String    @db.ObjectId
   photo         String?
   privacyPolicy String?
+  link1         String?
+  link2         String?
   status        Status    @default(Active)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   packages      Package[]
-  // payment       Payment[]
   orders        Orders[]
 
   @@index([title, code])

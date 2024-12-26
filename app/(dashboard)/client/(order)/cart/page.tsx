@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import OrderSummary from "./_components/OrderSummary";
@@ -7,14 +8,29 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/_redux-store/store";
 import { GetAPackageFromDB } from "./_actions";
 
-const OrderCartPage = () => {
-  const [packages, setPackages] = useState({});
-  const packs = useSelector((state: RootState) => state.orderSlice);
+type Service = {
+  photo: string;
+  slug: string;
+  title: string;
+  description: string;
+};
 
-  // console.log(packs);
+export type PackageType = {
+  service: Service;
+  id: string;
+  title: string;
+  price: {
+    monthly: number;
+  };
+};
+
+const OrderCartPage = () => {
+  const [packages, setPackages] = useState<PackageType | null>(null);
+  const packs = useSelector((state: RootState) => state.orderSlice);
 
   const getPackage = async () => {
     const res = await GetAPackageFromDB(packs.packageId);
+    //@ts-ignore
     setPackages(res);
   };
 
@@ -22,14 +38,12 @@ const OrderCartPage = () => {
     getPackage();
   }, []);
 
-  // console.log(packages);
-
   return (
     <div className="flex justify-between gap-4">
       <div className="flex-1">
-        <OrderCart packages={packages} />
+        {packages && <OrderCart packages={packages} />}
       </div>
-      <OrderSummary packages={packages} />
+      {packages && <OrderSummary packages={packages} />}
     </div>
   );
 };

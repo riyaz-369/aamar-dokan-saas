@@ -91,11 +91,6 @@ export const columns: ColumnDef<TService>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(service.id)}
-            >
-              Copy Post ID
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <Link href={`/admin/services/${service.id}`}>
               <DropdownMenuItem className="cursor-pointer">

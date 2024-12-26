@@ -91,11 +91,6 @@ export const columns: ColumnDef<TBlogPost>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(blog.id)}
-            >
-              Copy Post ID
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <Link href={`/admin/blog/${blog.id}`}>
               <DropdownMenuItem className="cursor-pointer">

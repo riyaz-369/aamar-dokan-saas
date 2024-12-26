@@ -27,6 +27,10 @@ const PaymentSuccessPage = () => {
     });
   };
 
+  setTimeout(() => {
+    router.push("/client/my-services");
+  }, 3000);
+
   return (
     <div className="h-screen overflow-hidden flex items-center justify-center">
       <Confetti

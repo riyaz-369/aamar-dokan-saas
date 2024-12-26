@@ -8,13 +8,7 @@ import MobilePricingTable from "./_components/MobilePricingTable";
 const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
   const id = params.id;
 
-  const packages = await prisma.package.findMany({
-    where: {
-      status: "Active",
-    },
-  });
-
-  const service = await prisma.services.findFirst({
+  const service = await prisma.services.findUnique({
     where: {
       id: id,
     },
@@ -34,14 +28,22 @@ const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
 
   // console.log(service);
 
+  const packages = await prisma.package.findMany({
+    where: {
+      status: "Active",
+    },
+  });
+
+  // console.log("form sss:", service);
+
   return (
     <div>
       <ServiceDetails service={service} />
       <div className="hidden md:block">
-        <PricingTable plans={packages} />
+        <PricingTable plans={packages} service={service} />
       </div>
       <div className="md:hidden block">
-        <MobilePricingTable plans={packages} />
+        <MobilePricingTable plans={packages} service={service} />
       </div>
     </div>
   );

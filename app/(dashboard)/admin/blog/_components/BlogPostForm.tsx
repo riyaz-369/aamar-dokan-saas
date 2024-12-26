@@ -60,7 +60,7 @@ const BlogPostForm = ({ entry }: { entry: TBlogPost }) => {
       title: "",
       slug: "",
       tags: "",
-      categoryId: "",
+      categoryId: entry?.category?.id || "",
       meta: {
         metaTitle: "",
         metaDescription: "",
@@ -77,7 +77,7 @@ const BlogPostForm = ({ entry }: { entry: TBlogPost }) => {
       form.setValue("title", entry.title);
       form.setValue("slug", entry.slug);
       form.setValue("tags", entry.tags);
-      form.setValue("categoryId", entry.categoryId);
+      form.setValue("categoryId", entry?.category?.id);
       form.setValue("meta", entry.meta);
       form.setValue("publishDate", entry.publishDate);
       form.setValue("content", entry.content);

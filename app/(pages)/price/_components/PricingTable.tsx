@@ -31,11 +31,12 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
   // console.log("Packages:", plans);
   const dispatch = useDispatch();
 
-  const handleByPackage = async (
+  const handleByPackage = (
     packageId: string,
     serviceId: string,
     price: number
   ) => {
+    console.log(packageId, serviceId, price);
     dispatch(addToCart({ packageId, serviceId, amount: price }));
   };
 

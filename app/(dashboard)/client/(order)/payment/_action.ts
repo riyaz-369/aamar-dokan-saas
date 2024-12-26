@@ -74,7 +74,7 @@ export const CreateTransactionIntoDB = async (
   data: TransactionDataProsType
 ) => {
   const trxId = await generateTransactionId();
-  console.log("data from action:", data, "trxId:", trxId);
+  console.log("data from action trx:", data, "trxId:", trxId);
 
   try {
     if (trxId) {

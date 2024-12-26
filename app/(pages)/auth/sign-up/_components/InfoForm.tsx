@@ -80,7 +80,7 @@ const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
 
     if (loginResult?.ok) {
       setLoading(false);
-      if (packs.packageCode && packs.serviceId) {
+      if (packs.packageId && packs.serviceId) {
         router.push(`/client/cart`);
       } else {
         router.push("/client");
