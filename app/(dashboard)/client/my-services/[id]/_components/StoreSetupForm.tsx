@@ -18,11 +18,18 @@ import React, { useEffect, useState } from "react";
 import { StoreSetupFormSchema } from "./StoreSetupFormSchema";
 import Loader from "@/components/Loader";
 import { Separator } from "@/components/ui/separator";
-import { GetClientFromDB, SaveStoreInfoIntoClientDB } from "../_action";
+import {
+  GetClientFromDB,
+  getServiceById,
+  SaveStoreInfoIntoClientDB,
+} from "../_action";
 import { useSession } from "next-auth/react";
+import axios from "axios";
+import { toast } from "sonner";
 
-const StoreSetupForm = () => {
+const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
   const [client, setClient] = useState();
+  const [serviceData, setServiceData] = useState();
   const [loader, setLoader] = useState(false);
   // const loaderClose = () => setLoader(false);
   // const loaderShow = () => setLoader(true);
@@ -62,10 +69,65 @@ const StoreSetupForm = () => {
     getClient();
   }, [aamardokanId]);
 
+  useEffect(() => {
+    const getService = async () => {
+      const service = await getServiceById(id);
+      console.log(id);
+      console.log(service.apiUrl);
+      setServiceData(service?.apiUrl);
+    };
+    getService();
+  }, [id]);
+
   async function onSubmit(data: z.infer<typeof StoreSetupFormSchema>) {
-    // console.log("form data:", data);
-    const res = await SaveStoreInfoIntoClientDB(data, aamardokanId);
-    // console.log(res);
+    // console.log("form data:", data, client, aamardokanId);
+    // TODO: Save the client information to the database
+    const { services } = client;
+    const matched = services.find((service) => service.serviceId === id);
+    const rest = services.filter((service) => service.serviceId !== id);
+
+    const newServices = [...rest, { ...matched, ...data, status: "active" }];
+
+    // console.log("NEW SERVICES", newServices);
+
+    const res = await SaveStoreInfoIntoClientDB(newServices, aamardokanId);
+    console.log(res);
+    // if (res) {
+    //TODO:: GENERATE  POS ACCOUNT
+    const accountData = {
+      warehouse: data?.storeName,
+      phone: client?.phone,
+      street: data?.street,
+      city: data?.city,
+      state: data?.state,
+      zip: data?.zip,
+      post: data?.post,
+      aamarId: aamardokanId,
+      username: data?.username,
+      password: data?.password,
+    };
+    // TODO:: API CALL
+    console.log("POS ACCOUNT", accountData, serviceData);
+
+    // console.log(serviceData);
+    try {
+      const posAccount = await axios.post(
+        `${serviceData}/aamarDokan/create`,
+        // "http://localhost:5001/api/aamardokan/create",
+        accountData,
+      );
+      console.log(posAccount);
+      if (posAccount.status === 200) {
+        setIsOpen(false);
+        toast.success("Store setup successful");
+      } else {
+        setIsOpen(false);
+        toast.error("Store setup Not successful");
+      }
+    } catch (err) {
+      console.log("POS ACCOUNT::", err);
+    }
+    // }
   }
 
   return (
@@ -108,7 +170,11 @@ const StoreSetupForm = () => {
             <FormItem className="flex items-center">
               <FormLabel className="w-1/3">Password</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your password" {...field} />
+                <Input
+                  type="password"
+                  placeholder="Enter your password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -122,6 +188,7 @@ const StoreSetupForm = () => {
             name="street"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="w-1/3">Store Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Street" {...field} />
                 </FormControl>

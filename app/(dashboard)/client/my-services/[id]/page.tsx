@@ -8,11 +8,13 @@ import MobilePricingTable from "./_components/MobilePricingTable";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { isServiceIdExist } from "@/lib/utils";
-import StoreSetupDialog from "./_components/StoreSetupDialog";
+// import StoreSetupDialog from "./_components/StoreSetupDialog";
 
 const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
   const client = await getServerSession(authOptions);
   const id = params?.id;
+
+  console.log(id);
   // @ts-ignore
   const { aamardokanId } = client?.user;
 
@@ -24,6 +26,7 @@ const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
       id: true,
       title: true,
       description: true,
+      loginUrl: true,
       category: {
         select: {
           name: true,
@@ -34,6 +37,8 @@ const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
     },
   });
 
+  // console.log("MY-SERVICE:", service);
+
   const myServices = await prisma.client.findUnique({
     where: {
       aamardokanId,
@@ -43,9 +48,24 @@ const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
     },
   });
 
-  // console.log(myServices);
+  const matchedService = () => {
+    return myServices?.services?.find((service) => service?.serviceId === id);
+  };
 
-  const isMyServiceExist = isServiceIdExist(myServices?.services, service.id);
+  const checkStoreSetup = () => {
+    // console.log("MATCHED", matched);
+    const matched = matchedService();
+    if (matched?.username && matched?.password) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // console.log(checkStoreSetup());
+
+  // console.log("MY-SERVICE:", services);
+  const isMyServiceExist = isServiceIdExist(myServices?.services, service?.id);
 
   const packages = await prisma.package.findMany({
     where: {
@@ -57,7 +77,12 @@ const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
-      <ServiceDetails service={service} isMyServiceExist={isMyServiceExist} />
+      <ServiceDetails
+        service={service}
+        isMyServiceExist={isMyServiceExist}
+        checkStoreSetup={checkStoreSetup()}
+        matchedServices={matchedService()}
+      />
 
       {/* conditional rendering */}
       <div>
@@ -77,5 +102,3 @@ const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
 };
 
 export default SingleServiceProduct;
-
-// sotre name | username | storeaddress |

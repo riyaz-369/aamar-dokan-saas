@@ -3,8 +3,15 @@
 import prisma from "@/prisma";
 
 export const SaveStoreInfoIntoClientDB = async (data, aamardokanId: string) => {
-  // console.log("from  action", aamardokanId, data);
+  if (!data || !aamardokanId) {
+    console.error("Missing required parameters: data or aamardokanId.");
+    return null;
+  }
+
   try {
+    console.log("Updating client with Aamardokan ID:", aamardokanId);
+    // console.log("Data to update:", data);
+
     const storeInfo = await prisma.client.update({
       where: {
         aamardokanId: aamardokanId, // Replace with your Aamardokan ID
@@ -13,6 +20,7 @@ export const SaveStoreInfoIntoClientDB = async (data, aamardokanId: string) => {
         services: data,
       },
     });
+    // console.log("STORE INFO", storeInfo);
     return storeInfo;
   } catch (error) {
     console.error(error);
@@ -30,6 +38,18 @@ export const GetClientFromDB = async (aamardokanId: string) => {
     return client;
   } catch (error) {
     console.error(error);
+    return null;
+  }
+};
+
+export const getServiceById = async (id: string) => {
+  try {
+    const service = await prisma.services.findUnique({
+      where: { id: id },
+    });
+    return service;
+  } catch (error) {
+    console.log(error);
     return null;
   }
 };

@@ -41,7 +41,7 @@ const MyServicesPage = async () => {
     },
   });
 
-  const parsedServices = myServices?.services.map(async (service: any) => {
+  const parsedServices = myServices?.services?.map(async (service: any) => {
     const myServices = await prisma.services.findUnique({
       where: { id: service.serviceId },
       select: {

@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -7,12 +8,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import React from "react";
+import React, { useState } from "react";
 import StoreSetupForm from "./StoreSetupForm";
 
-const StoreSetupDialog = () => {
+const StoreSetupDialog = ({ id }: { id: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger>
         <Button>Setup Your Store</Button>
       </DialogTrigger>
@@ -21,7 +23,7 @@ const StoreSetupDialog = () => {
           <DialogTitle>Setup Your Store</DialogTitle>
         </DialogHeader>
         {/* form */}
-        <StoreSetupForm />
+        <StoreSetupForm id={id} setIsOpen={setIsOpen} />
       </DialogContent>
     </Dialog>
   );

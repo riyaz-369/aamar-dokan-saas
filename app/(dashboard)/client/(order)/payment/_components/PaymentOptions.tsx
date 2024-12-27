@@ -79,14 +79,13 @@ export function PaymentOptions() {
             serviceId: orderData.serviceId,
             packageId: orderData.packageId,
             amount: orderData.amount,
-            businessInfo: "",
             nextPayment: new Date(), // TODO:: make a date fns function for the next payment
           },
         ];
         if (transaction) {
           const updateClientInfo = await updateClientServiceList(
             clientServices,
-            id
+            id,
           );
           // console.log(updateClientInfo);
           if (updateClientInfo) {
