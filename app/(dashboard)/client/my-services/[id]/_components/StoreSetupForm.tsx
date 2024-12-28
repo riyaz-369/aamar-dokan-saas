@@ -73,7 +73,7 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
     const getService = async () => {
       const service = await getServiceById(id);
       console.log(id);
-      console.log(service.apiUrl);
+      // console.log(service.apiUrl);
       setServiceData(service?.apiUrl);
     };
     getService();
@@ -86,6 +86,8 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
     // if (res) {
     //TODO:: GENERATE  POS ACCOUNT
     const accountData = {
+      name: client?.name,
+      email: client?.email,
       warehouse: data?.storeName,
       phone: client?.phone,
       street: data?.street,
@@ -98,7 +100,7 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
       password: data?.password,
     };
     // TODO:: API CALL
-    console.log("POS ACCOUNT", accountData, serviceData);
+    // console.log("POS ACCOUNT", accountData, serviceData);
 
     // console.log(serviceData);
     try {
@@ -119,10 +121,10 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
         ];
 
         const res = await SaveStoreInfoIntoClientDB(newServices, aamardokanId);
-        console.log(res);
+        // console.log(res);
         if (res) {
-          setIsOpen(false);
           toast.success("Store setup successful");
+          setIsOpen(false);
         }
       } else {
         setIsOpen(false);

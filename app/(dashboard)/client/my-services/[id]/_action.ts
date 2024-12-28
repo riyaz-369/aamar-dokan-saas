@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/prisma";
+import { revalidatePath } from "next/cache";
 
 export const SaveStoreInfoIntoClientDB = async (data, aamardokanId: string) => {
   if (!data || !aamardokanId) {
@@ -20,6 +21,10 @@ export const SaveStoreInfoIntoClientDB = async (data, aamardokanId: string) => {
         services: data,
       },
     });
+    if (storeInfo) {
+      const dynamicPath = `/client/my-services/`;
+        revalidatePath(dynamicPath);
+    }
     // console.log("STORE INFO", storeInfo);
     return storeInfo;
   } catch (error) {

@@ -105,6 +105,7 @@ export const checkPhone = async (phone: string): Promise<boolean> => {
     return false; // Return false in case of an error
   }
 };
+
 export const checkUsername = async (username: {
   username: string;
 }): Promise<boolean> => {
@@ -167,6 +168,7 @@ export const updateClient = async ({ data, id }: { data: any; id: string }) => {
     }
   }
 };
+
 export const updatePassword = async ({
   data,
   id,

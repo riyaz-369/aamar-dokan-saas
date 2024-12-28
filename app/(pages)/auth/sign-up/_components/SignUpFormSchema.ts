@@ -26,7 +26,7 @@ export const InfoFormSchema = z.object({
   state: z.string().optional(),
   zip: z.string().optional(),
   country: z.string().optional(),
-  dob: z.string().optional(),
+  dob: z.date().optional(),
 });
 
 // import bcrypt from "bcrypt";

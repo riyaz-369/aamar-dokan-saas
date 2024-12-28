@@ -38,7 +38,7 @@ model Client {
   photo           String?
   username        String?
   password        String
-  dob             String?
+  dob             DateTime?
   isPhoneVerified Boolean?
   status          Status        @default(Active)
   createdAt       DateTime      @default(now())

@@ -52,7 +52,7 @@ const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
     resolver: zodResolver(InfoFormSchema),
     defaultValues: {
       email: "",
-      dob: "",
+      dob: new Date(),
       street: "",
       city: "",
       state: "",
@@ -107,7 +107,7 @@ const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your full name" {...field} />
+                    <Input placeholder="Enter email address" {...field} />
                   </FormControl>
                   <FormMessage className="text-black" />
                 </FormItem>
