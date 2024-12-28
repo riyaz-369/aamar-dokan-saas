@@ -55,6 +55,14 @@ export default function Footer() {
             <ul className="space-y-2 ps-8">
               <li>
                 <Link
+                  href="/how-it-works"
+                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
+                >
+                  How It Works
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/privacy-policy"
                   className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
                 >

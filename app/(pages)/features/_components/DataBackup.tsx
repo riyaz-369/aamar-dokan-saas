@@ -3,7 +3,10 @@ import React from "react";
 
 const DataBackup = () => {
   return (
-    <section className="flex flex-row-reverse items-center justify-center gap-12 py-8 px-12">
+    <section
+      id="data-backup"
+      className="flex flex-row-reverse items-center justify-center gap-12 py-8 px-12"
+    >
       <Image
         className="rounded"
         src="/data-backup.png"

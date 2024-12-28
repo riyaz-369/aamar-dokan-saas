@@ -3,7 +3,10 @@ import React from "react";
 
 const Procurement = () => {
   return (
-    <section className="flex items-center justify-center gap-12 py-8 px-12">
+    <section
+      id="procurement"
+      className="flex items-center justify-center gap-12 py-8 px-12"
+    >
       <Image
         className="rounded"
         src="/procurement.jpg"
