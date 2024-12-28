@@ -3,7 +3,10 @@ import React from "react";
 
 const WarehouseManagement = () => {
   return (
-    <section className="flex flex-row-reverse items-center justify-center gap-12 py-8 px-12">
+    <section
+      id="warehouse-management"
+      className="flex flex-row-reverse items-center justify-center gap-12 py-8 px-12"
+    >
       <Image
         className="rounded"
         src="/warehouse-management.jpg"

@@ -3,7 +3,10 @@ import React from "react";
 
 const ReportingAndAnalytics = () => {
   return (
-    <section className="flex items-center justify-center gap-12 py-8 px-12">
+    <section
+      id="reporting-analytics"
+      className="flex items-center justify-center gap-12 py-8 px-12"
+    >
       <Image
         className="rounded"
         src="/analytic.jpg"

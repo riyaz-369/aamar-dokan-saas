@@ -34,7 +34,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
   const handleByPackage = (
     packageId: string,
     serviceId: string,
-    price: number,
+    price: number
   ) => {
     // console.log(packageId, serviceId, price);
     dispatch(addToCart({ packageId, serviceId, amount: price }));
@@ -53,7 +53,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                   <th key={index} className="pb-4 border-b text-left">
                     <div
                       className={cn(
-                        "w-56 rounded-lg py-4 px-4 shadow-md border border-primary",
+                        "w-56 rounded-lg py-4 px-4 shadow-md border border-primary"
                       )}
                     >
                       <h3 className="text-xl font-semibold text-left">
@@ -66,9 +66,9 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                         {plan.custom === true
                           ? "Custom"
                           : plan?.price?.monthly === 0 ||
-                              plan.price.yearly === 0
-                            ? "Free"
-                            : plan.price.monthly + "/mo"}
+                            plan.price.yearly === 0
+                          ? "Free"
+                          : plan.price.monthly + "/mo"}
                       </p>
                       <Link
                         href={
@@ -82,7 +82,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                             handleByPackage(
                               plan.id,
                               plan.serviceId,
-                              plan.price.monthly,
+                              plan.price.monthly
                             )
                           }
                           className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
@@ -106,7 +106,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                 <td className="px-4 py-2 text-left text-sm">{feature.title}</td>
                 {plans.map((plan, index) => {
                   const planFeature = plan.features.find(
-                    (f) => f.title === feature.title,
+                    (f) => f.title === feature.title
                   );
                   return (
                     <td key={index} className="px-4 py-2 text-center text-sm">
@@ -139,7 +139,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                         handleByPackage(
                           plan.id,
                           plan.serviceId,
-                          plan.price.monthly,
+                          plan.price.monthly
                         )
                       }
                       className="w-full"

@@ -12,41 +12,40 @@ import {
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-// import { Icons } from "@/components/icons";
 
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "POS",
-    href: "/docs/primitives/alert-dialog",
+    href: "/features#pos",
     description:
       "A modal dialog that interrupts the user with important content and expects a response.",
   },
   {
     title: "Warehouse",
-    href: "/docs/primitives/hover-card",
+    href: "/features#warehouse-management",
     description:
       "For sighted users to preview content available behind a link.",
   },
   {
     title: "Procurement",
-    href: "/docs/primitives/progress",
+    href: "/features#procurement",
     description:
       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
   },
   {
     title: "Inventory",
-    href: "/docs/primitives/scroll-area",
+    href: "/features#stock-management",
     description: "Visually or semantically separates content.",
   },
   {
     title: "Reporting",
-    href: "/docs/primitives/tabs",
+    href: "/features#reporting-analytics",
     description:
       "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
   },
   {
     title: "Backup",
-    href: "/docs/primitives/tooltip",
+    href: "/features#data-backup",
     description:
       "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
   },
@@ -88,14 +87,14 @@ const Nav = () => {
                     </Link>
                   </NavigationMenuLink>
                 </li>
-                <ListItem href="/docs" title="Sign Up">
+                <ListItem href="/how-it-works#sign-up" title="Sign Up">
                   Re-usable components built using Radix UI and Tailwind CSS.
                 </ListItem>
-                <ListItem href="/docs/installation" title="Setup Store">
+                <ListItem href="/how-it-works#store-setup" title="Setup Store">
                   How to install dependencies and structure your app.
                 </ListItem>
                 <ListItem
-                  href="/docs/primitives/typography"
+                  href="/how-it-works#start-selling"
                   title="Start Selling"
                 >
                   Styles for headings, paragraphs, lists...etc
@@ -105,7 +104,7 @@ const Nav = () => {
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuTrigger className="text-md font-medium text-gray-900 dark:text-gray-200">
-              Components
+              Features
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
