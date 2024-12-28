@@ -86,7 +86,7 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
     const matched = services.find((service) => service.serviceId === id);
     const rest = services.filter((service) => service.serviceId !== id);
 
-    const newServices = [...rest, { ...matched, ...data, status: "active" }];
+    const newServices = [...rest, { ...matched, ...data, status: "Active" }];
 
     // console.log("NEW SERVICES", newServices);
 
@@ -114,7 +114,7 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
       const posAccount = await axios.post(
         `${serviceData}/aamarDokan/create`,
         // "http://localhost:5001/api/aamardokan/create",
-        accountData,
+        accountData
       );
       console.log(posAccount);
       if (posAccount.status === 200) {
