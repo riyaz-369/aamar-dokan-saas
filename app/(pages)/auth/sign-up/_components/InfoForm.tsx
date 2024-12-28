@@ -52,7 +52,7 @@ const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
     resolver: zodResolver(InfoFormSchema),
     defaultValues: {
       email: "",
-      dob: new Date(),
+      dob: new Date().toDateString(),
       street: "",
       city: "",
       state: "",
@@ -92,6 +92,8 @@ const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
     // console.log(data);
     // setStep(4);
   }
+
+  
 
   return (
     <div className="flex flex-col justify-end items-center  w-80">
