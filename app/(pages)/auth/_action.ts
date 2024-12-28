@@ -105,19 +105,19 @@ export const checkPhone = async (phone: string): Promise<boolean> => {
     return false; // Return false in case of an error
   }
 };
-export const checkUsername = async ({
-  username,
-  // apiUrl,
-}: {
+export const checkUsername = async (username: {
   username: string;
-  // apiUrl: string;
 }): Promise<boolean> => {
-  const apiUrl = "http://localhost:5001";
+  console.log("Checking username", username);
+  // const apiUrl = "http://localhost:5001/api";z
+  const apiUrl = "https://api.aaamardokan.online/api";
   try {
     // Check if a client exists with the given phone number
     const existCustomer = await axios.get(
-      `${apiUrl}/api/aamarDokan/username/${username}`,
+      `${apiUrl}/aamarDokan/username/${username}`,
     );
+
+    console.log(existCustomer);
 
     if (existCustomer?.status) {
       return true;

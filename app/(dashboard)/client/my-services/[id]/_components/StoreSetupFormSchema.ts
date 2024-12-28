@@ -12,10 +12,10 @@ export const StoreSetupFormSchema = z.object({
         return !exists; // Fails validation if phone already exists
       },
       {
-        message: "Username number already exists",
+        message: "UserName already exists",
       },
     ),
-  password: z.string().min(1, { message: "Password is required" }),
+  password: z.string().min(6, { message: "Password is required" }),
   street: z.string().optional(),
   city: z.string().optional(),
   state: z.string().optional(),
