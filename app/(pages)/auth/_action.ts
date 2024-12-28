@@ -6,6 +6,7 @@ import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import type { SignUpFormSchema } from "./sign-up/_components/SignUpFormSchema";
 import bcrypt from "bcrypt";
+import axios from "axios";
 
 // Verification pin
 export const generateAamarDokanPin = async () => {
@@ -19,7 +20,7 @@ const generateAamarDokanId = async () => {
 
   for (let i = 0; i < MAX_RETRIES; i++) {
     const newAamarDokanId = Math.floor(
-      100000 + Math.random() * 900000
+      100000 + Math.random() * 900000,
     ).toString();
 
     // Check if the generated ID already exists in the database
@@ -99,6 +100,32 @@ export const checkPhone = async (phone: string): Promise<boolean> => {
 
     // Return true if the client exists, otherwise return false
     return !!client; // `!!` converts to a boolean (true if found, false otherwise)
+  } catch (err) {
+    console.error("Error checking phone number:", err);
+    return false; // Return false in case of an error
+  }
+};
+export const checkUsername = async ({
+  username,
+  // apiUrl,
+}: {
+  username: string;
+  // apiUrl: string;
+}): Promise<boolean> => {
+  const apiUrl = "http://localhost:5001";
+  try {
+    // Check if a client exists with the given phone number
+    const existCustomer = await axios.get(
+      `${apiUrl}/api/aamarDokan/username/${username}`,
+    );
+
+    if (existCustomer?.status) {
+      return true;
+    } else {
+      return false;
+    }
+
+    // Return true if the client exists, otherwise return false
   } catch (err) {
     console.error("Error checking phone number:", err);
     return false; // Return false in case of an error

@@ -81,17 +81,7 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
 
   async function onSubmit(data: z.infer<typeof StoreSetupFormSchema>) {
     // console.log("form data:", data, client, aamardokanId);
-    // TODO: Save the client information to the database
-    const { services } = client;
-    const matched = services.find((service) => service.serviceId === id);
-    const rest = services.filter((service) => service.serviceId !== id);
 
-    const newServices = [...rest, { ...matched, ...data, status: "Active" }];
-
-    // console.log("NEW SERVICES", newServices);
-
-    const res = await SaveStoreInfoIntoClientDB(newServices, aamardokanId);
-    console.log(res);
     // if (res) {
     //TODO:: GENERATE  POS ACCOUNT
     const accountData = {
@@ -128,6 +118,18 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
       console.log("POS ACCOUNT::", err);
     }
     // }
+
+    // TODO: Save the client information to the database
+    const { services } = client;
+    const matched = services.find((service) => service.serviceId === id);
+    const rest = services.filter((service) => service.serviceId !== id);
+
+    const newServices = [...rest, { ...matched, ...data, status: "active" }];
+
+    // console.log("NEW SERVICES", newServices);
+
+    const res = await SaveStoreInfoIntoClientDB(newServices, aamardokanId);
+    console.log(res);
   }
 
   return (
