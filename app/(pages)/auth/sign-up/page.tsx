@@ -13,7 +13,7 @@ const SignUpPage = () => {
   const [id, setId] = useState("");
   const [aamardokanId, setAamardokanId] = useState("");
 
-  // console.log(step);
+  console.log("code from sign up page:", pin);
   const StepOne = () => {
     return (
       <SignUpForm
@@ -25,7 +25,9 @@ const SignUpPage = () => {
     );
   };
   const StepTwo = () => {
-    return <VerificationForm setStep={setStep} id={id} pin={pin} />;
+    return (
+      <VerificationForm setStep={setStep} id={id} pin={pin} setPin={setPin} />
+    );
   };
   const StepThree = () => {
     return <InfoForm id={id} aamardokanId={aamardokanId} />;
@@ -107,19 +109,19 @@ const SignUpPage = () => {
               <div
                 className={cn(
                   "h-3 w-10 bg-gray-100 rounded-xl",
-                  step === 1 && "bg-primary",
+                  step === 1 && "bg-primary"
                 )}
               />
               <div
                 className={cn(
                   "h-3 w-10 bg-gray-100 rounded-xl",
-                  step === 2 && "bg-primary",
+                  step === 2 && "bg-primary"
                 )}
               />
               <div
                 className={cn(
                   "h-3 w-10 bg-gray-100 rounded-xl",
-                  step === 3 && "bg-primary",
+                  step === 3 && "bg-primary"
                 )}
               />
               {/* <div

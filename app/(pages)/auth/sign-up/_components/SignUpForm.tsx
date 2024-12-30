@@ -61,7 +61,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
       const createCustomer = await createClient(data);
       // console.log("createCustomer", createCustomer);
       if (createCustomer) {
-        const pin = await generateAamarDokanPin();
+        const pin = await generateAamarDokanPin(); // TODO:: send this pin again when resend otp
         setPin(pin);
         setId(createCustomer.id);
         setAamardokanId(createCustomer.aamardokanId);
@@ -69,7 +69,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
         const message = `সম্মানিত গ্রাহক, আপনার আমার দোকানের ভেরিফিকেশন কোড ${pin}`;
         // await sendMessage(data.phone, message);
         const to = createCustomer.phone;
-        sendMessage({ to, message });
+        // sendMessage({ to, message });
+        console.log("console code without send:", to, message);
         toast.success("Account creation successful");
         setLoading(false);
         setStep(2);
@@ -158,7 +159,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
 
             <br />
             <Button disabled={loading} className="w-full" type="submit">
-              {loading ? <FaSpinner className="animate-spin" /> : "Sign Up"}
+              {loading && <FaSpinner className="animate-spin mr-2" />}
+              Sign Up
             </Button>
           </form>
         </Form>

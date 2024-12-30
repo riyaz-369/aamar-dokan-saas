@@ -21,7 +21,7 @@ const footerLinks = [
         label: "Career",
         isExternal: true,
       },
-      { href: "/contact", label: "Contact" },
+      { href: "/blogs", label: "Blog" },
     ],
   },
   {
@@ -40,19 +40,48 @@ const footerLinks = [
     links: [
       { href: "/how-it-works", label: "How It Works" },
       { href: "/faq", label: "FAQs" },
-      { href: "/blogs", label: "Blog" },
-      { href: "/documentation", label: "Documentation" },
+      { href: "/contact", label: "Contact" },
+      {
+        href: "https://techsoulbd.com/Supershop-pos-management-software-documentation",
+        label: "Documentation",
+        isExternal: true,
+      },
     ],
   },
   {
     title: "Social Media",
     icon: Link2Icon,
     links: [
-      { href: "https://facebook.com", label: "Facebook", icon: FaFacebook },
-      { href: "https://instagram.com", label: "Instagram", icon: FaInstagram },
-      { href: "https://linkedin.com", label: "LinkedIn", icon: FaLinkedin },
-      { href: "https://twitter.com", label: "Twitter", icon: FaXTwitter },
-      { href: "https://youtube.com", label: "YouTube", icon: FaYoutube },
+      {
+        href: "https://facebook.com",
+        label: "Facebook",
+        icon: FaFacebook,
+        isExternal: true,
+      },
+      {
+        href: "https://instagram.com",
+        label: "Instagram",
+        icon: FaInstagram,
+        isExternal: true,
+      },
+      {
+        href: "https://linkedin.com",
+        label: "LinkedIn",
+        icon: FaLinkedin,
+        isExternal: true,
+      },
+      {
+        href: "https://twitter.com",
+        label: "Twitter",
+        icon: FaXTwitter,
+        isExternal: true,
+      },
+      {
+        href: "https://youtube.com",
+        label: "YouTube",
+        icon: FaYoutube,
+        isExternal: true,
+      },
     ],
   },
 ];
@@ -69,15 +98,27 @@ const Footer = () => {
                 <h3 className="text-md font-bold">{title}</h3>
               </div>
               <ul className="space-y-2 ps-8">
-                {links.map(({ href, label, icon: Icon }) => (
+                {links.map(({ href, label, icon: Icon, isExternal }) => (
                   <li key={href}>
-                    <Link
-                      href={href}
-                      className="opacity-80 hover:opacity-100 transition-all hover:underline text-sm flex items-center space-x-2"
-                    >
-                      {Icon && <Icon className="w-4 h-4" />}
-                      <span>{label}</span>
-                    </Link>
+                    {isExternal ? (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="opacity-80 hover:opacity-100 transition-all hover:underline text-sm flex items-center space-x-2"
+                      >
+                        {Icon && <Icon className="w-4 h-4" />}
+                        <span>{label}</span>
+                      </a>
+                    ) : (
+                      <Link
+                        href={href}
+                        className="opacity-80 hover:opacity-100 transition-all hover:underline text-sm flex items-center space-x-2"
+                      >
+                        {Icon && <Icon className="w-4 h-4" />}
+                        <span>{label}</span>
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
