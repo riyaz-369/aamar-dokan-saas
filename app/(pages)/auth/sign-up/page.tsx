@@ -12,6 +12,7 @@ const SignUpPage = () => {
   const [pin, setPin] = useState("");
   const [id, setId] = useState("");
   const [aamardokanId, setAamardokanId] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
 
   console.log("code from sign up page:", pin);
   const StepOne = () => {
@@ -21,12 +22,19 @@ const SignUpPage = () => {
         setPin={setPin}
         setId={setId}
         setAamardokanId={setAamardokanId}
+        setCustomerPhone={setCustomerPhone}
       />
     );
   };
   const StepTwo = () => {
     return (
-      <VerificationForm setStep={setStep} id={id} pin={pin} setPin={setPin} />
+      <VerificationForm
+        setStep={setStep}
+        id={id}
+        pin={pin}
+        setPin={setPin}
+        customerPhone={customerPhone}
+      />
     );
   };
   const StepThree = () => {

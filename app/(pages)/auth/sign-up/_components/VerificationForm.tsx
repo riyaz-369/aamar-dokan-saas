@@ -27,12 +27,14 @@ import { toast } from "sonner";
 import { generateAamarDokanPin, updateClient } from "../../_action";
 import { FaSpinner } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import sendMessage from "@/lib/sms";
 
 interface VerificationFormProps {
   id: string;
   pin: string;
   setPin: React.Dispatch<React.SetStateAction<string>>;
   setStep: React.Dispatch<React.SetStateAction<number>>;
+  customerPhone: string;
 }
 
 const VerificationForm: React.FC<VerificationFormProps> = ({
@@ -40,6 +42,7 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
   setPin,
   pin,
   id,
+  customerPhone,
 }) => {
   const [loading, setLoading] = useState(false);
   const [secondsRemaining, setSecondsRemaining] = useState(120);
@@ -83,6 +86,13 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
 
     const newPin = await generateAamarDokanPin();
     setPin(newPin);
+
+    const message = `সম্মানিত গ্রাহক, আপনার "আমার দোকানের" ভেরিফিকেশন কোড: ${newPin}`;
+    const to = customerPhone;
+    await sendMessage({ to, message });
+
+    // console.log(message, to);
+
     if (newPin) {
       setSecondsRemaining(120); // Reset the countdown to 120 seconds
       setPinExpired(false);

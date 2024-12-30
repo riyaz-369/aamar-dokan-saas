@@ -32,6 +32,7 @@ interface SignUpFormProps {
   setPin: React.Dispatch<React.SetStateAction<string>>;
   setId: React.Dispatch<React.SetStateAction<string>>;
   setAamardokanId: React.Dispatch<React.SetStateAction<string>>;
+  setCustomerPhone: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SignUpForm: React.FC<SignUpFormProps> = ({
@@ -39,6 +40,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
   setPin,
   setId,
   setAamardokanId,
+  setCustomerPhone,
 }) => {
   const [eyeOpen, setEyeOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -62,15 +64,15 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
       // console.log("createCustomer", createCustomer);
       if (createCustomer) {
         const pin = await generateAamarDokanPin(); // TODO:: send this pin again when resend otp
+        setCustomerPhone(createCustomer.phone);
         setPin(pin);
         setId(createCustomer.id);
         setAamardokanId(createCustomer.aamardokanId);
 
-        const message = `সম্মানিত গ্রাহক, আপনার আমার দোকানের ভেরিফিকেশন কোড ${pin}`;
-        // await sendMessage(data.phone, message);
+        const message = `সম্মানিত গ্রাহক, আপনার "আমার দোকানের" ভেরিফিকেশন কোড: ${pin}`;
         const to = createCustomer.phone;
-        // sendMessage({ to, message });
-        console.log("console code without send:", to, message);
+        await sendMessage({ to, message }); // send otp to user
+        // console.log("console code without send:", to, message);
         toast.success("Account creation successful");
         setLoading(false);
         setStep(2);
