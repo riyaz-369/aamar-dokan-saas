@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { LiaLongArrowAltRightSolid } from "react-icons/lia";
 
@@ -46,13 +47,13 @@ const WhyChooseUs = () => {
           </div>
         </div>
         <div className="flex w-full lg:w-1/3 justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-sm lg:text-lg font-medium font-avro bg-lightWhite text-black h-12 lg:h-full w-full hover:bg-orange hover:text-lightWhite justify-center items-center py-2 lg:py-4 px-6 lg:px-12 rounded-2xl"
+          <Link
+            href="/auth/sign-up"
+            className="text-sm lg:text-lg font-medium font-avro bg-lightWhite text-black h-12 lg:h-full w-full hover:bg-orange hover:text-lightWhite flex justify-center items-center py-2 lg:py-4 px-6 lg:px-12 rounded-2xl"
           >
             ফ্রি অ্যাকাউন্ট তৈরি করুন
             <LiaLongArrowAltRightSolid size="20" className="lg:text-xl ml-2" />
-          </Button>
+          </Link>
         </div>
       </div>
     </div>
