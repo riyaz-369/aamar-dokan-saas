@@ -14,7 +14,7 @@ const SignUpPage = () => {
   const [aamardokanId, setAamardokanId] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
 
-  console.log("code from sign up page:", pin);
+  // console.log("code from sign up page:", pin);
   const StepOne = () => {
     return (
       <SignUpForm

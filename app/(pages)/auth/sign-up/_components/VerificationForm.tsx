@@ -164,6 +164,7 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
                       </InputOTPGroup>
                     </InputOTP>
                   </FormControl>
+                  <FormMessage />
 
                   {/* Resend OTP  */}
                   <FormDescription>
@@ -177,7 +178,6 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
                       )}
                     </div>
                   </FormDescription>
-                  <FormMessage />
                 </FormItem>
               )}
             />
