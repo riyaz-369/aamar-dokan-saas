@@ -25,7 +25,7 @@ const SingleBlog = async ({ params }: { params: { slug: string } }) => {
       },
     },
   });
-  console.log(blog);
+  // console.log(blog);
   return (
     <main className="w-full flex-1 flex-col flex justify-start items-center py-4 md:py-10">
       <div className="flex md:flex-row flex-col w-full md:px-28 px-4  md:gap-10 items">

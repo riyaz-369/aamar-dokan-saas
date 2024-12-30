@@ -66,7 +66,7 @@ const PhoneForm: React.FC<SignUpFormProps> = ({
 
         const message = `সম্মানিত গ্রাহক, আপনার "আমার দোকানের" ভেরিফিকেশন কোড: ${pin}`;
         const to = customer.phone;
-        await sendMessage({ to, message });
+        sendMessage({ to, message });
         // console.log("message", message, to);
         toast.success("Phone verification code sent to your phone");
         setStep(2);

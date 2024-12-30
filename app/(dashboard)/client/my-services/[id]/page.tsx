@@ -14,7 +14,7 @@ const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
   const client = await getServerSession(authOptions);
   const id = params?.id;
 
-  console.log(id);
+  // console.log(id);
   // @ts-ignore
   const { aamardokanId } = client?.user;
 

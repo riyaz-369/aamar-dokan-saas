@@ -109,7 +109,7 @@ export const checkPhone = async (phone: string): Promise<boolean> => {
 export const checkUsername = async (username: {
   username: string;
 }): Promise<boolean> => {
-  console.log("Checking username", username);
+  // console.log("Checking username", username);
   // const apiUrl = "http://localhost:5001/api";z
   const apiUrl = "https://api.aaamardokan.online/api";
   try {
@@ -118,7 +118,7 @@ export const checkUsername = async (username: {
       `${apiUrl}/aamarDokan/username/${username}`
     );
 
-    console.log(existCustomer);
+    // console.log(existCustomer);
 
     if (existCustomer?.status) {
       return true;

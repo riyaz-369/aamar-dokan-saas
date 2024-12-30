@@ -71,8 +71,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
 
         const message = `সম্মানিত গ্রাহক, আপনার "আমার দোকানের" ভেরিফিকেশন কোড: ${pin}`;
         const to = createCustomer.phone;
-        await sendMessage({ to, message }); // send otp to user
-        // console.log("console code without send:", to, message);
+        sendMessage({ to, message }); // send otp to user
+        console.log("console code:", to, message);
         toast.success("Account creation successful");
         setLoading(false);
         setStep(2);

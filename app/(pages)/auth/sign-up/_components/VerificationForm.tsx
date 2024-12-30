@@ -89,9 +89,9 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
 
     const message = `সম্মানিত গ্রাহক, আপনার "আমার দোকানের" ভেরিফিকেশন কোড: ${newPin}`;
     const to = customerPhone;
-    await sendMessage({ to, message });
+    sendMessage({ to, message });
 
-    // console.log(message, to);
+    console.log(message, to);
 
     if (newPin) {
       setSecondsRemaining(300); // Reset the countdown to 120 seconds

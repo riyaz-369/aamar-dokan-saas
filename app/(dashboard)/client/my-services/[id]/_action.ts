@@ -10,7 +10,7 @@ export const SaveStoreInfoIntoClientDB = async (data, aamardokanId: string) => {
   }
 
   try {
-    console.log("Updating client with Aamardokan ID:", aamardokanId);
+    // console.log("Updating client with Aamardokan ID:", aamardokanId);
     // console.log("Data to update:", data);
 
     const storeInfo = await prisma.client.update({
@@ -23,7 +23,7 @@ export const SaveStoreInfoIntoClientDB = async (data, aamardokanId: string) => {
     });
     if (storeInfo) {
       const dynamicPath = `/client/my-services/`;
-        revalidatePath(dynamicPath);
+      revalidatePath(dynamicPath);
     }
     // console.log("STORE INFO", storeInfo);
     return storeInfo;
@@ -54,7 +54,7 @@ export const getServiceById = async (id: string) => {
     });
     return service;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };

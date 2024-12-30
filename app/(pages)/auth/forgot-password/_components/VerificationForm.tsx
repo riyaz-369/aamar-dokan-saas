@@ -72,6 +72,9 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
           id: id,
           data: { isPhoneVerified: true },
         });
+
+        // console.log(updateClient);
+
         setLoading(false);
         toast.success("Phone Verification successful");
         setStep(3);
@@ -96,7 +99,7 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
 
     const message = `সম্মানিত গ্রাহক, আপনার "আমার দোকানের" ভেরিফিকেশন কোড: ${newPin}`;
     const to = customerPhone;
-    await sendMessage({ to, message });
+    sendMessage({ to, message });
 
     // console.log(message, to);
 

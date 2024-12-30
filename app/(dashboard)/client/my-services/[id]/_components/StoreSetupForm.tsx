@@ -72,7 +72,7 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
   useEffect(() => {
     const getService = async () => {
       const service = await getServiceById(id);
-      console.log(id);
+      // console.log(id);
       // console.log(service.apiUrl);
       setServiceData(service?.apiUrl);
     };
