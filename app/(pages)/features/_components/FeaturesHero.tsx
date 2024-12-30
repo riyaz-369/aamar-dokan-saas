@@ -4,7 +4,7 @@ import React from "react";
 const FeaturesHero = () => {
   return (
     <section className="mt-12">
-      <div className="container flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12 py-12 md:py-24">
+      <div className="container flex flex-col-reverse items-center justify-center gap-8 md:flex-row md:gap-12 py-12 md:py-24">
         {/* Text content */}
         <div className="text-center md:text-left">
           <h2 className="font-ador text-lg md:text-xl font-semibold mb-4 text-gray-700 dark:text-gray-300">

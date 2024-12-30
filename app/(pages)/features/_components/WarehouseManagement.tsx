@@ -5,11 +5,11 @@ const WarehouseManagement = () => {
   return (
     <section
       id="warehouse-management"
-      className="flex flex-col-reverse md:flex-row-reverse items-center justify-center gap-8 md:gap-12 py-8 px-4 md:px-12"
+      className="flex flex-col md:flex-row-reverse items-center justify-center gap-8 md:gap-12 py-8 px-4 md:px-12"
     >
       {/* Image */}
       <Image
-        className="rounded max-w-full h-auto"
+        className="rounded lg:max-w-full h-auto"
         src="/warehouse-management.jpg"
         alt="Warehouse Management System"
         height={800}
