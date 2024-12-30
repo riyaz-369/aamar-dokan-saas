@@ -45,7 +45,7 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
   customerPhone,
 }) => {
   const [loading, setLoading] = useState(false);
-  const [secondsRemaining, setSecondsRemaining] = useState(120);
+  const [secondsRemaining, setSecondsRemaining] = useState(300);
   const [pinExpired, setPinExpired] = useState(false);
 
   // Initialize the form with default values and validation
@@ -101,7 +101,7 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
     // console.log(message, to);
 
     if (newPin) {
-      setSecondsRemaining(120); // Reset the countdown to 120 seconds
+      setSecondsRemaining(300); // Reset the countdown to 120 seconds
       setPinExpired(false);
       toast.success("OTP has been resent to your phone.");
       setLoading(false);
@@ -177,7 +177,12 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
                   <FormDescription>
                     <div className="flex justify-end">
                       {secondsRemaining > 0 ? (
-                        <span>{secondsRemaining} Second remaining</span>
+                        <span>
+                          {`${Math.floor(secondsRemaining / 60)}:${
+                            secondsRemaining % 60 < 10 ? "0" : ""
+                          }${secondsRemaining % 60}`}{" "}
+                          remaining
+                        </span>
                       ) : (
                         <Button variant="link" onClick={handleResendOtp}>
                           Resend OTP
@@ -190,7 +195,8 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
             />
 
             <Button disabled={loading} type="submit" className="w-full">
-              {loading ? <FaSpinner className="animate-spin" /> : "Verify"}
+              {loading ? <FaSpinner className="animate-spin" /> : ""}
+              Verify
             </Button>
           </form>
         </Form>
