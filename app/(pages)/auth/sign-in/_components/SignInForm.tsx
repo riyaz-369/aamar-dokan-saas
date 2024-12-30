@@ -75,7 +75,7 @@ const SignInForm = () => {
     <div className="flex flex-col justify-center items-center">
       <div className="max-w-md w-full space-y-2  py-4 ">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <PageTitle
               title="Signin Your Account"
               className="pb-4 text-center text-primary"
@@ -121,7 +121,10 @@ const SignInForm = () => {
               )}
             />
 
-            <br />
+            <div className="flex justify-end text-sm hover:underline hover:text-primary transition-all space-y-0">
+              <Link href={`/auth/forgot-password`}>Forgot Password?</Link>
+            </div>
+            {/* <br /> */}
             <Button disabled={loading} className="w-full" type="submit">
               {loading ? <FaSpinner className="animate-spin" /> : "Sign In"}
             </Button>

@@ -10,13 +10,29 @@ const ForgotPassword = () => {
   const [step, setStep] = useState(1);
   const [pin, setPin] = useState("");
   const [id, setId] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
 
   // console.log(step, pin, id);
   const StepOne = () => {
-    return <PhoneForm setStep={setStep} setPin={setPin} setId={setId} />;
+    return (
+      <PhoneForm
+        setStep={setStep}
+        setPin={setPin}
+        setId={setId}
+        setCustomerPhone={setCustomerPhone}
+      />
+    );
   };
   const StepTwo = () => {
-    return <VerificationForm setStep={setStep} id={id} pin={pin} />;
+    return (
+      <VerificationForm
+        setStep={setStep}
+        id={id}
+        pin={pin}
+        setPin={setPin}
+        customerPhone={customerPhone}
+      />
+    );
   };
   const StepThree = () => {
     return <PasswordForm id={id} />;
@@ -98,19 +114,19 @@ const ForgotPassword = () => {
               <div
                 className={cn(
                   "h-3 w-10 bg-gray-100 rounded-xl",
-                  step === 1 && "bg-primary",
+                  step === 1 && "bg-primary"
                 )}
               />
               <div
                 className={cn(
                   "h-3 w-10 bg-gray-100 rounded-xl",
-                  step === 2 && "bg-primary",
+                  step === 2 && "bg-primary"
                 )}
               />
               <div
                 className={cn(
                   "h-3 w-10 bg-gray-100 rounded-xl",
-                  step === 3 && "bg-primary",
+                  step === 3 && "bg-primary"
                 )}
               />
             </div>

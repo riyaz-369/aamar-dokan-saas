@@ -1,187 +1,148 @@
 import Link from "next/link";
-import { ExternalLink, FileText, Settings, Briefcase } from "lucide-react";
+import {
+  ExternalLink,
+  FileText,
+  HelpCircleIcon,
+  Link2Icon,
+} from "lucide-react";
+import Image from "next/image";
+import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
-export default function Footer() {
+const footerLinks = [
+  {
+    title: "Important Links",
+    icon: ExternalLink,
+    links: [
+      { href: "/", label: "Home" },
+      { href: "/about", label: "About Us" },
+      {
+        href: "https://techsoulbd.com/career",
+        label: "Career",
+        isExternal: true,
+      },
+      { href: "/blogs", label: "Blog" },
+    ],
+  },
+  {
+    title: "Legals",
+    icon: FileText,
+    links: [
+      { href: "/privacy-policy", label: "Privacy Policy" },
+      { href: "/terms", label: "Terms of Service" },
+      { href: "/cookies", label: "Cookies Policy" },
+      { href: "/refund", label: "Refund Policy" },
+    ],
+  },
+  {
+    title: "Help",
+    icon: HelpCircleIcon,
+    links: [
+      { href: "/how-it-works", label: "How It Works" },
+      { href: "/faq", label: "FAQs" },
+      { href: "/contact", label: "Contact" },
+      {
+        href: "https://techsoulbd.com/Supershop-pos-management-software-documentation",
+        label: "Documentation",
+        isExternal: true,
+      },
+    ],
+  },
+  {
+    title: "Social Media",
+    icon: Link2Icon,
+    links: [
+      {
+        href: "https://facebook.com",
+        label: "Facebook",
+        icon: FaFacebook,
+        isExternal: true,
+      },
+      {
+        href: "https://instagram.com",
+        label: "Instagram",
+        icon: FaInstagram,
+        isExternal: true,
+      },
+      {
+        href: "https://linkedin.com",
+        label: "LinkedIn",
+        icon: FaLinkedin,
+        isExternal: true,
+      },
+      {
+        href: "https://twitter.com",
+        label: "Twitter",
+        icon: FaXTwitter,
+        isExternal: true,
+      },
+      {
+        href: "https://youtube.com",
+        label: "YouTube",
+        icon: FaYoutube,
+        isExternal: true,
+      },
+    ],
+  },
+];
+
+const Footer = () => {
   return (
     <footer className="w-full">
-      <div className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200  py-12">
-        <div className="container mx-auto px-4 py-6 mt-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <ExternalLink className="w-6 h-6 text-orange" />
-              <h3 className="text-md font-bold">Important Links</h3>
+      <div className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 py-12">
+        <div className="container py-6 mt-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
+          {footerLinks.map(({ title, icon: Icon, links }) => (
+            <div key={title}>
+              <div className="flex items-center space-x-2 mb-4">
+                <Icon className="w-6 h-6 text-orange" />
+                <h3 className="text-md font-bold">{title}</h3>
+              </div>
+              <ul className="space-y-2 ps-8">
+                {links.map(({ href, label, icon: Icon, isExternal }) => (
+                  <li key={href}>
+                    {isExternal ? (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="opacity-80 hover:opacity-100 transition-all hover:underline text-sm flex items-center space-x-2"
+                      >
+                        {Icon && <Icon className="w-4 h-4" />}
+                        <span>{label}</span>
+                      </a>
+                    ) : (
+                      <Link
+                        href={href}
+                        className="opacity-80 hover:opacity-100 transition-all hover:underline text-sm flex items-center space-x-2"
+                      >
+                        {Icon && <Icon className="w-4 h-4" />}
+                        <span>{label}</span>
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="space-y-2 ps-8">
-              <li>
-                <Link
-                  href="/"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/about"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <a
-                  href="https://techsoulbd.com/career"
-                  target="_blank"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  Careers
-                </a>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <FileText className="w-6 h-6 text-orange" />
-              <h3 className="text-md font-bold">Documents</h3>
-            </div>
-            <ul className="space-y-2 ps-8">
-              <li>
-                <Link
-                  href="/how-it-works"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  How It Works
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/privacy-policy"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/terms"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/cookies"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  Cookies Policy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/faq"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  FAQs
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <Settings className="w-6 h-6 text-orange" />
-              <h3 className="text-md font-bold">Services</h3>
-            </div>
-            <ul className="space-y-2 ps-8">
-              <li>
-                <Link
-                  href="/services/web-development"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  Web Development
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/app-development"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  App Development
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/consulting"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  Consulting
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/support"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  Support
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <Briefcase className="w-6 h-6 text-orange" />
-              <h3 className="text-md font-bold">Business</h3>
-            </div>
-            <ul className="space-y-2 ps-8">
-              <li>
-                <Link
-                  href="/business/partnerships"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  Partnerships
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/business/investors"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  Investors
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/business/press"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  Press
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/blogs"
-                  className="hover:text-gray-900 dark:hover:text-gray-100 text-sm"
-                >
-                  Blog
-                </Link>
-              </li>
-            </ul>
-          </div>
+          ))}
         </div>
       </div>
-      <div className="dark:text-gray-400 py-4">
+      <div className="text-gray-800 dark:text-gray-400 py-4 flex gap-x-4 justify-between md:items-center container">
+        <div className="hidden md:block"></div>
         <p className="text-center text-sm">
           &copy; {new Date().getFullYear()} Techsoul. All rights reserved.
         </p>
+        <div className="md:flex items-center justify-center space-x-2">
+          <p className="text-sm font-medium">We Accept:</p>
+          <Image
+            src="/BKash-bKash-Logo.wine.png"
+            alt=""
+            height={70}
+            width={70}
+          />
+        </div>
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

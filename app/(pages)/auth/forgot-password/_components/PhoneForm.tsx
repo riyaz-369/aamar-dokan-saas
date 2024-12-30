@@ -29,9 +29,15 @@ interface SignUpFormProps {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   setPin: React.Dispatch<React.SetStateAction<string>>;
   setId: React.Dispatch<React.SetStateAction<string>>;
+  setCustomerPhone: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const PhoneForm: React.FC<SignUpFormProps> = ({ setStep, setPin, setId }) => {
+const PhoneForm: React.FC<SignUpFormProps> = ({
+  setStep,
+  setPin,
+  setId,
+  setCustomerPhone,
+}) => {
   // const [eyeOpen, setEyeOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -53,13 +59,15 @@ const PhoneForm: React.FC<SignUpFormProps> = ({ setStep, setPin, setId }) => {
       const customer = await getClientByPhone(phone);
       // console.log("customer", customer);
       if (customer) {
+        setCustomerPhone(customer.phone);
         const pin = await generateAamarDokanPin();
         setPin(pin);
         setId(customer.id);
 
-        const message = `সম্মানিত গ্রাহক, আপনার আমার দোকানের ভেরিফিকেশন কোড ${pin}`;
+        const message = `সম্মানিত গ্রাহক, আপনার "আমার দোকানের" ভেরিফিকেশন কোড: ${pin}`;
         const to = customer.phone;
         sendMessage({ to, message });
+        // console.log("message", message, to);
         toast.success("Phone verification code sent to your phone");
         setStep(2);
       } else {

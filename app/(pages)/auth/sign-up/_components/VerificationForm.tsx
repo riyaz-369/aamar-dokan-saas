@@ -24,22 +24,30 @@ import type { z } from "zod";
 import { VerificationFormSchema } from "./SignUpFormSchema";
 import PageTitle from "@/components/PageTitle";
 import { toast } from "sonner";
-import { updateClient } from "../../_action";
+import { generateAamarDokanPin, updateClient } from "../../_action";
 import { FaSpinner } from "react-icons/fa";
-import { useState } from "react";
-// import axios from "axios";
+import { useState, useEffect } from "react";
+import sendMessage from "@/lib/sms";
+
 interface VerificationFormProps {
-  setStep: React.Dispatch<React.SetStateAction<number>>;
-  pin: string;
   id: string;
+  pin: string;
+  setPin: React.Dispatch<React.SetStateAction<string>>;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+  customerPhone: string;
 }
 
 const VerificationForm: React.FC<VerificationFormProps> = ({
   setStep,
+  setPin,
   pin,
   id,
+  customerPhone,
 }) => {
   const [loading, setLoading] = useState(false);
+  const [secondsRemaining, setSecondsRemaining] = useState(300);
+  const [pinExpired, setPinExpired] = useState(false);
+
   // Initialize the form with default values and validation
   const form = useForm<z.infer<typeof VerificationFormSchema>>({
     resolver: zodResolver(VerificationFormSchema),
@@ -50,22 +58,70 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
 
   // Handle form submission
   async function onSubmit(data: z.infer<typeof VerificationFormSchema>) {
-    // data.password = await bcrypt.hash(data.password, 10);
-    // console.log("OTP", data.pin, pin);
     if (data.pin !== "" && data.pin === pin) {
       setLoading(true);
-      await updateClient({
-        id: id,
-        data: { isPhoneVerified: true },
-      });
-      setLoading(false);
-      toast.success("Phone Verification successful");
-      setStep(3);
+      if (pinExpired) {
+        toast.error("OTP has expired. Please resend OTP.");
+        setLoading(false);
+        return;
+      } else {
+        await updateClient({
+          id: id,
+          data: { isPhoneVerified: true },
+        });
+        setLoading(false);
+        toast.success("Phone Verification successful");
+        setStep(3);
+      }
     } else {
       toast.error("Code is not matched");
       setLoading(false);
     }
   }
+
+  // Handle OTP resend
+  const handleResendOtp = async () => {
+    if (secondsRemaining > 0) return;
+    setLoading(true);
+
+    const newPin = await generateAamarDokanPin();
+    setPin(newPin);
+
+    const message = `সম্মানিত গ্রাহক, আপনার "আমার দোকানের" ভেরিফিকেশন কোড: ${newPin}`;
+    const to = customerPhone;
+    sendMessage({ to, message });
+
+    console.log(message, to);
+
+    if (newPin) {
+      setSecondsRemaining(300); // Reset the countdown to 120 seconds
+      setPinExpired(false);
+      toast.success("OTP has been resent to your phone.");
+      setLoading(false);
+    } else {
+      toast.error("Failed to resend OTP. Please try again.");
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (secondsRemaining === 0) {
+      setPinExpired(true);
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setSecondsRemaining((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [secondsRemaining]);
 
   return (
     <div className="flex flex-col justify-end items-center">
@@ -108,18 +164,32 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
                       </InputOTPGroup>
                     </InputOTP>
                   </FormControl>
+                  <FormMessage />
+
+                  {/* Resend OTP  */}
                   <FormDescription>
-                    <div>
-                      Don&apos;t get OTP <Button variant="link">Resend?</Button>
+                    <div className="flex justify-end">
+                      {secondsRemaining > 0 ? (
+                        <span>
+                          {`${Math.floor(secondsRemaining / 60)}:${
+                            secondsRemaining % 60 < 10 ? "0" : ""
+                          }${secondsRemaining % 60}`}{" "}
+                          remaining
+                        </span>
+                      ) : (
+                        <Button variant="link" onClick={handleResendOtp}>
+                          Resend OTP
+                        </Button>
+                      )}
                     </div>
                   </FormDescription>
-                  <FormMessage />
                 </FormItem>
               )}
             />
 
             <Button disabled={loading} type="submit" className="w-full">
-              {loading ? <FaSpinner className="animate-spin" /> : "Verify"}
+              {loading ? <FaSpinner className="animate-spin" /> : ""}
+              Verify
             </Button>
           </form>
         </Form>

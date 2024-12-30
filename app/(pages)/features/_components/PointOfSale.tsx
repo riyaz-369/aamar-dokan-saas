@@ -5,7 +5,7 @@ const PointOfSale = () => {
   return (
     <section
       id="pos"
-      className="flex flex-col-reverse md:flex-row items-center justify-center gap-8 md:gap-12 py-8 px-4 md:px-12"
+      className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 py-8 px-4 md:px-12"
     >
       {/* Image */}
       <Image
@@ -14,6 +14,7 @@ const PointOfSale = () => {
         alt="Point of Sale System"
         height={800}
         width={800}
+        priority
       />
 
       {/* Text Content */}

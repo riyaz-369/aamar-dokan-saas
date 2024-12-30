@@ -20,7 +20,7 @@ const generateAamarDokanId = async () => {
 
   for (let i = 0; i < MAX_RETRIES; i++) {
     const newAamarDokanId = Math.floor(
-      100000 + Math.random() * 900000,
+      100000 + Math.random() * 900000
     ).toString();
 
     // Check if the generated ID already exists in the database
@@ -109,16 +109,16 @@ export const checkPhone = async (phone: string): Promise<boolean> => {
 export const checkUsername = async (username: {
   username: string;
 }): Promise<boolean> => {
-  console.log("Checking username", username);
+  // console.log("Checking username", username);
   // const apiUrl = "http://localhost:5001/api";z
   const apiUrl = "https://api.aaamardokan.online/api";
   try {
     // Check if a client exists with the given phone number
     const existCustomer = await axios.get(
-      `${apiUrl}/aamarDokan/username/${username}`,
+      `${apiUrl}/aamarDokan/username/${username}`
     );
 
-    console.log(existCustomer);
+    // console.log(existCustomer);
 
     if (existCustomer?.status) {
       return true;
@@ -142,6 +142,7 @@ export const getClientByPhone = async (phone: string): Promise<any> => {
       },
       select: {
         id: true,
+        phone: true,
       },
     });
 

@@ -93,8 +93,6 @@ const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
     // setStep(4);
   }
 
-  
-
   return (
     <div className="flex flex-col justify-end items-center  w-80">
       <div className="w-full px-6">
@@ -249,7 +247,8 @@ const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
 
             <br />
             <Button disabled={loading} className="w-full" type="submit">
-              {loading ? <FaSpinner className="animate-spin" /> : "Save"}
+              {loading ? <FaSpinner className="animate-spin" /> : ""}
+              Save
             </Button>
           </form>
         </Form>

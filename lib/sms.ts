@@ -3,6 +3,7 @@ import qs from "qs";
 const TOKEN = process.env.NEXT_APP_SMS_TOKEN
   ? process.env.NEXT_APP_SMS_TOKEN
   : "8282013645173420500506b3cc98c4d3411e42875a4337561540";
+
 const sendMessage = async ({
   to,
   message,
