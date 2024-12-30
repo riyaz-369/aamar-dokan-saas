@@ -6,6 +6,8 @@ import {
   Link2Icon,
 } from "lucide-react";
 import Image from "next/image";
+import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const footerLinks = [
   {
@@ -46,11 +48,11 @@ const footerLinks = [
     title: "Social Media",
     icon: Link2Icon,
     links: [
-      { href: "https://facebook.com", label: "Facebook", icon: null },
-      { href: "https://instagram.com", label: "Instagram", icon: null },
-      { href: "https://linkedin.com", label: "LinkedIn", icon: null },
-      { href: "https://twitter.com", label: "Twitter", icon: null },
-      { href: "https://youtube.com", label: "YouTube", icon: null },
+      { href: "https://facebook.com", label: "Facebook", icon: FaFacebook },
+      { href: "https://instagram.com", label: "Instagram", icon: FaInstagram },
+      { href: "https://linkedin.com", label: "LinkedIn", icon: FaLinkedin },
+      { href: "https://twitter.com", label: "Twitter", icon: FaXTwitter },
+      { href: "https://youtube.com", label: "YouTube", icon: FaYoutube },
     ],
   },
 ];
@@ -71,9 +73,9 @@ const Footer = () => {
                   <li key={href}>
                     <Link
                       href={href}
-                      className="hover:text-gray-900 hover:underline dark:hover:text-gray-100 text-sm flex items-center space-x-2"
+                      className="opacity-80 hover:opacity-100 transition-all hover:underline text-sm flex items-center space-x-2"
                     >
-                      {Icon && <Icon className="w-5 h-5" />}
+                      {Icon && <Icon className="w-4 h-4" />}
                       <span>{label}</span>
                     </Link>
                   </li>
