@@ -7,8 +7,25 @@ const SingleBlog = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
   // console.log(slug);
 
-  const blog = await prisma.blog.findFirst({ where: { slug: slug } });
-  // console.log(blog);
+  const blog = await prisma.blog.findFirst({
+    where: { slug: slug, status: "Active" },
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      photo: true,
+      content: true,
+      tags: true,
+      meta: true,
+      category: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
+  console.log(blog);
   return (
     <main className="w-full flex-1 flex-col flex justify-start items-center py-4 md:py-10">
       <div className="flex md:flex-row flex-col w-full md:px-28 px-4  md:gap-10 items">
@@ -28,7 +45,7 @@ const SingleBlog = async ({ params }: { params: { slug: string } }) => {
             {blog?.title || ""}
           </h1>
           <div className="space-y-2 md:space-y-3">
-            <p className="text-md ">Category: {blog?.categoryId}</p>
+            <p className="text-md ">Category: {blog?.category.name}</p>
             <p className="text-md ">Tags: {blog?.tags}</p>
             <p className="text-md ">{blog?.meta?.description}</p>
           </div>
