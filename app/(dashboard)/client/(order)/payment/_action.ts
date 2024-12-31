@@ -2,7 +2,7 @@
 "use server";
 
 import prisma from "@/prisma";
-import { paymentTermsStatus } from "@prisma/client";
+import { OrderStatus, PaymentStatus, paymentTermsStatus } from "@prisma/client";
 
 const generateOrderId = async () => {
   const MAX_RETRIES = 3;
@@ -31,14 +31,23 @@ type OrderDataProsType = {
   packageId: string;
   amount: number;
   paymentTerms: paymentTermsStatus;
-  aamarDokanId: string;
+  status: OrderStatus;
+  paymentStatus: PaymentStatus;
 };
 
 export const SaveOrderIntoDB = async (data: OrderDataProsType) => {
   const orderId = await generateOrderId();
   // console.log("data from action:", data, "orderId:", orderId);
-  const { aamardokanId, clientId, serviceId, packageId, amount, paymentTerms } =
-    data;
+  const {
+    aamardokanId,
+    clientId,
+    serviceId,
+    packageId,
+    amount,
+    paymentTerms,
+    status,
+    paymentStatus,
+  } = data;
 
   try {
     if (orderId) {
@@ -51,6 +60,8 @@ export const SaveOrderIntoDB = async (data: OrderDataProsType) => {
           packageId,
           amount,
           paymentTerms,
+          status,
+          paymentStatus,
         },
       });
       return order;

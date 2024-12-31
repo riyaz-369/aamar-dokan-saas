@@ -74,7 +74,10 @@ const MyServicesPage = async () => {
   return (
     <div className="flex flex-col h-[50vh] justify-between">
       <div>
-        <PageTitle title="My Services" />
+        <PageTitle
+          className="bg-gray-50 dark:bg-gray-900 py-4 px-4 rounded-lg"
+          title="My Services"
+        />
 
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 my-6">
           {resolvedServices.length > 0

@@ -10,139 +10,84 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { BsBank } from "react-icons/bs";
 
 import Image from "next/image";
-// import { useSelector } from "react-redux";
-// import { RootState } from "@/app/_redux-store/store";
-import // CreateTransactionIntoDB,
-// SaveOrderIntoDB,
-// updateClientServiceList,
-"../_action";
-// import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
-import { Checkout } from "../payment-actions/_action";
-// import { getClientServicesList } from "@/app/(pages)/auth/_action";
 import { useSession } from "next-auth/react";
+import axios from "axios";
+import { RootState } from "@/app/_redux-store/store";
+import { useSelector } from "react-redux";
 
 export function PaymentOptions() {
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("bkash");
   const [loader, setLoader] = useState(false);
-  // const loaderClose = () => setLoader(false);
-  // const loaderShow = () => setLoader(true);
+  const loaderClose = () => setLoader(false);
+  const loaderShow = () => setLoader(true);
   const { data: session } = useSession();
 
-  // const orderData = useSelector((state: RootState) => state.orderSlice);
-  // const router = useRouter();
-
-  // console.log(orderData);
-
-  const handleRadioSelect = (method: string) => {
-    setSelectedPaymentMethod(method);
-  };
+  const orderData = useSelector((state: RootState) => state.orderSlice);
 
   //@ts-ignore
-  const { id, phone, aamardokanId } = session?.user || "";
-  console.log("aamardokanId", aamardokanId);
+  const { aamardokanId } = session?.user || "";
 
-  // main handle function
   const handlePayment = async () => {
-    const data = {
-      amount: 1000,
+    const paymentData = {
+      amount: orderData.amount.toString(),
       aamardokanId: aamardokanId,
     };
     try {
-      const paymentResponse = await Checkout(data);
-      console.log(paymentResponse);
+      loaderShow();
+      const createResponse = await axios.post(
+        "/api/payment/create",
+        paymentData
+      );
+      if (createResponse) {
+        loaderClose();
+        window.location.href = createResponse.data.bkashURL;
+      }
     } catch (error) {
       console.error(error);
     }
-
-    // const client = await getClientServicesList(phone);
-    // const { services } = client;
-    // try {
-    //   loaderShow();
-    //   // TO DO:: if payment successful then --> save the order information
-    //   const order = await SaveOrderIntoDB(orderData);
-    //   if (order) {
-    //     const transactionInfo = {
-    //       ...orderData,
-    //       orderId: order.id,
-    //       aamardokanId: order.aamardokanId,
-    //       paymentId: "comeAfterPay",
-    //       method: selectedPaymentMethod,
-    //     };
-    //     const transaction = await CreateTransactionIntoDB(transactionInfo);
-    //     // console.log("transaction", transaction);
-
-    //     const clientServices = [
-    //       ...services,
-    //       {
-    //         serviceId: orderData.serviceId,
-    //         packageId: orderData.packageId,
-    //         amount: orderData.amount,
-    //         nextPayment: new Date(), // TODO:: make a date fns function for the next payment
-    //       },
-    //     ];
-    //     if (transaction) {
-    //       const updateClientInfo = await updateClientServiceList(
-    //         clientServices,
-    //         id,
-    //       );
-    //       // console.log(updateClientInfo);
-    //       if (updateClientInfo) {
-    //         router.push("/client/payment/success");
-    //         loaderClose();
-    //       }
-    //     }
-    //   }
-    // } catch (error) {
-    //   loaderClose();
-    //   console.error(error);
-    // }
   };
 
   return (
-    <Card className="max-w-lg w-full">
-      <CardHeader>
+    <Card className="max-w-md w-full space-y-6">
+      <CardHeader className="text-center">
         <CardTitle>Payment Method</CardTitle>
         <CardDescription>
           Add a new payment method to your account.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-6">
-        <RadioGroup
-          defaultValue="bkash"
-          className="grid grid-cols-3 gap-4"
-          onValueChange={handleRadioSelect}
-        >
-          <div>
-            <RadioGroupItem value="bkash" id="bkash" className="peer sr-only" />
-            <Label
-              htmlFor="bkash"
-              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-            >
-              <Image
-                src="/BKash-Icon2-Logo.wine.png"
-                priority
-                alt=""
-                height={60}
-                width={60}
+        <div className="flex items-center justify-center mb-6">
+          <RadioGroup
+            defaultValue="bkash"
+            className="max-w-[100px]"
+            // className="grid grid-cols-3 gap-4"
+            // onValueChange={handleRadioSelect}
+          >
+            <div>
+              <RadioGroupItem
+                value="bkash"
+                id="bkash"
+                className="peer sr-only"
               />
-              bKash
-            </Label>
-          </div>
-          <div>
+              <Label
+                htmlFor="bkash"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <Image
+                  src="/BKash-Icon2-Logo.wine.png"
+                  priority
+                  alt=""
+                  height={60}
+                  width={60}
+                />
+                bKash
+              </Label>
+            </div>
+            {/* <div>
             <RadioGroupItem
               disabled
               title="Currently not available"
@@ -185,11 +130,12 @@ export function PaymentOptions() {
               <BsBank className="mb-3 h-6 w-6" />
               Bank
             </Label>
-          </div>
-        </RadioGroup>
+          </div> */}
+          </RadioGroup>
+        </div>
 
         {/* Conditionally render card payment info */}
-        {selectedPaymentMethod === "card" && (
+        {/* {selectedPaymentMethod === "card" && (
           <div className="grid gap-2">
             <div className="grid gap-2">
               <Label htmlFor="name">Name</Label>
@@ -247,7 +193,7 @@ export function PaymentOptions() {
               </div>
             </div>
           </div>
-        )}
+        )} */}
         <Button onClick={handlePayment} className="w-full">
           Continue
         </Button>

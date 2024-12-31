@@ -63,6 +63,28 @@ export const SavePackageIntoDB = async (data: PackagePropsType, id: string) => {
   }
 };
 
+export const GetPackageCodeByPackageId = async (packageId: string) => {
+  console.log("packageId in action", packageId);
+  try {
+    const packageCode = await prisma.package.findUnique({
+      where: {
+        id: packageId,
+      },
+      select: {
+        code: true,
+      },
+    });
+
+    if (packageCode) {
+      return packageCode;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Package code fetch error", error);
+  }
+};
+
 export const UpdatePackageStatus = async (id: string, status: Status) => {
   try {
     const updateStatus = await prisma.package.update({
