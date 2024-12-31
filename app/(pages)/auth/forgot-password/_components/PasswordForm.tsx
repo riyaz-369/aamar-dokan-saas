@@ -53,7 +53,7 @@ const PasswordForm = ({ id }: PasswordFormProps) => {
       data: data,
     });
 
-    // console.log("updateCustomer", updateCustomer);
+    console.log("updateCustomer", updateCustomer);
     if (updateCustomer) {
       toast.success("Password Reset successfully");
       setLoading(false);
@@ -62,7 +62,7 @@ const PasswordForm = ({ id }: PasswordFormProps) => {
   }
 
   return (
-    <div className="flex flex-col justify-end items-center  ">
+    <div className="flex flex-col justify-end items-center">
       <div className="p-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

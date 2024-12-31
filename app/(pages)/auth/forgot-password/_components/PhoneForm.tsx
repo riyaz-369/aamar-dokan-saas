@@ -59,9 +59,9 @@ const PhoneForm: React.FC<SignUpFormProps> = ({
       const customer = await getClientByPhone(phone);
       // console.log("customer", customer);
       if (customer) {
-        setCustomerPhone(customer.phone);
         const pin = await generateAamarDokanPin();
         setPin(pin);
+        setCustomerPhone(customer.phone);
         setId(customer.id);
 
         const message = `সম্মানিত গ্রাহক, আপনার "আমার দোকানের" ভেরিফিকেশন কোড: ${pin}`;
