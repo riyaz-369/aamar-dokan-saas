@@ -48,6 +48,8 @@ const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
     },
   });
 
+  // console.log("MY-SERVICE:", myServices);
+
   const matchedService = () => {
     return myServices?.services?.find((service) => service?.serviceId === id);
   };

@@ -9,7 +9,8 @@ const initialState: OrderType = {
   packageId: "",
   amount: 0,
   paymentTerms: "Monthly",
-  status: "Complete",
+  status: "Ordered",
+  paymentStatus: "Unpaid",
 };
 
 const orderSlice = createSlice({

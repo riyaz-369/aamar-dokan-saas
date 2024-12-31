@@ -26,13 +26,15 @@ import {
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { toast } from "sonner";
+import { GetPackageCodeByPackageId } from "@/app/(dashboard)/admin/packages/_actions";
 
 const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
   const [client, setClient] = useState();
   const [serviceData, setServiceData] = useState();
+  const [packageCode, setPackageCode] = useState("");
   const [loader, setLoader] = useState(false);
-  // const loaderClose = () => setLoader(false);
-  // const loaderShow = () => setLoader(true);
+  const loaderClose = () => setLoader(false);
+  const loaderShow = () => setLoader(true);
 
   const { data: session } = useSession();
   const { aamardokanId } = session?.user;
@@ -79,9 +81,25 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
     getService();
   }, [id]);
 
+  const packageId = client?.services[0]?.packageId;
+
+  useEffect(() => {
+    const getPackageCode = async () => {
+      const res = await GetPackageCodeByPackageId(packageId);
+      if (res) {
+        setPackageCode(res.code);
+      }
+    };
+    if (packageId) {
+      getPackageCode();
+    }
+  }, [packageId]);
+
   async function onSubmit(data: z.infer<typeof StoreSetupFormSchema>) {
-    // console.log("form data:", data, client, aamardokanId);
-    const { services } = client;
+    // console.log("form data:", data);
+    const services = client?.services;
+
+    // console.log("services", services);
 
     // if (res) {
     //TODO:: GENERATE  POS ACCOUNT
@@ -98,18 +116,25 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
       aamarId: aamardokanId,
       username: data?.username,
       password: data?.password,
+      pId: packageCode,
     };
-    // TODO:: API CALL
-    // console.log("POS ACCOUNT", accountData, serviceData);
 
-    // console.log(serviceData);
+    // TODO:: API CALL
     try {
+      loaderShow();
+      // console.log("accountData", accountData);
+      if (!serviceData) {
+        toast.error("Store setup Not successful");
+        loaderClose();
+        setIsOpen(false);
+        return;
+      }
       const posAccount = await axios.post(
         `${serviceData}/aamarDokan/create`,
         // "http://localhost:5001/api/aamardokan/create",
         accountData
       );
-      console.log(posAccount);
+      // console.log("posAccount", posAccount);
       if (posAccount.status === 200) {
         // TODO: Save the client information to the database
         const matched = services.find((service) => service.serviceId === id);
@@ -123,15 +148,18 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
         const res = await SaveStoreInfoIntoClientDB(newServices, aamardokanId);
         // console.log(res);
         if (res) {
+          loaderClose();
           toast.success("Store setup successful");
           setIsOpen(false);
         }
       } else {
+        loaderClose();
         setIsOpen(false);
         toast.error("Store setup Not successful");
       }
     } catch (err) {
-      console.log("POS ACCOUNT::", err);
+      console.error("POS ACCOUNT::", err);
+      loaderClose();
     }
     // }
   }

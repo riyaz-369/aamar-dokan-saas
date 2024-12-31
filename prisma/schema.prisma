@@ -138,23 +138,29 @@ model Category {
 }
 
 model Orders {
-  id           String             @id @default(auto()) @map("_id") @db.ObjectId
-  aamardokanId String
-  orderId      String
-  client       Client             @relation(fields: [clientId], references: [id])
-  clientId     String             @db.ObjectId
-  service      Services           @relation(fields: [serviceId], references: [id])
-  serviceId    String             @db.ObjectId
-  package      Package            @relation(fields: [packageId], references: [id])
-  packageId    String             @db.ObjectId
-  status       OrderStatus        @default(Ordered)
-  transaction  Transaction[]
-  amount       Int                @default(0)
-  paymentTerms paymentTermsStatus @default(Monthly)
-  createdAt    DateTime           @default(now())
-  updatedAt    DateTime           @updatedAt
+  id            String             @id @default(auto()) @map("_id") @db.ObjectId
+  aamardokanId  String
+  orderId       String
+  client        Client             @relation(fields: [clientId], references: [id])
+  clientId      String             @db.ObjectId
+  service       Services           @relation(fields: [serviceId], references: [id])
+  serviceId     String             @db.ObjectId
+  package       Package            @relation(fields: [packageId], references: [id])
+  packageId     String             @db.ObjectId
+  status        OrderStatus        @default(Ordered)
+  paymentStatus PaymentStatus      @default(Unpaid)
+  transaction   Transaction[]
+  amount        Int                @default(0)
+  paymentTerms  paymentTermsStatus @default(Monthly)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
 
   @@index([aamardokanId, orderId])
+}
+
+enum PaymentStatus {
+  Unpaid
+  Paid
 }
 
 model Transaction {
@@ -184,12 +190,6 @@ enum UserType {
 enum Status {
   Active
   Inactive
-}
-
-enum PaymentStatus {
-  Success
-  Failed
-  Pending
 }
 
 enum OrderStatus {
