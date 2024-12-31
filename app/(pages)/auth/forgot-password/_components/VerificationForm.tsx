@@ -24,11 +24,10 @@ import type { z } from "zod";
 import { VerificationFormSchema } from "./PassFormSchema";
 import PageTitle from "@/components/PageTitle";
 import { toast } from "sonner";
-import { generateAamarDokanPin, updateClient } from "../../_action";
+import { generateAamarDokanPin } from "../../_action";
 import { FaSpinner } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import sendMessage from "@/lib/sms";
-// import axios from "axios";
 interface VerificationFormProps {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   setPin: React.Dispatch<React.SetStateAction<string>>;
@@ -41,7 +40,6 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
   setStep,
   setPin,
   pin,
-  id,
   customerPhone,
 }) => {
   const [loading, setLoading] = useState(false);
@@ -58,27 +56,17 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
 
   // Handle form submission
   async function onSubmit(data: z.infer<typeof VerificationFormSchema>) {
-    // data.password = await bcrypt.hash(data.password, 10);
+    setLoading(true);
     // console.log("OTP", data.pin, pin);
+    if (pinExpired) {
+      toast.error("OTP has expired. Please resend OTP.");
+      return;
+    }
     if (data.pin !== "" && data.pin === pin) {
       setLoading(true);
-
-      if (pinExpired) {
-        toast.error("OTP has expired. Please resend OTP.");
-        setLoading(false);
-        return;
-      } else {
-        await updateClient({
-          id: id,
-          data: { isPhoneVerified: true },
-        });
-
-        // console.log(updateClient);
-
-        setLoading(false);
-        toast.success("Phone Verification successful");
-        setStep(3);
-      }
+      toast.success("Phone Verification successful");
+      setStep(3);
+      setLoading(false);
     } else {
       toast.error("Code is not matched");
       form.setError("pin", {

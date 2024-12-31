@@ -7,6 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model PaymentTokens {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  aamardokanId String   @unique
+  method       String
+  idToken      String?
+  refreshToken String?
+  expiresIn    Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
 // user model
 model User {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId

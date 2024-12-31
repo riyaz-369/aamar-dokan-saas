@@ -58,20 +58,23 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
 
   // Handle form submission
   async function onSubmit(data: z.infer<typeof VerificationFormSchema>) {
+    if (pinExpired) {
+      toast.error("OTP has expired. Please resend OTP.");
+      return;
+    }
     if (data.pin !== "" && data.pin === pin) {
       setLoading(true);
-      if (pinExpired) {
-        toast.error("OTP has expired. Please resend OTP.");
+      const res = await updateClient({
+        id: id,
+        data: { isPhoneVerified: true },
+      });
+      if (res?.isPhoneVerified) {
+        toast.success("Phone number verified successfully");
         setLoading(false);
-        return;
-      } else {
-        await updateClient({
-          id: id,
-          data: { isPhoneVerified: true },
-        });
-        setLoading(false);
-        toast.success("Phone Verification successful");
         setStep(3);
+      } else {
+        toast.error("Failed to verify phone number");
+        setLoading(false);
       }
     } else {
       toast.error("Code is not matched");

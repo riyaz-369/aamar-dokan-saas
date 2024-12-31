@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import prisma from "@/prisma";
@@ -102,7 +103,7 @@ export const CreateTransactionIntoDB = async (
   }
 };
 
-export const updateClientServiceList = async (data, id) => {
+export const updateClientServiceList = async (data: any[], id: string) => {
   // console.log("form update client action:", data, id);
   if (id) {
     try {

@@ -23,27 +23,27 @@ import {
 import { BsBank } from "react-icons/bs";
 
 import Image from "next/image";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/_redux-store/store";
-import {
-  CreateTransactionIntoDB,
-  SaveOrderIntoDB,
-  updateClientServiceList,
-} from "../_action";
-import { useRouter } from "next/navigation";
+// import { useSelector } from "react-redux";
+// import { RootState } from "@/app/_redux-store/store";
+import // CreateTransactionIntoDB,
+// SaveOrderIntoDB,
+// updateClientServiceList,
+"../_action";
+// import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
-import { getClientServicesList } from "@/app/(pages)/auth/_action";
+import { Checkout } from "../payment-actions/_action";
+// import { getClientServicesList } from "@/app/(pages)/auth/_action";
 import { useSession } from "next-auth/react";
 
 export function PaymentOptions() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("bkash");
   const [loader, setLoader] = useState(false);
-  const loaderClose = () => setLoader(false);
-  const loaderShow = () => setLoader(true);
+  // const loaderClose = () => setLoader(false);
+  // const loaderShow = () => setLoader(true);
   const { data: session } = useSession();
 
-  const orderData = useSelector((state: RootState) => state.orderSlice);
-  const router = useRouter();
+  // const orderData = useSelector((state: RootState) => state.orderSlice);
+  // const router = useRouter();
 
   // console.log(orderData);
 
@@ -52,52 +52,64 @@ export function PaymentOptions() {
   };
 
   //@ts-ignore
-  const { id, phone } = session?.user || "";
+  const { id, phone, aamardokanId } = session?.user || "";
+  console.log("aamardokanId", aamardokanId);
 
   // main handle function
   const handlePayment = async () => {
-    const client = await getClientServicesList(phone);
-    const { services } = client;
+    const data = {
+      amount: 1000,
+      aamardokanId: aamardokanId,
+    };
     try {
-      loaderShow();
-      // TO DO:: if payment successful then --> save the order information
-      const order = await SaveOrderIntoDB(orderData);
-      if (order) {
-        const transactionInfo = {
-          ...orderData,
-          orderId: order.id,
-          aamardokanId: order.aamardokanId,
-          paymentId: "comeAfterPay",
-          method: selectedPaymentMethod,
-        };
-        const transaction = await CreateTransactionIntoDB(transactionInfo);
-        // console.log("transaction", transaction);
-
-        const clientServices = [
-          ...services,
-          {
-            serviceId: orderData.serviceId,
-            packageId: orderData.packageId,
-            amount: orderData.amount,
-            nextPayment: new Date(), // TODO:: make a date fns function for the next payment
-          },
-        ];
-        if (transaction) {
-          const updateClientInfo = await updateClientServiceList(
-            clientServices,
-            id,
-          );
-          // console.log(updateClientInfo);
-          if (updateClientInfo) {
-            router.push("/client/payment/success");
-            loaderClose();
-          }
-        }
-      }
+      const paymentResponse = await Checkout(data);
+      console.log(paymentResponse);
     } catch (error) {
-      loaderClose();
       console.error(error);
     }
+
+    // const client = await getClientServicesList(phone);
+    // const { services } = client;
+    // try {
+    //   loaderShow();
+    //   // TO DO:: if payment successful then --> save the order information
+    //   const order = await SaveOrderIntoDB(orderData);
+    //   if (order) {
+    //     const transactionInfo = {
+    //       ...orderData,
+    //       orderId: order.id,
+    //       aamardokanId: order.aamardokanId,
+    //       paymentId: "comeAfterPay",
+    //       method: selectedPaymentMethod,
+    //     };
+    //     const transaction = await CreateTransactionIntoDB(transactionInfo);
+    //     // console.log("transaction", transaction);
+
+    //     const clientServices = [
+    //       ...services,
+    //       {
+    //         serviceId: orderData.serviceId,
+    //         packageId: orderData.packageId,
+    //         amount: orderData.amount,
+    //         nextPayment: new Date(), // TODO:: make a date fns function for the next payment
+    //       },
+    //     ];
+    //     if (transaction) {
+    //       const updateClientInfo = await updateClientServiceList(
+    //         clientServices,
+    //         id,
+    //       );
+    //       // console.log(updateClientInfo);
+    //       if (updateClientInfo) {
+    //         router.push("/client/payment/success");
+    //         loaderClose();
+    //       }
+    //     }
+    //   }
+    // } catch (error) {
+    //   loaderClose();
+    //   console.error(error);
+    // }
   };
 
   return (
