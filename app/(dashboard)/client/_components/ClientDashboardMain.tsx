@@ -38,12 +38,14 @@ const ClientDashboardMain = async ({ resolvedServices }: any) => {
           </div>
         </div>
         <div className="flex min-w-1.5">
-          {resolvedServices.length > 0
-            ? resolvedServices.map((service: any) => (
-                // @ts-ignore
-                <ServiceCard key={service.id} service={service.myServices} />
-              ))
-            : "Not found"}
+          {resolvedServices.length > 0 ? (
+            resolvedServices.map((service: any) => (
+              // @ts-ignore
+              <ServiceCard key={service.id} service={service.myServices} />
+            ))
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

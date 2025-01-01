@@ -52,7 +52,9 @@ const PaymentSuccessPage = () => {
       <div className="max-w-md w-full px-8 py-12 text-center flex flex-col items-center gap-6">
         <CheckCircle className="text-primary h-16 w-16 animate-bounce" />
         <div>
-          <h1 className="text-3xl font-bold mb-2">Payment Successful!</h1>
+          <h1 className="text-3xl font-bold mb-2">
+            Service has been successfully purchased !
+          </h1>
           <p className=" mb-4">
             Thank you for your payment. Your transaction ID is:
           </p>
