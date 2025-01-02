@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import SessionProvider from "@/providers/AuthProvider";
 import { Toaster } from "@/components/ui/sonner";
 import StoreProvider from "@/providers/StoreProvider";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,17 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <link rel="icon" href="/aamarDokan.ico" sizes="any" />
-      <head>
-     {/* Google tag (gtag.js)*/}
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-62Q3RGYNSB"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer?.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-62Q3RGYNSB');
-      </script>
-      </head>
+      
       <body
         className={`${geistSans.variable} ${geistMono.variable}   antialiased`}
         suppressHydrationWarning={true}
@@ -55,6 +46,7 @@ export default function RootLayout({
         </main>
         <Toaster />
       </body>
+      <GoogleAnalytics gaId="G-62Q3RGYNSB" />
     </html>
   );
 }
