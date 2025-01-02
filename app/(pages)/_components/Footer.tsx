@@ -8,7 +8,7 @@ import {
 import Image from "next/image";
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { TawkMessage } from "./Tawk";
+import TawkMessage  from "./Tawk";
 
 const footerLinks = [
   {
