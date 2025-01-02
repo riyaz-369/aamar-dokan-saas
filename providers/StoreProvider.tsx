@@ -11,7 +11,7 @@ const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   const persistor = persistStore(store)
 
   return <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
+          <PersistGate persistor={persistor}>
             {children}
             </PersistGate>
       </Provider>;

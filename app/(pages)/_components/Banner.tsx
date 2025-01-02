@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { sendGAEvent } from "@next/third-parties/google";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -28,6 +29,8 @@ const Banner = () => {
             এখনই শুরু করুন
           </Button>
         </Link>
+        
+
       </div>
       <div className="">
         <Image

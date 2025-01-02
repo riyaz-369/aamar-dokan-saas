@@ -34,9 +34,11 @@ const orderSlice = createSlice({
         clientId: action.payload.clientId,
       };
     },
-    resetCart: () => initialState,
+    resetCart: (state) => {
+      return initialState;
+    },
   },
 });
 
-export const { addToCart, setOrderInfo,resetCart } = orderSlice.actions;
+export const { addToCart, setOrderInfo, resetCart } = orderSlice.actions;
 export default orderSlice.reducer;

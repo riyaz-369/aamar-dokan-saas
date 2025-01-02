@@ -8,6 +8,7 @@ import {
 import Image from "next/image";
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { TawkMessage } from "./Tawk";
 
 const footerLinks = [
   {
@@ -93,7 +94,7 @@ const Footer = () => {
         <div className="container py-6 mt-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
           {footerLinks.map(({ title, icon: Icon, links }) => (
             <div key={title}>
-              <div className="flex items-center space-x-2 mb-4">
+              <div className="flex items-center space-x-2 mb-2">
                 <Icon className="w-6 h-6 text-orange" />
                 <h3 className="text-md font-bold">{title}</h3>
               </div>
@@ -141,6 +142,7 @@ const Footer = () => {
           />
         </div>
       </div>
+      <TawkMessage/>
     </footer>
   );
 };
