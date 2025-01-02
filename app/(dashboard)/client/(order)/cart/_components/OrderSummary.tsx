@@ -19,7 +19,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { setOrderInfo } from "@/app/_redux-store/slice/orderSlice";
+import { setOrderInfo, resetCart } from "@/app/_redux-store/slice/orderSlice";
 import { useSession } from "next-auth/react";
 import { PackageType } from "../page";
 import {
@@ -65,16 +65,19 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
       // };
       // const transaction = await CreateTransactionIntoDB(transactionInfo);
       // console.log("transaction", transaction);
-
-      const clientServices = [
-        ...services,
-        {
-          serviceId: orderData.serviceId,
-          packageId: orderData.packageId,
-          amount: orderData.amount,
-          nextPayment: new Date(), // TODO:: make a date fns function for the next payment
-        },
-      ];
+      const marched = services.find(service => service.serviceId === orderData.serviceId);
+      let clientServices = services;
+      if (!marched){
+        clientServices = [
+          ...services,
+          {
+            serviceId: orderData.serviceId,
+            packageId: orderData.packageId,
+            amount: orderData.amount,
+            nextPayment: new Date(), // TODO:: make a date fns function for the next payment
+          },
+        ];
+      }
 
       // console.log("clientServices from savePaymentInformation", clientServices);
 
@@ -83,7 +86,10 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
         user?.id as string
       );
       // console.log("updateService from savePaymentInformation", updateService);
-      return updateService;
+      if(updateService){
+        dispatch(resetCart())
+        return updateService;
+      }
     } catch (error) {
       console.error(error);
     }

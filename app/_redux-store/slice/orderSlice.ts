@@ -11,6 +11,7 @@ const initialState: OrderType = {
   paymentTerms: "Monthly",
   status: "Ordered",
   paymentStatus: "Unpaid",
+
 };
 
 const orderSlice = createSlice({
@@ -33,8 +34,9 @@ const orderSlice = createSlice({
         clientId: action.payload.clientId,
       };
     },
+    resetCart: () => initialState,
   },
 });
 
-export const { addToCart, setOrderInfo } = orderSlice.actions;
+export const { addToCart, setOrderInfo,resetCart } = orderSlice.actions;
 export default orderSlice.reducer;
