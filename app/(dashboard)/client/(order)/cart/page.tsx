@@ -28,8 +28,10 @@ const OrderCartPage = () => {
   const [packages, setPackages] = useState<PackageType | null>(null);
   const packs = useSelector((state: RootState) => state.orderSlice);
 
+  console.log("packs", packs);
+
   const getPackage = async () => {
-    const res = await GetAPackageFromDB(packs.packageId);
+    const res = await GetAPackageFromDB(packs?.packageId);
     //@ts-ignore
     setPackages(res);
   };

@@ -29,7 +29,6 @@ const orderSlice = createSlice({
     setOrderInfo: (state, action) => {
       return {
         ...state,
-
         aamardokanId: action.payload.aamardokanId,
         clientId: action.payload.clientId,
       };
