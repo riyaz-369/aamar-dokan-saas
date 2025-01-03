@@ -8,8 +8,11 @@ const Price = async () => {
     where: {
       status: "Active",
     },
+
   });
 
+
+  console.log(packages);
   return (
     <div className="w-full  md:px-32 min-h-[500px] py-6">
       <div className="md:p-4 p-6 flex flex-col justify-center ">

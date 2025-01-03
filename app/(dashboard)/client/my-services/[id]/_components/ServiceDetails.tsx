@@ -40,7 +40,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
   // console.log(service);
   return (
     <Card className="">
-      <CardContent className="p-4 flex flex-col justify-center items-center md:flex-row gap-6">
+      <CardContent className="p-4 flex flex-col justify-start items-center md:flex-row gap-6">
         <Image
           className="rounded-lg"
           src={service.photo}
