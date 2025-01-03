@@ -12,5 +12,5 @@ export const CreateServiceFormSchema = z.object({
   description: z.string().min(1, "Description is required"),
   tos: z.string().min(1, "Terms of service are required"),
   privacyPolicy: z.string().min(1, "Privacy policy is required"),
-  status: z.enum(["Active", "Inactive"]).default("Active"),
+  status: z.enum(["Active", "Inactive","ComingSoon"]).default("Active"),
 });

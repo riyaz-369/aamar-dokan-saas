@@ -76,6 +76,7 @@ const ServiceForm = ({ entry }: { entry: any }) => {
       form.setValue("privacyPolicy", entry.privacyPolicy);
       form.setValue("meta", entry.meta);
       form.setValue("apiUrl", entry.apiUrl);
+      form.setValue("status", entry.status);
       form.setValue("loginUrl", entry.loginUrl);
     }
   }, []);
@@ -182,14 +183,14 @@ const ServiceForm = ({ entry }: { entry: any }) => {
                 </FormItem>
               )}
             />
-            <div>
+            <div className="flex  justify-between gap-4">
 
             {/* Category */}
             <FormField
               control={form.control}
               name="categoryId"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormLabel>Category</FormLabel>
                   <Select
                     onValueChange={field.onChange}
@@ -215,9 +216,9 @@ const ServiceForm = ({ entry }: { entry: any }) => {
             />
             <FormField
               control={form.control}
-              name="categoryId"
+              name="status"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormLabel>Status</FormLabel>
                   <Select
                     onValueChange={field.onChange}
@@ -225,15 +226,13 @@ const ServiceForm = ({ entry }: { entry: any }) => {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a category" />
+                        <SelectValue placeholder="Select a Status" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category?.id} value={category?.id}>
-                          {category?.name}
-                        </SelectItem>
-                      ))}
+                        <SelectItem value="Active">  Active </SelectItem>
+                        <SelectItem value="Inactive">  Inactive </SelectItem>
+                        <SelectItem value="ComingSoon">  ComingSoon </SelectItem>
                     </SelectContent>
                   </Select>
 

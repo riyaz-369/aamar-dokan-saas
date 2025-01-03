@@ -14,7 +14,9 @@ const MyServicesPage = async () => {
 
   const allServices = await prisma.services.findMany({
     where: {
-      status: "Active",
+      status: {
+        not: "Inactive",
+      },
     },
     select: {
       id: true,

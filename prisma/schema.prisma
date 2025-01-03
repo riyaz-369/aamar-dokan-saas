@@ -195,7 +195,7 @@ enum Status {
 enum ServiceStatus {
   Active
   Inactive
-  CommingSoon
+  ComingSoon
 }
 
 enum OrderStatus {

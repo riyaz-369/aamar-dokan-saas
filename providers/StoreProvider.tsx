@@ -13,7 +13,7 @@ const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   return <Provider store={store}>
           <PersistGate persistor={persistor}>
             {children}
-            </PersistGate>
+          </PersistGate>
       </Provider>;
 };
 
