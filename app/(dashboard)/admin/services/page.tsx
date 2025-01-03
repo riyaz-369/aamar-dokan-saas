@@ -7,7 +7,23 @@ import { DataTable } from "./_components/data-table";
 import prisma from "@/prisma";
 
 const ServicesPage = async () => {
-  const data = await prisma.services.findMany();
+  const data = await prisma.services.findMany(
+    {
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        description: true,
+        meta: true,
+        category: true,
+        photo: true,
+        status: true,
+        packages: true,
+      }
+    }
+  );
+
+  // console.log(data)
 
   return (
     <div>

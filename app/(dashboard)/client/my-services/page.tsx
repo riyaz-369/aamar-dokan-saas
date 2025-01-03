@@ -24,12 +24,7 @@ const MyServicesPage = async () => {
       slug: true,
       description: true,
       meta: true,
-      category: {
-        select: {
-          name: true,
-          id: true,
-        },
-      },
+      category: true,
       photo: true,
     },
   });
@@ -95,7 +90,7 @@ const MyServicesPage = async () => {
           title="Popular Services"
           className="bg-gray-50 dark:bg-gray-900 py-4 px-4 rounded-lg mt-12"
         />
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 mt-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 my-6 pb-4">
           {allServices.length > 0
             ? allServices.map((service) => (
                 // @ts-ignore

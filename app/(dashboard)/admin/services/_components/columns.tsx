@@ -24,6 +24,7 @@ export type TService = {
   category: string;
   status: string;
   slug: string;
+  packages: []
 };
 
 const handleUpdateStatus = async (service: TService) => {
@@ -64,12 +65,25 @@ export const columns: ColumnDef<TService>[] = [
     },
   },
   {
-    accessorKey: "category",
+    accessorKey: "category.name",
     header: "Category",
   },
   {
     accessorKey: "packages",
     header: "Packages",
+    cell: ({ row }) => {
+      const service = row.original;
+
+      return (
+        <ul>
+          {service.packages.map((pkg: any) => (
+            <li key={pkg.id}>
+              {pkg.title} - ${pkg.price.monthly}
+            </li>
+          ))}
+        </ul>
+      );
+    },
   },
   {
     accessorKey: "status",
