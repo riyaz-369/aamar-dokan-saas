@@ -64,22 +64,22 @@ model Client {
 
 //Services model
 model Services {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
   title         String
   description   String?
   slug          String
   code          String
   tos           String?
   meta          Json?
-  category      Category  @relation(fields: [categoryId], references: [id])
-  categoryId    String    @db.ObjectId
+  category      Category      @relation(fields: [categoryId], references: [id])
+  categoryId    String        @db.ObjectId
   photo         String?
   privacyPolicy String?
   apiUrl        String?
   loginUrl      String?
-  status        Status    @default(Active)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  status        ServiceStatus @default(Active)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   packages      Package[]
   orders        Orders[]
 
@@ -190,6 +190,12 @@ enum UserType {
 enum Status {
   Active
   Inactive
+}
+
+enum ServiceStatus {
+  Active
+  Inactive
+  CommingSoon
 }
 
 enum OrderStatus {

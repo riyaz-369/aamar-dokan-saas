@@ -6,9 +6,8 @@ import {
   Link2Icon,
 } from "lucide-react";
 import Image from "next/image";
-import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+import { FaAt, FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import TawkMessage  from "./Tawk";
 
 const footerLinks = [
   {
@@ -54,25 +53,31 @@ const footerLinks = [
     icon: Link2Icon,
     links: [
       {
-        href: "https://facebook.com",
+        href: "https://www.facebook.com/aamardokan.online/",
         label: "Facebook",
         icon: FaFacebook,
         isExternal: true,
       },
       {
-        href: "https://instagram.com",
+        href: "https://www.instagram.com/aamardokan.online/",
         label: "Instagram",
         icon: FaInstagram,
         isExternal: true,
       },
       {
-        href: "https://linkedin.com",
+        href: "https://www.linkedin.com/company/105304258/admin/dashboard/",
         label: "LinkedIn",
         icon: FaLinkedin,
         isExternal: true,
       },
       {
-        href: "https://twitter.com",
+        href: "https://www.threads.net/@aamardokan.online",
+        label: "Threads",
+        icon: FaAt,
+        isExternal: true,
+      },
+      {
+        href: "https://x.com/AamarDokan",
         label: "Twitter",
         icon: FaXTwitter,
         isExternal: true,
@@ -142,7 +147,6 @@ const Footer = () => {
           />
         </div>
       </div>
-      <TawkMessage/>
     </footer>
   );
 };

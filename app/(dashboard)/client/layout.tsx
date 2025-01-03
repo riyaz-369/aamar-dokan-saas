@@ -8,6 +8,7 @@ import { AppSidebar } from "../_components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import DashboardBreadCrumb from "../_components/dashboard-breadcrumb";
 import { clientSidebarLinks } from "./_components/ClientSidebarLink";
+import TawkMessage from "@/app/(pages)/_components/Tawk";
 
 const ClientDashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -21,6 +22,8 @@ const ClientDashboardLayout = ({ children }: { children: React.ReactNode }) => {
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
       </SidebarInset>
+      <TawkMessage />
+
     </SidebarProvider>
   );
 };

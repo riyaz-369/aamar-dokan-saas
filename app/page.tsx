@@ -4,6 +4,7 @@ import Banner from "./(pages)/_components/Banner";
 import BusinessPlatform from "./(pages)/_components/BusinessPlatform";
 import WhyChooseUs from "./(pages)/_components/WhyChooseUs";
 import Testimonials from "./(pages)/_components/Testimonials";
+import TawkMessage from "./(pages)/_components/Tawk";
 // import { sendGAEvent } from '@next/third-parties/google'
 // import { Button } from "@/components/ui/button";
  
@@ -18,6 +19,8 @@ export default function Home() {
         <WhyChooseUs />
         <Testimonials />
       </main>
+      <TawkMessage/>
+
       <Footer />
     </div>
   );

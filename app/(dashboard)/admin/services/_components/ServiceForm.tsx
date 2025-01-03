@@ -182,6 +182,8 @@ const ServiceForm = ({ entry }: { entry: any }) => {
                 </FormItem>
               )}
             />
+            <div>
+
             {/* Category */}
             <FormField
               control={form.control}
@@ -211,6 +213,35 @@ const ServiceForm = ({ entry }: { entry: any }) => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="categoryId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Status</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a category" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {categories.map((category) => (
+                        <SelectItem key={category?.id} value={category?.id}>
+                          {category?.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            </div>
 
             <div className="flex justify-between gap-4">
               {/* apiUrl  */}

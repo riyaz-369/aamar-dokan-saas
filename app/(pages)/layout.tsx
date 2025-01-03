@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
+import TawkMessage from "./_components/Tawk";
 
 export const metadata: Metadata = {
   title: "Aamar Dokan",
@@ -16,6 +17,8 @@ export default function RootLayout({
     <div>
       <Header />
       {children}
+      <TawkMessage/>
+
       <Footer />
     </div>
   );
