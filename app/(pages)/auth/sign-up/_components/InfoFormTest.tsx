@@ -24,24 +24,16 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
 import { RootState } from "@/app/_redux-store/store";
 import { useSelector } from "react-redux";
+import { DatePicker } from "./DayPicker";
 
 interface InfoFormProps {
   id: string;
   aamardokanId: string;
 }
 
-const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
+const InfoFormTest: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
   const [loading, setLoading] = useState(false);
   const packs = useSelector((state: RootState) => state.orderSlice);
 
@@ -52,7 +44,7 @@ const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
     resolver: zodResolver(InfoFormSchema),
     defaultValues: {
       email: "",
-      dob: new Date().toDateString(),
+      dob: new Date(),
       street: "",
       city: "",
       state: "",
@@ -63,6 +55,7 @@ const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
 
   // Handle form submission
   async function onSubmit(data: z.infer<typeof InfoFormSchema>) {
+    console.log("data from info form:", data);
     setLoading(true);
     const res = await updateClient({
       id: id,
@@ -120,40 +113,11 @@ const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
               control={form.control}
               name="dob"
               render={({ field }) => (
-                <FormItem className="flex flex-col mt-2">
+                <FormItem className="">
                   <FormLabel>Date Of Birth</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        captionLayout="dropdown"
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  <FormControl>
+                    <DatePicker field={field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -259,4 +223,4 @@ const InfoForm: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
   );
 };
 
-export default InfoForm;
+export default InfoFormTest;
