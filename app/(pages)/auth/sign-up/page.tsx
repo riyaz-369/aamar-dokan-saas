@@ -2,10 +2,11 @@
 import { useState } from "react";
 import SignUpForm from "./_components/SignUpForm";
 import VerificationForm from "./_components/VerificationForm";
-import InfoForm from "./_components/InfoForm";
+// import InfoForm from "./_components/InfoForm";
 // import AddressForm from "./_components/AddressForm";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import InfoFormTest from "./_components/InfoFormTest";
 
 const SignUpPage = () => {
   const [step, setStep] = useState(1);
@@ -38,7 +39,7 @@ const SignUpPage = () => {
     );
   };
   const StepThree = () => {
-    return <InfoForm id={id} aamardokanId={aamardokanId} />;
+    return <InfoFormTest id={id} aamardokanId={aamardokanId} />;
   };
 
   const getStep = (step: number): React.ReactNode => {
