@@ -76,14 +76,14 @@ const MyServicesPage = async () => {
           title="My Services"
         />
 
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 my-6">
+        {/* <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 my-6">
           {resolvedServices.length > 0
             ? resolvedServices.map((service) => (
                 // @ts-ignore
                 <ServiceCard key={service.id} service={service.myServices} />
               ))
             : "Not found"}
-        </div>
+        </div> */}
       </div>
       <div>
         <PageTitle

@@ -10,17 +10,17 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { isServiceIdExist } from "@/lib/utils";
 // import StoreSetupDialog from "./_components/StoreSetupDialog";
 
-const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
+const SingleServiceProduct = async ({ params }: { params: { slug: string } }) => {
   const client = await getServerSession(authOptions);
-  const id = params?.id;
+  const slug = decodeURIComponent(params?.slug || "");
 
-  // console.log(id);
+  // console.log("Decoded slug:", slug);
   // @ts-ignore
   const { aamardokanId } = client?.user;
 
   const service = await prisma.services.findUnique({
     where: {
-      id: id,
+      slug: slug,
     },
     select: {
       id: true,
@@ -34,10 +34,12 @@ const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
         },
       },
       photo: true,
+      slug: true,
+      status: true,
     },
   });
 
-  // console.log("MY-SERVICE:", service);
+  // console.log("SERVICE:", service);
 
   const myServices = await prisma.client.findUnique({
     where: {
@@ -50,13 +52,15 @@ const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
 
   // console.log("MY-SERVICE:", myServices);
 
-  const matchedService = () => {
-    return myServices?.services?.find((service) => service?.serviceId === id);
+  const matchedService = (id:string) => {
+    const services = myServices?.services;
+    // console.log("first", services);
+    return services?.find((service) => service?.serviceId === id);
   };
 
-  const checkStoreSetup = () => {
+  const checkStoreSetup = (id:string) => {
     // console.log("MATCHED", matched);
-    const matched = matchedService();
+    const matched = matchedService(id);
     if (matched?.username && matched?.password) {
       return true;
     } else {
@@ -72,6 +76,7 @@ const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
   const packages = await prisma.package.findMany({
     where: {
       status: "Active",
+      serviceId: service?.id,
     },
   });
 
@@ -82,13 +87,14 @@ const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
       <ServiceDetails
         service={service}
         isMyServiceExist={isMyServiceExist}
-        checkStoreSetup={checkStoreSetup()}
-        matchedServices={matchedService()}
+        checkStoreSetup={checkStoreSetup(service?.id)}
+        matchedServices={matchedService(service?.id )}
       />
 
       {/* conditional rendering */}
       <div>
         {!isMyServiceExist && (
+          packages.length > 0 ?
           <>
             <div className="hidden md:block">
               <PricingTable plans={packages} service={service} />
@@ -97,7 +103,12 @@ const SingleServiceProduct = async ({ params }: { params: { id: string } }) => {
               <MobilePricingTable plans={packages} service={service} />
             </div>
           </>
-        )}
+          :
+          <div className="flex clex-row justify-center items-center h-[50vh]">
+            <h2 className="text-2xl">No pricing plans found for this service</h2>
+           
+          </div>
+        )} 
       </div>
     </div>
   );

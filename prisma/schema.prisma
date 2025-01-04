@@ -67,7 +67,7 @@ model Services {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
   title         String
   description   String?
-  slug          String
+  slug          String        @unique
   code          String
   tos           String?
   meta          Json?
@@ -83,7 +83,7 @@ model Services {
   packages      Package[]
   orders        Orders[]
 
-  @@index([title, code])
+  @@index([title, code, slug])
 }
 
 model Package {

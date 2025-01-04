@@ -37,14 +37,14 @@ const DashboardBreadCrumb = () => {
                 {isLast ? (
                   <BreadcrumbItem>
                     <BreadcrumbPage className="capitalize">
-                      {decodeURIComponent(segment)}
+                      {decodeURIComponent(segment).replace("-", " ")}
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                 ) : (
                   <>
                     <BreadcrumbLink href={segmentPath} className="capitalize">
                       {" "}
-                      {decodeURIComponent(segment)}
+                      {decodeURIComponent(segment).replace("-", " ")}
                     </BreadcrumbLink>
                     <BreadcrumbSeparator className="hidden md:block" />
                   </>

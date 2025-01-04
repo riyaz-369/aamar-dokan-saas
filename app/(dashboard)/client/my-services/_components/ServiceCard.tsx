@@ -37,7 +37,7 @@ type ServiceCardPropsType = {
 const ServiceCard: React.FC<ServiceCardPropsType> = ({ service }) => {
   return (
     <Card className="max-w-[300px] mx-auto shadow-md rounded-md  transition-all duration-300 hover:bg-primary/5">
-      <Link href={`/client/my-services/${service.id}`}>
+      <Link href={`/client/my-services/${service.slug}`}>
         <CardHeader className="p-4">
           <div className="w-full">
             {/* <AspectRatio ratio={16 / 9}> */}

@@ -83,7 +83,7 @@ const footerLinks = [
         isExternal: true,
       },
       {
-        href: "https://youtube.com",
+        href: "https://www.youtube.com/@AamarDokan",
         label: "YouTube",
         icon: FaYoutube,
         isExternal: true,
