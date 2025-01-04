@@ -7,6 +7,7 @@ const Price = async () => {
   const packages = await prisma.package.findMany({
     where: {
       status: "Active",
+      serviceId: "6762cf662ed209d1e2af8632"
     },
 
   });
