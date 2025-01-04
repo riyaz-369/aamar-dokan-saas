@@ -32,12 +32,17 @@ type ServiceCardPropsType = {
     };
     status: string;
   };
+  isExist:boolean
 };
 
-const ServiceCard: React.FC<ServiceCardPropsType> = ({ service }) => {
+const ServiceCard: React.FC<ServiceCardPropsType> = ({ service, isExist }) => {
+
+  console.log("isExist", service.title,isExist)
+
+  
   return (
     <Card className="max-w-[300px] mx-auto shadow-md rounded-md  transition-all duration-300 hover:bg-primary/5">
-      <Link href={`/client/my-services/${service.slug}`}>
+      <Link href={`/client/my-services/${service.slug}`} className="flex flex-col h-full justify-between">
         <CardHeader className="p-4">
           <div className="w-full">
             {/* <AspectRatio ratio={16 / 9}> */}
@@ -61,12 +66,18 @@ const ServiceCard: React.FC<ServiceCardPropsType> = ({ service }) => {
           <p className="text-sm line-clamp-2">{service.description}</p>
         </CardContent>
         <CardFooter className="p-4 pt-0">
+          {isExist ?  <Button variant="outline" disabled>
+            Subscribed
+          </Button>
+          :
           <Button>
             {
-              service.status === "active" ? "View Details" : "Service is inactive"
+              service.status === "Active" ? "View Details" : "Coming Soon"
             }
             {/* View Details */}
           </Button>
+           }
+          
         </CardFooter>
       </Link>
     </Card>

@@ -64,7 +64,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
         <div className="flex flex-col gap-4">
           {
             service?.status === "ComingSoon" && (
-              <div className="flex flex-col items-center gap-2 border rounded-md border-primary p-6 hover:cursor-pointer">
+              <div className="flex items-center gap-2 border rounded-md border-primary px-6 py-4 hover:cursor-pointer">
                 <Bell className="h-6 w-6 text-primary" />
                 <p className="text-sm">Coming Soon</p>
               </div>
