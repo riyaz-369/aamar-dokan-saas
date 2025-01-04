@@ -7,9 +7,12 @@ const UpdatePackagePage = async ({ params }: { params: { id: string } }) => {
   const id = params.id;
   const services = await prisma.services.findMany({
     where: {
-      status: "Active",
+      NOT:{status: "Inactive"},
     },
   });
+
+  console.log("services", services);
+  
   const packages = await prisma.package.findUnique({
     where: {
       id: id,
