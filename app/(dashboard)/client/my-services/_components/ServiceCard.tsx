@@ -30,6 +30,7 @@ type ServiceCardPropsType = {
       name: string;
       id: string;
     };
+    status: string;
   };
 };
 
@@ -60,8 +61,11 @@ const ServiceCard: React.FC<ServiceCardPropsType> = ({ service }) => {
           <p className="text-sm line-clamp-2">{service.description}</p>
         </CardContent>
         <CardFooter className="p-4 pt-0">
-          <Button variant="link" className={cn("p-0")}>
-            View Details
+          <Button>
+            {
+              service.status === "active" ? "View Details" : "Service is inactive"
+            }
+            {/* View Details */}
           </Button>
         </CardFooter>
       </Link>

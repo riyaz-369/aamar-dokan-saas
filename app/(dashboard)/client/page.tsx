@@ -15,7 +15,9 @@ const ClientDashboard = async () => {
 
   const allServices = await prisma.services.findMany({
     where: {
-      status: "Active",
+      NOT: {
+        status: "Inactive",
+      },
     },
     select: {
       id: true,
@@ -30,6 +32,7 @@ const ClientDashboard = async () => {
         },
       },
       photo: true,
+      status: true,
     },
   });
 
@@ -56,6 +59,7 @@ const ClientDashboard = async () => {
         loginUrl: true,
         code: true,
         tos: true,
+        status: true,
         // packages: {
         //   select: {
         //     id: true,
@@ -76,12 +80,12 @@ const ClientDashboard = async () => {
   // if (typeof window === "undefined") return null;
 
   return (
-    <div className="flex flex-col h-full w-full pb-6">
+    <div className="flex flex-col h-full w-full pb-4">
       <DashboardMain resolvedServices={resolvedServices} />
       <div>
         <PageTitle
           title="View Popular Services"
-          className="bg-gray-50 dark:bg-gray-900 py-4 px-4 rounded-lg mt-12"
+          className="py-4 px-4 rounded-lg mt-12"
         />
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 mt-6 mb-8">
           {allServices.length > 0
