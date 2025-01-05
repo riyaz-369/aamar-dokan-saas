@@ -1,10 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { GetToken } from "@/app/(dashboard)/client/(order)/payment/payment-actions/_action";
-// import { getClientServicesList } from "@/app/(pages)/auth/_action";
-// import { CreateTransactionIntoDB, SaveOrderIntoDB, updateClientServiceList } from "@/app/(dashboard)/client/(order)/payment/_action";
+import {
+  CreateTransactionIntoDB,
+  SaveOrderIntoDB,
+  updateClientServiceListIntoBD,
+} from "@/app/(dashboard)/client/(order)/payment/_action";
+import { resetCart } from "@/app/_redux-store/slice/orderSlice";
+import store, { RootState } from "@/app/_redux-store/store";
+import { getClientServicesList } from "@/app/(pages)/auth/_action";
 
 async function executePayment(paymentID: string, idToken: string) {
   const response = await fetch(
@@ -23,56 +30,94 @@ async function executePayment(paymentID: string, idToken: string) {
     }
   );
 
-  // console.log("execute payment response:", response);
-  // if (!response.ok) {
-  //   throw new Error(`Failed to execute payment: ${response.statusText}`);
-  // }
-
   const responseData = await response.json();
   return responseData;
 }
 
-// async function savePaymentInformation(executionResponse: unknown) {
-//   const session = await getServerSession(authOptions);
-//   const {} = session?.user
-//   console.log(executionResponse);
-//   const client = await getClientServicesList(session?.user?.phone);
-//   const { services } = client;
-//   try {
-//     // TO DO:: if payment successful then --> save the order information
-//     const order = await SaveOrderIntoDB(orderData);
-//     if (order) {
-//       const transactionInfo = {
-//         ...orderData,
-//         orderId: order.id,
-//         aamardokanId: order.aamardokanId,
-//         // paymentId: "comeAfterPay",
-//         method: "bkash",
-//       };
-//       const transaction = await CreateTransactionIntoDB(transactionInfo);
-//       // console.log("transaction", transaction);
+async function createOrder(executionResponse: any) {
+  const state: RootState = store.getState();
+  const orderData = state.orderSlice;
 
-//       const clientServices = [
-//         ...services,
-//         {
-//           serviceId: orderData.serviceId,
-//           packageId: orderData.packageId,
-//           amount: orderData.amount,
-//           nextPayment: new Date(), // TODO:: make a date fns function for the next payment
-//         },
-//       ];
-//       if (transaction) {
-//      await updateClientServiceList(
-//           clientServices,
-//           id
-//         );
-//       }
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
+  console.log("order slice data from create order func:", orderData);
 
+  const order = await SaveOrderIntoDB(orderData);
+  console.log("order from route:", order);
+  if (order) {
+    await createTransaction(executionResponse, order.id);
+  }
+}
+
+async function createTransaction(executionResponse: any, orderId: string) {
+  const state: RootState = store.getState();
+  const orderData = state.orderSlice;
+
+  const transactionInfo = {
+    ...orderData,
+    orderId: orderId,
+    paymentId: executionResponse.paymentID,
+    method: "bkash",
+    amount: executionResponse.amount(parseInt),
+    currency: executionResponse.currency,
+    transactionId: executionResponse.trxID,
+    merchantInvoiceNumber: executionResponse.merchantInvoiceNumber,
+    payerAccount: executionResponse.payerAccount,
+    customerMsisdn: executionResponse.customerMsisdn,
+    transactionStatus: executionResponse.transactionStatus,
+    statusMessage: executionResponse.statusMessage,
+    paymentExecuteTime: executionResponse.paymentExecuteTime,
+  };
+
+  const transaction = await CreateTransactionIntoDB(transactionInfo);
+  console.log("transection info:", transaction);
+
+  if (transaction) {
+    store.dispatch(resetCart());
+    // return transaction;
+  }
+}
+
+async function updateClientServiceInformation(executionResponse: any) {
+  const session = await getServerSession(authOptions);
+  const state: RootState = store.getState();
+  const orderData = state.orderSlice;
+
+  console.log(
+    "order slice data from updateClientServiceInformation func:",
+    orderData
+  );
+
+  // @ts-ignore
+  const client = await getClientServicesList(session?.user?.phone);
+  // console.log("client from savePaymentInformation", client);
+  const { services } = client;
+  try {
+    const marched = services.find(
+      (service: any) => service.serviceId === orderData.serviceId
+    );
+    let clientServices = services;
+    if (!marched) {
+      clientServices = [
+        ...services,
+        {
+          serviceId: orderData.serviceId,
+          packageId: orderData.packageId,
+          amount: orderData.amount,
+          nextPayment: new Date(), // TODO:: make a date fns function for the next payment
+        },
+      ];
+    }
+
+    await updateClientServiceListIntoBD(
+      clientServices,
+      session?.user?.id as string
+    );
+    await createOrder(executionResponse);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// callback GET function
 export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -97,18 +142,15 @@ export async function GET(req: NextRequest) {
     }
 
     if (status !== "success") {
-      // console.log(`Payment not successful. Status: ${status}`);
       return NextResponse.json({ message: "Payment not successful", status });
     }
 
-    // console.log("idtoken from api callback:", idToken);
-
     // Execute the payment
     const executionResponse = await executePayment(paymentID, idToken);
-    // console.log("Execution Response:", executionResponse);
+    console.log("Execution Response:", executionResponse);
 
     if (executionResponse.statusCode === "0000") {
-      // savePaymentInformation(executionResponse);
+      await updateClientServiceInformation(executionResponse);
       return NextResponse.redirect(
         "http://localhost:3000/client/payment/success"
       );

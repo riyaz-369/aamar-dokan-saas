@@ -31,13 +31,20 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
   // console.log("Packages:", plans);
   const dispatch = useDispatch();
 
-  const handleByPackage = (
+  const handleBuyPackage = (
     packageId: string,
     serviceId: string,
     price: number
   ) => {
     // console.log(packageId, serviceId, price);
-    dispatch(addToCart({ packageId, serviceId, amount: price }));
+    dispatch(
+      addToCart({
+        packageId,
+        serviceId,
+        amount: price,
+        paymentTerms: "Monthly",
+      })
+    );
   };
 
   return (
@@ -79,7 +86,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                       >
                         <Button
                           onClick={() =>
-                            handleByPackage(
+                            handleBuyPackage(
                               plan.id,
                               plan.serviceId,
                               plan.price.monthly
@@ -136,7 +143,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                   >
                     <Button
                       onClick={() =>
-                        handleByPackage(
+                        handleBuyPackage(
                           plan.id,
                           plan.serviceId,
                           plan.price.monthly

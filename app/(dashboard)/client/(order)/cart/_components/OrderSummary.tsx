@@ -18,16 +18,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
-import { useDispatch, useSelector } from "react-redux";
-import { setOrderInfo, resetCart } from "@/app/_redux-store/slice/orderSlice";
+import { useDispatch } from "react-redux";
+import { setOrderInfo } from "@/app/_redux-store/slice/orderSlice";
 import { useSession } from "next-auth/react";
 import { PackageType } from "../page";
-import {
-  SaveOrderIntoDB,
-  updateClientServiceList,
-} from "../../payment/_action";
-import { RootState } from "@/app/_redux-store/store";
-import { getClientServicesList } from "@/app/(pages)/auth/_action";
 
 type OrderSummaryProps = {
   packages: PackageType;
@@ -42,79 +36,25 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const orderData = useSelector((state: RootState) => state.orderSlice);
-
   const user = session?.user as {
     id: string;
     aamardokanId: string;
     phone: string;
   } | null;
 
-  async function savePaymentInformation() {
-    // @ts-ignore
-    const client = await getClientServicesList(session?.user?.phone);
-    // console.log("client from savePaymentInformation", client);
-    const { services } = client;
-    try {
-      // const transactionInfo = {
-      //   ...orderData,
-      //   orderId: order.id,
-      //   aamardokanId: order.aamardokanId,
-      //   // paymentId: "comeAfterPay",
-      //   method: "bkash",
-      // };
-      // const transaction = await CreateTransactionIntoDB(transactionInfo);
-      // console.log("transaction", transaction);
-      const marched = services.find(service => service.serviceId === orderData.serviceId);
-      let clientServices = services;
-      if (!marched){
-        clientServices = [
-          ...services,
-          {
-            serviceId: orderData.serviceId,
-            packageId: orderData.packageId,
-            amount: orderData.amount,
-            nextPayment: new Date(), // TODO:: make a date fns function for the next payment
-          },
-        ];
-      }
-
-      // console.log("clientServices from savePaymentInformation", clientServices);
-
-      const updateService = await updateClientServiceList(
-        clientServices,
-        user?.id as string
-      );
-      // console.log("updateService from savePaymentInformation", updateService);
-      if(updateService){
-        dispatch(resetCart())
-        return updateService;
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   const handlePlaceOrder = async () => {
-    if (user) {
-      dispatch(
-        setOrderInfo({ aamardokanId: user.aamardokanId, clientId: user.id })
-      );
-    }
-    if (!checkTrams) {
-      return toast.error("Please accept our terms and conditions");
-    }
     try {
-      loaderShow();
-      const order = await SaveOrderIntoDB(orderData);
-      // console.log("order from handlePlaceOrder", order);
-      if (order) {
-        await savePaymentInformation();
-        router.push("/client/payment/success");
-        loaderClose();
+      if (!checkTrams) {
+        return toast.error("Please accept our terms and conditions");
+      } else if (user) {
+        dispatch(
+          setOrderInfo({ aamardokanId: user.aamardokanId, clientId: user.id })
+        );
+        router.push("/client/payment");
       }
+      loaderShow();
     } catch (error) {
-      console.error("Error creating order:", error);
+      console.error("Error to place order:", error);
       loaderClose();
     }
   };
@@ -185,7 +125,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
           type="submit"
           className="w-full mt-4"
         >
-          Claim 1 month free premium
+          Place Order
         </Button>
       </CardContent>
       <Loader isOpen={loader} onClose={loaderClose} title="Please Wait" />
