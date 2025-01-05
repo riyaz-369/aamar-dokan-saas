@@ -32,6 +32,11 @@ const handleUpdateStatus = async (service: TService) => {
   );
 };
 
+
+const handleDuplicate = ({ id }: { id: string }) => {
+  console.log("Duplicate: ", id);
+}
+
 export const columns: ColumnDef<TService>[] = [
   {
     accessorKey: "title",
@@ -88,9 +93,10 @@ export const columns: ColumnDef<TService>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(packages.id)}
+              // onClick={() => navigator.clipboard.writeText(packages.id)}
+              onClick={() => handleDuplicate(packages.id)}
             >
-              Copy Package ID
+              Duplicate
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <Link href={`/admin/packages/${packages.id}`}>
