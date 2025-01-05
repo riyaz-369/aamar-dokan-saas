@@ -8,9 +8,9 @@ import prisma from "@/prisma";
 
 const PackagesPage = async () => {
   const data = await prisma.package.findMany({
-    where: {
-      status: "Active",
-    },
+    // where: {
+      // status: "Active",
+    // },
     select: {
       id: true,
       title: true,

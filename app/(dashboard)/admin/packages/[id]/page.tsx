@@ -16,7 +16,6 @@ const UpdatePackagePage = async ({ params }: { params: { id: string } }) => {
   const packages = await prisma.package.findUnique({
     where: {
       id: id,
-      status: "Active",
     },
   });
 

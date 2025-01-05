@@ -13,7 +13,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { UpdatePackageStatus } from "../_actions";
+import { GetPackageById, SavePackageIntoDB, UpdatePackageStatus } from "../_actions";
+import { toast } from "sonner";
 
 export type TService = {
   id: string;
@@ -33,8 +34,27 @@ const handleUpdateStatus = async (service: TService) => {
 };
 
 
-const handleDuplicate = ({ id }: { id: string }) => {
-  console.log("Duplicate: ", id);
+const handleDuplicate = async ( id : { id: string }) => {
+  // console.log("Duplicate: ", id);
+  const pkg = await GetPackageById(id);
+
+  console.log("Package: ", pkg);
+  const data = {
+    title: `${pkg?.title}-copy`,
+    subtitle: pkg?.subtitle,
+    code: `${pkg?.code}-copy`,
+    features: pkg?.features,
+    price: pkg?.price,
+    serviceId: pkg?.serviceId,
+    status: pkg?.status,
+    custom: pkg?.custom,
+}
+
+console.log("Data: ", data);
+ const createdPackage = await SavePackageIntoDB(data, "");
+  if (createdPackage) {
+    toast.success(`Package ${pkg?.code} duplicated successfully`);
+  }
 }
 
 export const columns: ColumnDef<TService>[] = [

@@ -68,7 +68,7 @@ const PackageForm = ({
   const loaderShow = () => setLoader(true);
   const router = useRouter();
 
-  console.log("entry:", entry);
+  // console.log("entry:", entry);
 
   const form = useForm<z.infer<typeof PackageFormSchema>>({
     resolver: zodResolver(PackageFormSchema),
@@ -128,6 +128,8 @@ const PackageForm = ({
       form.setValue("isFree", entry.isFree);
       form.setValue("price.monthly", entry.price.monthly);
       form.setValue("price.yearly", entry.price.yearly);
+      form.setValue("status", entry.status);
+      form.setValue("serviceId", entry.serviceId);
       setFeaturesState(entry.features);
     }
   }, []);
@@ -233,7 +235,7 @@ const PackageForm = ({
                     <div className="flex items-center gap-2 justify-end my-4">
                       <Label className="font-semibold">Is Free?</Label>
                       <Checkbox
-                        checked={entry.isFree}
+                        checked={entry?.isFree}
                         onCheckedChange={(isChecked) =>
                           form.setValue("isFree", isChecked)
                         }
@@ -242,7 +244,7 @@ const PackageForm = ({
                     <div className="flex items-center gap-2 justify-end my-4">
                       <Label className="font-semibold">Custom Price?</Label>
                       <Checkbox
-                        checked={entry.custom}
+                        checked={entry?.custom}
                         onCheckedChange={(isChecked) =>
                           form.setValue("custom", isChecked)
                         }
@@ -328,7 +330,7 @@ const PackageForm = ({
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={entry ? entry.status : field.value}
+                        defaultValue={entry ? entry?.status : field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
