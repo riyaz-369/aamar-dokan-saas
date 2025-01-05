@@ -7,6 +7,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma";
 import PageTitle from "@/components/PageTitle";
 import ServiceCard from "./my-services/_components/ServiceCard";
+import { isServiceIdExist } from "@/lib/utils";
 
 const ClientDashboard = async () => {
   const client = await getServerSession(authOptions);
@@ -75,7 +76,6 @@ const ClientDashboard = async () => {
   const resolvedServices = await Promise.all(parsedServices || []);
 
   // const session = await getServerSession(authOptions);
-  // console.log("user:", session);
 
   // if (typeof window === "undefined") return null;
 
@@ -91,7 +91,7 @@ const ClientDashboard = async () => {
           {allServices.length > 0
             ? allServices.map((service) => (
                 // @ts-ignore
-                <ServiceCard key={service.id} service={service} />
+                <ServiceCard key={service.id} service={service}    isExist={isServiceIdExist(myServices?.services, service?.id)}/>
               ))
             : "Not found"}
         </div>
