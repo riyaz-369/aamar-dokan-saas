@@ -150,11 +150,11 @@ model Orders {
   packageId     String             @db.ObjectId
   status        OrderStatus        @default(Ordered)
   paymentStatus PaymentStatus      @default(Unpaid)
-  transaction   Transaction[]
   amount        Int                @default(0)
   paymentTerms  paymentTermsStatus @default(Monthly)
   createdAt     DateTime           @default(now())
   updatedAt     DateTime           @updatedAt
+  transaction   Transaction[]
 
   @@index([aamardokanId, orderId])
 }
@@ -165,21 +165,33 @@ enum PaymentStatus {
 }
 
 model Transaction {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  client        Client   @relation(fields: [clientId], references: [id])
-  clientId      String   @db.ObjectId
-  order         Orders   @relation(fields: [orderId], references: [id])
-  orderId       String   @db.ObjectId
-  aamardokanId  String
-  paymentId     String?
-  method        String?
-  amount        Int      @default(0)
-  transactionId String?
-  status        Status   @default(Active)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id                    String            @id @default(auto()) @map("_id") @db.ObjectId
+  client                Client            @relation(fields: [clientId], references: [id])
+  clientId              String            @db.ObjectId
+  order                 Orders            @relation(fields: [orderId], references: [id])
+  orderId               String            @db.ObjectId
+  aamardokanId          String
+  paymentId             String?
+  method                String?
+  amount                Int               @default(0)
+  currency              String
+  transactionId         String?
+  merchantInvoiceNumber String?
+  payerAccount          String
+  customerMsisdn        String?
+  transactionStatus     TransactionStatus
+  statusMessage         String
+  paymentExecuteTime    DateTime
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
 
   @@index([paymentId, transactionId])
+}
+
+enum TransactionStatus {
+  Completed
+  Failed
+  Canceled
 }
 
 enum UserType {

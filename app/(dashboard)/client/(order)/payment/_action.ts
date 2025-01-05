@@ -14,15 +14,15 @@ const generateOrderId = async () => {
   }
 };
 
-const generateTransactionId = async () => {
-  const MAX_RETRIES = 6;
+// const generateTransactionId = async () => {
+//   const MAX_RETRIES = 6;
 
-  for (let i = 0; i < MAX_RETRIES; i++) {
-    const newTrxId =
-      "ADTRX" + Math.floor(100000 + Math.random() * 900000).toString();
-    return newTrxId;
-  }
-};
+//   for (let i = 0; i < MAX_RETRIES; i++) {
+//     const newTrxId =
+//       "ADTRX" + Math.floor(100000 + Math.random() * 900000).toString();
+//     return newTrxId;
+//   }
+// };
 
 type OrderDataProsType = {
   aamardokanId: string;
@@ -77,44 +77,54 @@ export const SaveOrderIntoDB = async (data: OrderDataProsType) => {
 
 type TransactionDataProsType = {
   clientId: string;
+  orderId: string;
+  aamardokanId: string;
   paymentId: string;
   method: string;
   amount: number;
-  orderId: string;
-  aamardokanId: string;
+  currency: string;
+  transactionId: string;
+  merchantInvoiceNumber: string;
+  payerAccount: string;
+  customerMsisdn: string;
+  transactionStatus: "Completed" | "Failed" | "Canceled";
+  statusMessage: string;
+  paymentExecuteTime: Date;
 };
 
 export const CreateTransactionIntoDB = async (
   data: TransactionDataProsType
 ) => {
-  const trxId = await generateTransactionId();
-  // console.log("data from action trx:", data, "trxId:", trxId);
-
   try {
-    if (trxId) {
-      const transaction = await prisma.transaction.create({
-        data: {
-          clientId: data.clientId,
-          orderId: data.orderId,
-          aamardokanId: data.aamardokanId,
-          paymentId: data.paymentId,
-          method: data.method,
-          amount: data.amount,
-          transactionId: trxId,
-        },
-      });
-      return transaction;
-    } else {
-      // console.log("Failed to generate transaction ID");
-      return null;
-    }
+    const transaction = await prisma.transaction.create({
+      data: {
+        clientId: data.clientId,
+        orderId: data.orderId,
+        aamardokanId: data.aamardokanId,
+        paymentId: data.paymentId,
+        method: data.method,
+        amount: data.amount,
+        currency: data.currency,
+        transactionId: data.transactionId,
+        merchantInvoiceNumber: data.merchantInvoiceNumber,
+        payerAccount: data.payerAccount,
+        customerMsisdn: data.customerMsisdn,
+        transactionStatus: data.transactionStatus,
+        statusMessage: data.statusMessage,
+        paymentExecuteTime: data.paymentExecuteTime,
+      },
+    });
+    return transaction;
   } catch (error) {
     console.error("Error to create transaction", error);
     return null;
   }
 };
 
-export const updateClientServiceList = async (data: any[], id: string) => {
+export const updateClientServiceListIntoBD = async (
+  data: any[],
+  id: string
+) => {
   // console.log("form update client action:", data, id);
   if (id) {
     try {
