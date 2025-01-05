@@ -95,6 +95,7 @@ model Package {
   service   Services @relation(fields: [serviceId], references: [id])
   serviceId String   @db.ObjectId
   custom    Boolean  @default(false)
+  isFree    Boolean? @default(false)
   price     Json // type: (monthly, weekly)
   status    Status   @default(Active)
   createdAt DateTime @default(now())

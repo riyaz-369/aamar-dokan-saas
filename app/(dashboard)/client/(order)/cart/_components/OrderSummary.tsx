@@ -50,7 +50,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
     phone: string;
   } | null;
 
-  async function savePaymentInformation() {
+  async function updateClientInformation() {
     // @ts-ignore
     const client = await getClientServicesList(session?.user?.phone);
     // console.log("client from savePaymentInformation", client);
@@ -65,9 +65,11 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
       // };
       // const transaction = await CreateTransactionIntoDB(transactionInfo);
       // console.log("transaction", transaction);
-      const marched = services.find(service => service.serviceId === orderData.serviceId);
+      const marched = services.find(
+        (service) => service.serviceId === orderData.serviceId
+      );
       let clientServices = services;
-      if (!marched){
+      if (!marched) {
         clientServices = [
           ...services,
           {
@@ -86,8 +88,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
         user?.id as string
       );
       // console.log("updateService from savePaymentInformation", updateService);
-      if(updateService){
-        dispatch(resetCart())
+      if (updateService) {
+        dispatch(resetCart());
         return updateService;
       }
     } catch (error) {
@@ -109,8 +111,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
       const order = await SaveOrderIntoDB(orderData);
       // console.log("order from handlePlaceOrder", order);
       if (order) {
-        await savePaymentInformation();
-        router.push("/client/payment/success");
+        await updateClientInformation();
+        router.push("/client/payment/success"); // redirect to payment page
         loaderClose();
       }
     } catch (error) {

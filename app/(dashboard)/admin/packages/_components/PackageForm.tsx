@@ -68,6 +68,8 @@ const PackageForm = ({
   const loaderShow = () => setLoader(true);
   const router = useRouter();
 
+  console.log("entry:", entry);
+
   const form = useForm<z.infer<typeof PackageFormSchema>>({
     resolver: zodResolver(PackageFormSchema),
     defaultValues: {
@@ -76,6 +78,7 @@ const PackageForm = ({
       code: "",
       features: [],
       custom: false,
+      isFree: false,
       price: {
         monthly: 0,
         yearly: 0,
@@ -122,6 +125,7 @@ const PackageForm = ({
       form.setValue("code", entry.code);
       form.setValue("features", entry.features);
       form.setValue("custom", entry.custom);
+      form.setValue("isFree", entry.isFree);
       form.setValue("price.monthly", entry.price.monthly);
       form.setValue("price.yearly", entry.price.yearly);
       setFeaturesState(entry.features);
@@ -203,7 +207,7 @@ const PackageForm = ({
                       <FormLabel>Services</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        defaultValue={entry ? entry.serviceId : field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -224,15 +228,27 @@ const PackageForm = ({
                     </FormItem>
                   )}
                 />
-
-                <div className="flex items-center gap-2 justify-end my-4">
-                  <Label className="font-semibold">Custom Price?</Label>
-                  <Checkbox
-                    // checked={feature.isDesktop}
-                    onCheckedChange={(isChecked) =>
-                      form.setValue("custom", isChecked)
-                    }
-                  />
+                <div className="flex justify-end">
+                  <div className="flex gap-8">
+                    <div className="flex items-center gap-2 justify-end my-4">
+                      <Label className="font-semibold">Is Free?</Label>
+                      <Checkbox
+                        checked={entry.isFree}
+                        onCheckedChange={(isChecked) =>
+                          form.setValue("isFree", isChecked)
+                        }
+                      />
+                    </div>
+                    <div className="flex items-center gap-2 justify-end my-4">
+                      <Label className="font-semibold">Custom Price?</Label>
+                      <Checkbox
+                        checked={entry.custom}
+                        onCheckedChange={(isChecked) =>
+                          form.setValue("custom", isChecked)
+                        }
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -312,7 +328,7 @@ const PackageForm = ({
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        defaultValue={entry ? entry.status : field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
