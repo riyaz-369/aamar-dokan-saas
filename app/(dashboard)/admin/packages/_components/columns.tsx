@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { Copy, Edit, File, MoreHorizontal, Sunrise, Sunset } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -116,21 +116,23 @@ export const columns: ColumnDef<TService>[] = [
               // onClick={() => navigator.clipboard.writeText(packages.id)}
               onClick={() => handleDuplicate(packages.id)}
             >
-              Duplicate
+              <Copy className="h-4 w-4"/> Duplicate
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <Link href={`/admin/packages/${packages.id}`}>
               <DropdownMenuItem className="cursor-pointer">
-                Edit
+              <Edit className="h-4 w-4"/>Edit
               </DropdownMenuItem>
             </Link>
             <DropdownMenuItem
               className="cursor-pointer"
               onClick={() => handleUpdateStatus(packages)}
             >
-              {packages.status === "Active" ? "Inactive" : "Active"}
+              {packages.status === `Active` ? <><Sunset className="h-4 w-4"/> Inactive</> : <><Sunrise className="h-4 w-4"/> Active</>}
             </DropdownMenuItem>
-            <DropdownMenuItem>View details</DropdownMenuItem>
+            <DropdownMenuItem>
+            <File className="h-4 w-4"/> View details
+              </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
