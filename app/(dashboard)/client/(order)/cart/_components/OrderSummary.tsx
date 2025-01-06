@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { resetCart, setOrderInfo } from "@/app/_redux-store/slice/orderSlice";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { PackageType } from "../page";
 import { RootState } from "@/app/_redux-store/store";
 import {
@@ -29,6 +29,7 @@ import {
   updateClientServiceListIntoBD,
 } from "../../payment/_action";
 import { getClientServicesList } from "@/app/(pages)/auth/_action";
+import { add } from "date-fns";
 
 type OrderSummaryProps = {
   packages: PackageType;
@@ -39,20 +40,21 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
   const [loader, setLoader] = useState(false);
   const loaderClose = () => setLoader(false);
   const loaderShow = () => setLoader(true);
-  const { data: session } = useSession();
   const router = useRouter();
   const dispatch = useDispatch();
+  // Current date
+const currentDate = new Date();
+
+// Date after 30 days
+const dateAfter30Days = add(currentDate, { days: 30 });
+
+  // const { data: session } = useSession();
+  // const dispatch = useDispatch();
 
   const orderData = useSelector((state: RootState) => state.orderSlice);
 
   // console.log("orderData slice from orderSummary:", orderData);
   // console.log("packages:", packages);
-
-  const user = session?.user as {
-    id: string;
-    aamardokanId: string;
-    phone: string;
-  } | null;
 
   const handlePlaceOrder = async () => {
     try {
@@ -60,10 +62,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
       if (!checkTrams) {
         loaderClose();
         return toast.error("Please accept our terms and conditions");
-      } else if (user) {
-        dispatch(
-          setOrderInfo({ aamardokanId: user.aamardokanId, clientId: user.id })
-        );
+      } else {
         if (packages?.isFree) {
           const freeOrderData = {
             ...orderData,
@@ -77,7 +76,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
 
           if (createOrder) {
             // console.log("saved order:", createOrder);
-            const client = await getClientServicesList(user?.phone);
+            const client = await getClientServicesList(orderData?.aamardokanId);
             console.log("client for services list:", client);
             const { services } = client;
 
@@ -92,18 +91,20 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
                   serviceId: freeOrderData.serviceId,
                   packageId: freeOrderData.packageId,
                   amount: freeOrderData.amount,
-                  // nextPayment: new Date(), // TODO:: make a date fns function for the next payment
+                  nextPayment: dateAfter30Days, // TODO:: make a date fns function for the next payment
+                  status: "active",
                 },
               ];
             }
 
+            // console.log("clientServices:", clientServices);
+
             const updateService = await updateClientServiceListIntoBD(
               clientServices,
-              user?.id as string
+              client?.id as string
             );
 
             if (updateService) {
-              loaderClose();
               router.push("/client/payment/success");
               dispatch(resetCart());
             }
@@ -112,6 +113,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
           router.push("/client/payment");
           loaderClose();
         }
+       
       }
     } catch (error) {
       loaderClose();

@@ -75,7 +75,7 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
     const getService = async () => {
       const service = await getServiceById(id);
       // console.log(id);
-      // console.log(service.apiUrl);
+      console.log(service.apiUrl);
       setServiceData(service?.apiUrl);
     };
     getService();
@@ -123,14 +123,18 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
     try {
       loaderShow();
       // console.log("accountData", accountData);
+     
       if (!serviceData) {
         toast.error("Store setup Not successful");
         loaderClose();
         setIsOpen(false);
         return;
       }
+
+      const url = `${serviceData}/aamarDokan/create`
+
       const posAccount = await axios.post(
-        `${serviceData}/aamarDokan/create`,
+        url,
         // "http://localhost:5001/api/aamardokan/create",
         accountData
       );
@@ -144,6 +148,8 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
           ...rest,
           { ...matched, ...data, status: "active" },
         ];
+
+        // console.log("newServices", newServices);
 
         const res = await SaveStoreInfoIntoClientDB(newServices, aamardokanId);
         // console.log(res);
@@ -172,12 +178,16 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
           control={form.control}
           name="storeName"
           render={({ field }) => (
-            <FormItem className="flex items-center">
+            <FormItem>
+              <span className="flex items-center">
               <FormLabel className="w-1/3">Store Name</FormLabel>
               <FormControl>
                 <Input placeholder="Enter Store Name" {...field} />
               </FormControl>
-              <FormMessage />
+              </span>
+              <span className="flex justify-end">
+                <FormMessage />
+              </span>
             </FormItem>
           )}
         />

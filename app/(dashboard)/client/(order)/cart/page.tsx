@@ -31,7 +31,7 @@ const OrderCartPage = () => {
   const [packages, setPackages] = useState<PackageType | null>(null);
   const orderSliceData = useSelector((state: RootState) => state.orderSlice);
 
-  console.log("orderSliceData from orderCartPage:", orderSliceData);
+  // console.log("orderSliceData from orderCartPage:", orderSliceData);
 
   const getPackage = async () => {
     const res = await GetAPackageFromDB(orderSliceData?.packageId);

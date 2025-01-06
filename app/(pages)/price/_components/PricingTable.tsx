@@ -5,6 +5,7 @@ import { RootState } from "@/app/_redux-store/store";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, Minus } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -31,6 +32,13 @@ type PricingTableProps = {
 const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
   // console.log("Packages:", plans);
   const dispatch = useDispatch();
+  const { data: session } = useSession();
+  
+    const user = session?.user as {
+      id: string;
+      aamardokanId: string;
+      phone: string;
+    } | null;
 
   const orderData = useSelector((state: RootState) => state.orderSlice);
 
@@ -41,13 +49,13 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
     serviceId: string,
     price: number
   ) => {
-    // console.log(packageId, serviceId, price);
-    dispatch(
+    // console.log(packageId, serviceId, price);]
+    if(user)  dispatch(
       addToCart({
         packageId,
         serviceId,
         amount: price,
-        paymentTerms: "Monthly",
+        aamardokanId: user.aamardokanId, clientId: user.id 
       })
     );
   };
@@ -84,7 +92,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                           ? "Free"
                           : plan.price.monthly + "/mo"}
                       </p>
-                      <Link
+                      <Link 
                         href={
                           plan.custom
                             ? "https://techsoulbd.com/contact"
@@ -149,7 +157,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                     }
                   >
                     <Button
-                      onClick={() =>
+                       onClick={() =>
                         handleBuyPackage(
                           plan.id,
                           plan.serviceId,

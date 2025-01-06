@@ -21,9 +21,18 @@ const orderSlice = createSlice({
       // console.log(action.payload);
       return {
         ...state,
+        aamardokanId: action.payload.aamardokanId,
+        clientId: action.payload.clientId,
         serviceId: action.payload.serviceId,
         packageId: action.payload.packageId,
         amount: action.payload.amount,
+      };
+    },
+    setClientInfo: (state, action) => {
+      return {
+        ...state,
+        aamardokanId: action.payload.aamardokanId,
+        clientId: action.payload.clientId,
       };
     },
     setOrderInfo: (state, action) => {
@@ -43,5 +52,5 @@ const orderSlice = createSlice({
   },
 });
 
-export const { addToCart, setOrderInfo, resetCart } = orderSlice.actions;
+export const { addToCart, setOrderInfo, resetCart, setClientInfo } = orderSlice.actions;
 export default orderSlice.reducer;

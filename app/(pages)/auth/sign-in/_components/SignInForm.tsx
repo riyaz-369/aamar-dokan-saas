@@ -15,7 +15,7 @@ import {
 
 import { Toaster } from "@/components/ui/sonner";
 import Link from "next/link";
-import { useState } from "react";
+import { use, useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { SignInFormSchema } from "./SignInFormSchema";
 import PasswordShowClose from "@/components/PasswordShowClose";
@@ -24,14 +24,17 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { FaSpinner } from "react-icons/fa";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/_redux-store/store";
+import { setClientInfo } from "@/app/_redux-store/slice/orderSlice";
 
 const SignInForm = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const packs = useSelector((state: RootState) => state.orderSlice);
+
+  const dispatch = useDispatch();
 
   // Initialize the form with default values and validation
   const form = useForm<z.infer<typeof SignInFormSchema>>({

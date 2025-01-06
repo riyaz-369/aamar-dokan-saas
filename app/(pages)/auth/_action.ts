@@ -70,21 +70,22 @@ export const createClient = async (data: TClient) => {
   }
 };
 
-export const getClientServicesList = async (phone: string): Promise<any> => {
+export const getClientServicesList = async (aamardokanId: string): Promise<any> => {
   try {
     // Check if a client exists with the given phone number
     const clientServicesList = await prisma.client.findUnique({
       where: {
-        phone: phone,
+        aamardokanId: aamardokanId,
       },
       select: {
+        id: true,
         services: true,
       },
     });
     // console.log(clientServicesList);
     return clientServicesList;
   } catch (err) {
-    console.error("Error checking phone number:", err);
+    console.error("Error checking AamarDokan ID:", err);
     return false;
   }
 };
@@ -111,16 +112,16 @@ export const checkUsername = async (username: {
 }): Promise<boolean> => {
   // console.log("Checking username", username);
   // const apiUrl = "http://localhost:5001/api";z
-  const apiUrl = "https://api.aaamardokan.online/api";
+  const apiUrl = "https://api.aamardokan.online/api";
   try {
-    // Check if a client exists with the given phone number
+    // Check if a client exists with the given username
     const existCustomer = await axios.get(
       `${apiUrl}/aamarDokan/username/${username}`
     );
 
-    // console.log(existCustomer);
+    console.log("existCustomer", existCustomer.data);
 
-    if (existCustomer?.status) {
+    if (existCustomer?.data?.status) {
       return true;
     } else {
       return false;
@@ -128,7 +129,7 @@ export const checkUsername = async (username: {
 
     // Return true if the client exists, otherwise return false
   } catch (err) {
-    console.error("Error checking phone number:", err);
+    console.error("Error checking Usernumber:", err);
     return false; // Return false in case of an error
   }
 };
@@ -149,7 +150,7 @@ export const getClientByPhone = async (phone: string): Promise<any> => {
     // Return true if the client exists, otherwise return false
     return client; // `!!` converts to a boolean (true if found, false otherwise)
   } catch (err) {
-    console.error("Error checking phone number:", err);
+    console.error("Error Get client by phone number:", err);
     return false; // Return false in case of an error
   }
 };

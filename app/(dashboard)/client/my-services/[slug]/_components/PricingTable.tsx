@@ -4,6 +4,7 @@ import { addToCart } from "@/app/_redux-store/slice/orderSlice";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, Minus } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 
@@ -32,16 +33,26 @@ type PricingTableProps = {
   service: ServiceType;
 };
 
+
+
 const PricingTable: React.FC<PricingTableProps> = ({ plans, service }) => {
   // console.log("Packages:", plans);
   const dispatch = useDispatch();
+  const { data: session } = useSession();
 
-  const handleByPackage = (
+  const user = session?.user as {
+    id: string;
+    aamardokanId: string;
+    phone: string;
+  } | null;
+
+  const handleBuyPackage = (
     packageId: string,
     serviceId: string,
     price: number
   ) => {
-    dispatch(addToCart({ packageId, serviceId, amount: price }));
+    //TODO: Add - aaamardokanId - clientId
+    if(user) dispatch(addToCart({ packageId, serviceId, amount: price, aamardokanId: user.aamardokanId, clientId: user.id }));
   };
 
   return (
@@ -82,10 +93,10 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans, service }) => {
                         }
                       >
                         <Button
-                          onClick={() =>
-                            handleByPackage(
+                           onClick={() =>
+                            handleBuyPackage(
                               plan.id,
-                              service.id,
+                              plan.serviceId,
                               plan.price.monthly
                             )
                           }
@@ -139,10 +150,10 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans, service }) => {
                     }
                   >
                     <Button
-                      onClick={() =>
-                        handleByPackage(
-                          plan.code,
-                          service.id,
+                       onClick={() =>
+                        handleBuyPackage(
+                          plan.id,
+                          plan.serviceId,
                           plan.price.monthly
                         )
                       }
