@@ -38,10 +38,10 @@ async function createOrder(executionResponse: any) {
   const state: RootState = store.getState();
   const orderData = state.orderSlice;
 
-  console.log("order slice data from create order func:", orderData);
+  // console.log("order slice data from create order func:", orderData);
 
   const order = await SaveOrderIntoDB(orderData);
-  console.log("order from route:", order);
+  // console.log("order from route:", order);
   if (order) {
     await createTransaction(executionResponse, order.id);
   }
@@ -68,7 +68,7 @@ async function createTransaction(executionResponse: any, orderId: string) {
   };
 
   const transaction = await CreateTransactionIntoDB(transactionInfo);
-  console.log("transection info:", transaction);
+  // console.log("transection info:", transaction);
 
   if (transaction) {
     store.dispatch(resetCart());
@@ -81,10 +81,10 @@ async function updateClientServiceInformation(executionResponse: any) {
   const state: RootState = store.getState();
   const orderData = state.orderSlice;
 
-  console.log(
-    "order slice data from updateClientServiceInformation func:",
-    orderData
-  );
+  // console.log(
+  //   "order slice data from updateClientServiceInformation func:",
+  //   orderData
+  // );
 
   // @ts-ignore
   const client = await getClientServicesList(session?.user?.phone);
@@ -147,7 +147,7 @@ export async function GET(req: NextRequest) {
 
     // Execute the payment
     const executionResponse = await executePayment(paymentID, idToken);
-    console.log("Execution Response:", executionResponse);
+    // console.log("Execution Response:", executionResponse);
 
     if (executionResponse.statusCode === "0000") {
       await updateClientServiceInformation(executionResponse);

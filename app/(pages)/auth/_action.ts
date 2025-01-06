@@ -155,14 +155,14 @@ export const getClientByPhone = async (phone: string): Promise<any> => {
 };
 
 export const updateClient = async ({ data, id }: { data: any; id: string }) => {
-  console.log("form update client action:", data, id);
+  // console.log("form update client action:", data, id);
   if (id) {
     try {
       const update = await prisma.client.update({
         where: { id: id },
         data: data,
       });
-      console.log("form update::", update);
+      // console.log("form update::", update);
       revalidateTag("client-cache");
       return update;
     } catch (error) {
@@ -178,7 +178,7 @@ export const updatePassword = async ({
   data: any;
   id: string;
 }) => {
-  console.log("form update client action:", data, id);
+  // console.log("form update client action:", data, id);
   if (id) {
     try {
       const hashPassword = await bcrypt.hash(data.password, 10);
@@ -186,7 +186,7 @@ export const updatePassword = async ({
         password: hashPassword,
       };
 
-      console.log("form update client action:", password, id);
+      // console.log("form update client action:", password, id);
 
       const update = await prisma.client.update({
         where: { id: id },

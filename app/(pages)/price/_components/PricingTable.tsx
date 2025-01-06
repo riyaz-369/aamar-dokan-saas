@@ -34,7 +34,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
 
   const orderData = useSelector((state: RootState) => state.orderSlice);
 
-  console.log("orderData from PriceTable:", orderData);
+  // console.log("orderData from PriceTable:", orderData);
 
   const handleBuyPackage = (
     packageId: string,
@@ -52,7 +52,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
     );
   };
 
-  console.log("all package from price table:", plans);
+  // console.log("all package from price table:", plans);
 
   return (
     <div className="container mx-auto py-10">

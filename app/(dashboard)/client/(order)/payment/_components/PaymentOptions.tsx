@@ -28,7 +28,7 @@ export function PaymentOptions() {
 
   const orderData = useSelector((state: RootState) => state.orderSlice);
 
-  console.log("orderData from PaymentMethod page:", orderData);
+  // console.log("orderData from PaymentMethod page:", orderData);
 
   //@ts-ignore
   const { aamardokanId } = session?.user || "";

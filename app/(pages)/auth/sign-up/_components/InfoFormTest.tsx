@@ -55,13 +55,13 @@ const InfoFormTest: React.FC<InfoFormProps> = ({ id, aamardokanId }) => {
 
   // Handle form submission
   async function onSubmit(data: z.infer<typeof InfoFormSchema>) {
-    console.log("data from info form:", data);
+    // console.log("data from info form:", data);
     setLoading(true);
     const res = await updateClient({
       id: id,
       data: data,
     });
-    console.log("response from updateClient info form:", res);
+    // console.log("response from updateClient info form:", res);
     //TODO:: Login to account
     toast.success("Personal information update successful");
     setLoading(false);
