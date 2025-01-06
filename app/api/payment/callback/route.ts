@@ -9,9 +9,15 @@ import {
   SaveOrderIntoDB,
   updateClientServiceListIntoBD,
 } from "@/app/(dashboard)/client/(order)/payment/_action";
-import { resetCart } from "@/app/_redux-store/slice/orderSlice";
+// import { resetCart } from "@/app/_redux-store/slice/orderSlice";
 import store, { RootState } from "@/app/_redux-store/store";
 import { getClientServicesList } from "@/app/(pages)/auth/_action";
+
+const getOrderSliceData = () => {
+  const state: RootState = store.getState();
+  const orderData = state.orderSlice;
+  return orderData;
+};
 
 async function executePayment(paymentID: string, idToken: string) {
   const response = await fetch(
@@ -48,8 +54,7 @@ async function createOrder(executionResponse: any) {
 }
 
 async function createTransaction(executionResponse: any, orderId: string) {
-  const state: RootState = store.getState();
-  const orderData = state.orderSlice;
+  const orderData = getOrderSliceData();
 
   const transactionInfo = {
     ...orderData,
@@ -71,15 +76,14 @@ async function createTransaction(executionResponse: any, orderId: string) {
   // console.log("transection info:", transaction);
 
   if (transaction) {
-    store.dispatch(resetCart());
+    // store.dispatch(resetCart());
     // return transaction;
   }
 }
 
 async function updateClientServiceInformation(executionResponse: any) {
   const session = await getServerSession(authOptions);
-  const state: RootState = store.getState();
-  const orderData = state.orderSlice;
+  const orderData = getOrderSliceData();
 
   // console.log(
   //   "order slice data from updateClientServiceInformation func:",
@@ -106,11 +110,9 @@ async function updateClientServiceInformation(executionResponse: any) {
         },
       ];
     }
-
-    await updateClientServiceListIntoBD(
-      clientServices,
-      session?.user?.id as string
-    );
+    //@ts-ignore
+    const id = session?.user?.id;
+    await updateClientServiceListIntoBD(clientServices, id);
     await createOrder(executionResponse);
   } catch (error) {
     console.error(error);
@@ -147,7 +149,7 @@ export async function GET(req: NextRequest) {
 
     // Execute the payment
     const executionResponse = await executePayment(paymentID, idToken);
-    // console.log("Execution Response:", executionResponse);
+    console.log("Execution Response:", executionResponse);
 
     if (executionResponse.statusCode === "0000") {
       await updateClientServiceInformation(executionResponse);
