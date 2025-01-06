@@ -20,6 +20,7 @@ export const SavePackageIntoDB = async (data: PackagePropsType, id: string) => {
       serviceId,
       status,
       custom,
+      isFree,
     } = data;
 
     if (!id) {
@@ -31,6 +32,7 @@ export const SavePackageIntoDB = async (data: PackagePropsType, id: string) => {
           code,
           features,
           custom,
+          isFree,
           price,
           status,
         },
@@ -51,6 +53,7 @@ export const SavePackageIntoDB = async (data: PackagePropsType, id: string) => {
           status,
           price,
           custom,
+          isFree,
         },
       });
       if (updatedPackage) {
@@ -84,7 +87,6 @@ export const GetPackageCodeByPackageId = async (packageId: string) => {
     console.error("Package code fetch error", error);
   }
 };
-
 
 export const GetPackageById = async (packageId: string) => {
   // console.log("packageId in action", packageId);

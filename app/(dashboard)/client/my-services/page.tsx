@@ -8,7 +8,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { isServiceIdExist } from "@/lib/utils";
 
-
 const MyServicesPage = async () => {
   const client = await getServerSession(authOptions);
   // @ts-ignore
@@ -64,35 +63,37 @@ const MyServicesPage = async () => {
 
   const resolvedServices = await Promise.all(parsedServices || []);
 
-  console.log("resolvedServices", resolvedServices);
+  // console.log("resolvedServices", resolvedServices);
 
   return (
     <div className="flex flex-col h-[50vh] justify-between">
       <div>
-        <PageTitle
-          className=""
-          title="My Services"
-        />
+        <PageTitle className="" title="My Services" />
 
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 my-6">
           {resolvedServices.length > 0
             ? resolvedServices.map((service) => (
                 // @ts-ignore
-                <ServiceCard key={service.id} service={service.myServices}  isExist={service.myServicesid === service?.id}/>
+                <ServiceCard
+                  key={service.id}
+                  service={service.myServices}
+                  isExist={service.myServicesid === service?.id}
+                />
               ))
             : "Not found"}
         </div>
       </div>
       <div>
-        <PageTitle
-          title="Popular Services"
-          className=" mt-12"
-        />
+        <PageTitle title="Popular Services" className=" mt-12" />
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 my-6 pb-4">
           {allServices.length > 0
             ? allServices.map((service) => (
                 // @ts-ignore
-                <ServiceCard key={service.id} service={service}  isExist={isServiceIdExist(myServices?.services, service?.id)}/>
+                <ServiceCard
+                  key={service.id}
+                  service={service}
+                  isExist={isServiceIdExist(myServices?.services, service?.id)}
+                />
               ))
             : "Not found"}
         </div>

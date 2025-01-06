@@ -5,6 +5,7 @@ export async function GET() {
   //   console.log(await req.json());
   const state: RootState = store.getState();
   const sliceData = state.orderSlice;
+  console.log(sliceData);
 
   return NextResponse.json(sliceData);
 }

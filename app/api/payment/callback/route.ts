@@ -9,9 +9,15 @@ import {
   SaveOrderIntoDB,
   updateClientServiceListIntoBD,
 } from "@/app/(dashboard)/client/(order)/payment/_action";
-import { resetCart } from "@/app/_redux-store/slice/orderSlice";
+// import { resetCart } from "@/app/_redux-store/slice/orderSlice";
 import store, { RootState } from "@/app/_redux-store/store";
 import { getClientServicesList } from "@/app/(pages)/auth/_action";
+
+const getOrderSliceData = () => {
+  const state: RootState = store.getState();
+  const orderData = state.orderSlice;
+  return orderData;
+};
 
 async function executePayment(paymentID: string, idToken: string) {
   const response = await fetch(
@@ -38,18 +44,17 @@ async function createOrder(executionResponse: any) {
   const state: RootState = store.getState();
   const orderData = state.orderSlice;
 
-  console.log("order slice data from create order func:", orderData);
+  // console.log("order slice data from create order func:", orderData);
 
   const order = await SaveOrderIntoDB(orderData);
-  console.log("order from route:", order);
+  // console.log("order from route:", order);
   if (order) {
     await createTransaction(executionResponse, order.id);
   }
 }
 
 async function createTransaction(executionResponse: any, orderId: string) {
-  const state: RootState = store.getState();
-  const orderData = state.orderSlice;
+  const orderData = getOrderSliceData();
 
   const transactionInfo = {
     ...orderData,
@@ -68,23 +73,22 @@ async function createTransaction(executionResponse: any, orderId: string) {
   };
 
   const transaction = await CreateTransactionIntoDB(transactionInfo);
-  console.log("transection info:", transaction);
+  // console.log("transection info:", transaction);
 
   if (transaction) {
-    store.dispatch(resetCart());
+    // store.dispatch(resetCart());
     // return transaction;
   }
 }
 
 async function updateClientServiceInformation(executionResponse: any) {
   const session = await getServerSession(authOptions);
-  const state: RootState = store.getState();
-  const orderData = state.orderSlice;
+  const orderData = getOrderSliceData();
 
-  console.log(
-    "order slice data from updateClientServiceInformation func:",
-    orderData
-  );
+  // console.log(
+  //   "order slice data from updateClientServiceInformation func:",
+  //   orderData
+  // );
 
   // @ts-ignore
   const client = await getClientServicesList(session?.user?.phone);
@@ -106,11 +110,9 @@ async function updateClientServiceInformation(executionResponse: any) {
         },
       ];
     }
-
-    await updateClientServiceListIntoBD(
-      clientServices,
-      session?.user?.id as string
-    );
+    //@ts-ignore
+    const id = session?.user?.id;
+    await updateClientServiceListIntoBD(clientServices, id);
     await createOrder(executionResponse);
   } catch (error) {
     console.error(error);

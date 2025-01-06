@@ -1,26 +1,26 @@
-"use client"
-import React, { useRef } from 'react';
-import TawkMessengerReact from '@tawk.to/tawk-messenger-react';
+"use client";
+import React, { useRef } from "react";
+import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
 
 const TawkMessage: React.FC = () => {
   const tawkRef = useRef(null);
 
   const handleBeforeLoad = () => {
-    console.log('TawkMessengerReact is about to load');
+    // console.log('TawkMessengerReact is about to load');
   };
 
   const handleStatusChange = (status: string) => {
-    console.log('TawkMessengerReact status:', status);
+    // console.log('TawkMessengerReact status:', status);
   };
   const handleChatMinimized = () => {
-    console.log('TawkMessengerReact chat minimized');
+    // console.log('TawkMessengerReact chat minimized');
   };
   const handleChatStarted = () => {
-    console.log('TawkMessengerReact chat started');
+    // console.log('TawkMessengerReact chat started');
   };
 
   const handleLoad = () => {
-    console.log('TawkMessengerReact loaded');
+    // console.log('TawkMessengerReact loaded');
   };
   return (
     <TawkMessengerReact
@@ -37,4 +37,3 @@ const TawkMessage: React.FC = () => {
 };
 
 export default TawkMessage;
-

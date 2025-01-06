@@ -53,7 +53,7 @@ const PasswordForm = ({ id }: PasswordFormProps) => {
       data: data,
     });
 
-    console.log("updateCustomer", updateCustomer);
+    // console.log("updateCustomer", updateCustomer);
     if (updateCustomer) {
       toast.success("Password Reset successfully");
       setLoading(false);

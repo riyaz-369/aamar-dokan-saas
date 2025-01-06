@@ -16,6 +16,7 @@ export const GetAPackageFromDB = async (packageId: string) => {
         serviceId: true,
         code: true,
         service: true,
+        isFree: true,
       },
     });
     // console.log("package from action:", pack);

@@ -86,7 +86,7 @@ const PackageForm = ({
     },
   });
 
-  // console.log(entry);
+  console.log(entry);
 
   const id = entry?.id;
 
@@ -135,7 +135,7 @@ const PackageForm = ({
   }, []);
 
   async function onSubmit(data: z.infer<typeof PackageFormSchema>) {
-    // console.log({ ...data, features: featuresState });
+    // console.log("form data:", { ...data, features: featuresState });
     try {
       loaderShow();
       const response = await SavePackageIntoDB(
@@ -235,7 +235,8 @@ const PackageForm = ({
                     <div className="flex items-center gap-2 justify-end my-4">
                       <Label className="font-semibold">Is Free?</Label>
                       <Checkbox
-                        checked={entry?.isFree}
+                        // checked={entry?.isFree}
+                        defaultChecked={entry?.isFree}
                         onCheckedChange={(isChecked) =>
                           form.setValue("isFree", isChecked)
                         }
@@ -244,7 +245,7 @@ const PackageForm = ({
                     <div className="flex items-center gap-2 justify-end my-4">
                       <Label className="font-semibold">Custom Price?</Label>
                       <Checkbox
-                        checked={entry?.custom}
+                        defaultChecked={entry?.custom}
                         onCheckedChange={(isChecked) =>
                           form.setValue("custom", isChecked)
                         }

@@ -24,16 +24,17 @@ export type PackageType = {
   price: {
     monthly: number;
   };
+  isFree: boolean;
 };
 
 const OrderCartPage = () => {
   const [packages, setPackages] = useState<PackageType | null>(null);
-  const packs = useSelector((state: RootState) => state.orderSlice);
+  const orderSliceData = useSelector((state: RootState) => state.orderSlice);
 
-  // console.log("packs", packs);
+  console.log("orderSliceData from orderCartPage:", orderSliceData);
 
   const getPackage = async () => {
-    const res = await GetAPackageFromDB(packs?.packageId);
+    const res = await GetAPackageFromDB(orderSliceData?.packageId);
     //@ts-ignore
     setPackages(res);
   };
@@ -44,7 +45,7 @@ const OrderCartPage = () => {
 
   return (
     <div className="flex justify-between gap-4">
-      {packs.serviceId ? (
+      {orderSliceData.serviceId ? (
         <>
           <div className="flex-1">
             {packages && <OrderCart packages={packages} />}

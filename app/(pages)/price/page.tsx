@@ -7,13 +7,9 @@ const Price = async () => {
   const packages = await prisma.package.findMany({
     where: {
       status: "Active",
-      serviceId: "6762cf662ed209d1e2af8632"
     },
-
   });
 
-
-  console.log(packages);
   return (
     <div className="w-full  md:px-32 min-h-[500px] py-6">
       <div className="md:p-4 p-6 flex flex-col justify-center ">
