@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
@@ -18,10 +19,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
-import { useDispatch } from "react-redux";
-import { setOrderInfo } from "@/app/_redux-store/slice/orderSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { resetCart, setOrderInfo } from "@/app/_redux-store/slice/orderSlice";
 import { useSession } from "next-auth/react";
 import { PackageType } from "../page";
+import { RootState } from "@/app/_redux-store/store";
+import {
+  SaveOrderIntoDB,
+  updateClientServiceListIntoBD,
+} from "../../payment/_action";
+import { getClientServicesList } from "@/app/(pages)/auth/_action";
 
 type OrderSummaryProps = {
   packages: PackageType;
@@ -36,6 +43,11 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const orderData = useSelector((state: RootState) => state.orderSlice);
+
+  // console.log("orderData slice from orderSummary:", orderData);
+  // console.log("packages:", packages);
+
   const user = session?.user as {
     id: string;
     aamardokanId: string;
@@ -44,18 +56,66 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
 
   const handlePlaceOrder = async () => {
     try {
+      loaderShow();
       if (!checkTrams) {
+        loaderClose();
         return toast.error("Please accept our terms and conditions");
       } else if (user) {
         dispatch(
           setOrderInfo({ aamardokanId: user.aamardokanId, clientId: user.id })
         );
-        router.push("/client/payment");
+        if (packages?.isFree) {
+          const freeOrderData = {
+            ...orderData,
+            paymentTerms: "Free",
+            paymentStatus: "Paid",
+            status: "Complete",
+          };
+          // console.log("free:", { freeOrderData, orderData });
+          //@ts-ignore
+          const createOrder = await SaveOrderIntoDB(freeOrderData);
+
+          if (createOrder) {
+            // console.log("saved order:", createOrder);
+            const client = await getClientServicesList(user?.phone);
+            console.log("client for services list:", client);
+            const { services } = client;
+
+            const marched = services.find(
+              (service: any) => service.serviceId === freeOrderData.serviceId
+            );
+            let clientServices = services;
+            if (!marched) {
+              clientServices = [
+                ...services,
+                {
+                  serviceId: freeOrderData.serviceId,
+                  packageId: freeOrderData.packageId,
+                  amount: freeOrderData.amount,
+                  // nextPayment: new Date(), // TODO:: make a date fns function for the next payment
+                },
+              ];
+            }
+
+            const updateService = await updateClientServiceListIntoBD(
+              clientServices,
+              user?.id as string
+            );
+
+            if (updateService) {
+              loaderClose();
+              router.push("/client/payment/success");
+              dispatch(resetCart());
+            }
+          }
+        } else {
+          router.push("/client/payment");
+          loaderClose();
+        }
       }
-      loaderShow();
     } catch (error) {
-      console.error("Error to place order:", error);
       loaderClose();
+      console.error("Error to place order:", error);
     }
   };
 
@@ -125,7 +185,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
           type="submit"
           className="w-full mt-4"
         >
-          Place Order
+          {packages.isFree ? "Start for Free" : "Place Order"}
         </Button>
       </CardContent>
       <Loader isOpen={loader} onClose={loaderClose} title="Please Wait" />

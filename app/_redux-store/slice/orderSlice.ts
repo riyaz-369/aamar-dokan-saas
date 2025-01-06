@@ -31,10 +31,10 @@ const orderSlice = createSlice({
         ...state,
         aamardokanId: action.payload.aamardokanId,
         clientId: action.payload.clientId,
-        // amount: action.payload.amount,
-        // paymentTerms: action.payload.paymentTerms,
-        // paymentStatus: action.payload.paymentStatus,
-        // status: action.payload.status,
+        amount: action.payload.amount,
+        paymentTerms: action.payload.paymentTerms,
+        paymentStatus: action.payload.paymentStatus,
+        status: action.payload.status,
       };
     },
     resetCart: (state) => {

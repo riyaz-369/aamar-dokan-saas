@@ -87,20 +87,21 @@ model Services {
 }
 
 model Package {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
-  subtitle  String?
-  code      String
-  features  Json // maintains a list of ordered
-  service   Services @relation(fields: [serviceId], references: [id])
-  serviceId String   @db.ObjectId
-  custom    Boolean  @default(false)
-  isFree    Boolean? @default(false)
-  price     Json // type: (monthly, weekly)
-  status    Status   @default(Active)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  orders    Orders[]
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  subtitle    String?
+  code        String
+  features    Json // maintains a list of ordered
+  service     Services @relation(fields: [serviceId], references: [id])
+  serviceId   String   @db.ObjectId
+  custom      Boolean  @default(false)
+  isFree      Boolean? @default(false)
+  price       Json // type: (monthly, weekly)
+  trialPeriod Int?     @default(0)
+  status      Status   @default(Active)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  orders      Orders[]
 }
 
 // Blog model
@@ -220,4 +221,5 @@ enum OrderStatus {
 enum paymentTermsStatus {
   Monthly
   Yearly
+  Free
 }

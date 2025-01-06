@@ -1,11 +1,12 @@
 "use client";
 
 import { addToCart } from "@/app/_redux-store/slice/orderSlice";
+import { RootState } from "@/app/_redux-store/store";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, Minus } from "lucide-react";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 type FeatureType = {
   title: string;
@@ -31,6 +32,10 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
   // console.log("Packages:", plans);
   const dispatch = useDispatch();
 
+  const orderData = useSelector((state: RootState) => state.orderSlice);
+
+  console.log("orderData from PriceTable:", orderData);
+
   const handleBuyPackage = (
     packageId: string,
     serviceId: string,
@@ -46,6 +51,8 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
       })
     );
   };
+
+  console.log("all package from price table:", plans);
 
   return (
     <div className="container mx-auto py-10">
