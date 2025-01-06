@@ -41,6 +41,7 @@ model Client {
   name            String
   phone           String        @unique
   email           String?
+  gender          Gender?
   street          String?
   city            String?
   state           String?
@@ -60,6 +61,12 @@ model Client {
   transactions    Transaction[]
 
   @@index([phone, email, username, aamardokanId])
+}
+
+enum Gender {
+  Male
+  Female
+  Other
 }
 
 //Services model

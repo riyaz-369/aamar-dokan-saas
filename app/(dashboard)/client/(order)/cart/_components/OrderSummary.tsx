@@ -136,9 +136,9 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
             <TableRow>
               <TableCell className="font-medium">{packages.title}</TableCell>
               <TableCell className="text-right">
-                <span className="line-through opacity-80">
-                  {packages.price.monthly}
-                </span>{" "}
+                {/* <span className="line-through opacity-80"> */}
+                {packages.price.monthly}
+                {/* </span>{" "} */}
               </TableCell>
             </TableRow>
             <TableRow>
