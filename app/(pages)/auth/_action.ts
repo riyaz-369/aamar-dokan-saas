@@ -112,6 +112,8 @@ export const checkUsername = async (username: {
 }): Promise<boolean> => {
   // console.log("Checking username", username);
   // const apiUrl = "http://localhost:5001/api";z
+  
+  //TODO:: change the api url from service
   const apiUrl = "https://api.aamardokan.online/api";
   try {
     // Check if a client exists with the given username

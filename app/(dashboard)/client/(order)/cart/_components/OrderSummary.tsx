@@ -20,7 +20,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { resetCart, setOrderInfo } from "@/app/_redux-store/slice/orderSlice";
+import { resetCart, setOrderId, setOrderInfo } from "@/app/_redux-store/slice/orderSlice";
 // import { useSession } from "next-auth/react";
 import { PackageType } from "../page";
 import { RootState } from "@/app/_redux-store/store";
@@ -64,6 +64,7 @@ const dateAfter30Days = add(currentDate, { days: 30 });
         return toast.error("Please accept our terms and conditions");
       } else {
         if (packages?.isFree) {
+          console.log("Free Order")
           const freeOrderData = {
             ...orderData,
             paymentTerms: "Free",
@@ -110,12 +111,63 @@ const dateAfter30Days = add(currentDate, { days: 30 });
             }
           }
         } else {
-          router.push("/client/payment");
-          loaderClose();
+          console.log("Paid Order")
+          //CREATE ORDER AND SENT ORDER ID TO PAYMENT PAGE
+          const paidOrderData = {
+            ...orderData,
+            paymentTerms: "Monthly",
+            paymentStatus: "Unpaid",
+            status: "Ordered",
+          };
+          console.log("PAID:", paidOrderData );
+          //@ts-ignore
+          const createOrder = await SaveOrderIntoDB(paidOrderData);
+
+          if (createOrder) {
+            console.log("saved order:", createOrder);
+            dispatch(setOrderId(createOrder.orderId));
+            console.log("Order Id Added to Slice", createOrder.orderId);
+
+            const client = await getClientServicesList(orderData?.aamardokanId);
+            console.log("client for services list:", client);
+            const { services } = client;
+
+            const marched = services.find(
+              (service: any) => service.serviceId === paidOrderData.serviceId
+            );
+            let clientServices = services;
+            if (!marched) {
+              clientServices = [
+                ...services,
+                {
+                  serviceId: paidOrderData.serviceId,
+                  packageId: paidOrderData.packageId,
+                  amount: paidOrderData.amount,
+                  nextPayment: dateAfter30Days, // TODO:: make a date fns function for the next payment
+                  status: "inactive",
+                },
+              ];
+            }
+
+            // console.log("clientServices:", clientServices);
+
+            const updateService = await updateClientServiceListIntoBD(
+              clientServices,
+              client?.id as string
+            );
+
+            if (updateService) {
+              console.log("Client Service Updated", updateService);
+              router.push("/client/payment");
+              loaderClose();
+              // router.push("/client/payment/success");
+              // dispatch(resetCart());
+            }
         }
        
       }
-    } catch (error) {
+    } 
+  }catch (error) {
       loaderClose();
       console.error("Error to place order:", error);
     }

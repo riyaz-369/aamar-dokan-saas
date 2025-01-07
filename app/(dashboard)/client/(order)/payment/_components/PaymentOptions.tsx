@@ -28,15 +28,17 @@ export function PaymentOptions() {
 
   const orderData = useSelector((state: RootState) => state.orderSlice);
 
-  // console.log("orderData from PaymentMethod page:", orderData);
+  console.log("orderData from PaymentMethod page:", orderData);
 
   //@ts-ignore
   const { aamardokanId } = session?.user || "";
+  
 
   const handlePayment = async () => {
     const paymentData = {
       amount: orderData.amount.toString(),
       aamardokanId: aamardokanId,
+      orderId: orderData.orderId,
     };
     try {
       loaderShow();
@@ -45,6 +47,7 @@ export function PaymentOptions() {
         paymentData
       );
       if (createResponse) {
+        console.log("Payment Created Successfully", createResponse.data);
         loaderClose();
         window.location.href = createResponse.data.bkashURL;
       }

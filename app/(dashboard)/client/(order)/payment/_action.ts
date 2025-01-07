@@ -35,6 +35,23 @@ type OrderDataProsType = {
   paymentStatus: PaymentStatus;
 };
 
+type TransactionDataProsType = {
+  clientId: string;
+  orderId: string;
+  aamardokanId: string;
+  paymentId: string;
+  method: string;
+  amount: number;
+  currency: string;
+  transactionId: string;
+  merchantInvoiceNumber: string;
+  payerAccount: string;
+  customerMsisdn: string;
+  transactionStatus: "Completed" | "Failed" | "Canceled";
+  statusMessage: string;
+  paymentExecuteTime: Date;
+};
+
 export const SaveOrderIntoDB = async (data: OrderDataProsType) => {
   const orderId = await generateOrderId();
   console.log("data from action:", data);
@@ -76,43 +93,55 @@ export const SaveOrderIntoDB = async (data: OrderDataProsType) => {
   }
 };
 
-type TransactionDataProsType = {
-  clientId: string;
-  orderId: string;
-  aamardokanId: string;
-  paymentId: string;
-  method: string;
-  amount: number;
-  currency: string;
-  transactionId: string;
-  merchantInvoiceNumber: string;
-  payerAccount: string;
-  customerMsisdn: string;
-  transactionStatus: "Completed" | "Failed" | "Canceled";
-  statusMessage: string;
-  paymentExecuteTime: Date;
-};
+
+export const updateOrder = async (data: any, orderId:string) => {
+  const update = await prisma.orders.update({
+    where: { orderId: orderId },
+    data: {
+      ...data,
+    },
+  })
+
+  return update
+}
+
 
 export const CreateTransactionIntoDB = async (
   data: TransactionDataProsType
 ) => {
+  const {clientId,
+    orderId,
+    aamardokanId,
+    paymentId,
+    method,
+    amount,
+    currency,
+    transactionId,
+    merchantInvoiceNumber,
+    payerAccount,
+    customerMsisdn,
+    transactionStatus,
+    statusMessage,
+    paymentExecuteTime} = data
+
+    console.log("data from create transaction:", data);
   try {
     const transaction = await prisma.transaction.create({
       data: {
-        clientId: data.clientId,
-        orderId: data.orderId,
-        aamardokanId: data.aamardokanId,
-        paymentId: data.paymentId,
-        method: data.method,
-        amount: data.amount,
-        currency: data.currency,
-        transactionId: data.transactionId,
-        merchantInvoiceNumber: data.merchantInvoiceNumber,
-        payerAccount: data.payerAccount,
-        customerMsisdn: data.customerMsisdn,
-        transactionStatus: data.transactionStatus,
-        statusMessage: data.statusMessage,
-        paymentExecuteTime: data.paymentExecuteTime,
+        clientId: clientId,
+        orderId: orderId,
+        aamardokanId: aamardokanId,
+        paymentId: paymentId,
+        method: method,
+        amount: amount,
+        currency: currency,
+        transactionId: transactionId,
+        merchantInvoiceNumber: merchantInvoiceNumber,
+        payerAccount: payerAccount,
+        customerMsisdn: customerMsisdn,
+        transactionStatus: transactionStatus,
+        statusMessage: statusMessage,
+        paymentExecuteTime: paymentExecuteTime,
       },
     });
     return transaction;
@@ -141,3 +170,6 @@ export const updateClientServiceListIntoBD = async (
     }
   }
 };
+
+
+

@@ -8,25 +8,29 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    await authCheck(data.aamardokanId);
+    console.log("Payment data", data); //{ amount: '1000', aamardokanId: '167310', orderId: 'AD340124' }
+    const { aamardokanId, amount, orderId } = data;
 
-    if (!data.amount || data.amount < 1 || !data.aamardokanId) {
+    await authCheck(aamardokanId);
+
+    if (!amount || amount < 1 || !aamardokanId || !orderId) {
       console.log("Invalid data");
       return NextResponse.json({ message: "Invalid data" });
     }
 
-    //@ts-ignore
-    const { idToken } = await GetToken(data.aamardokanId);
 
+    //@ts-ignore
+    const { idToken } = await GetToken(aamardokanId);
+    //SET ORDER ID TO REFERANCE
     const body = {
       mode: "0011",
-      payerReference: " ",
+      payerReference: aamardokanId,
       callbackURL: "http://localhost:3000/api/payment/callback",
       merchantAssociationInfo: "MI05MID54RF09123456One",
-      amount: data.amount,
+      amount: amount,
       currency: "BDT",
       intent: "sale",
-      merchantInvoiceNumber: "Inv0124",
+      merchantInvoiceNumber: orderId,
     };
     const response = await fetch(
       "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/create",
@@ -44,7 +48,7 @@ export async function POST(req: NextRequest) {
 
     const responseData = await response.json();
 
-    console.log("responseData from create payment", responseData);
+    // console.log("responseData from create payment", responseData);
 
     return NextResponse.json(responseData);
   } catch (error) {

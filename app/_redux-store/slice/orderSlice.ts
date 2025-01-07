@@ -4,6 +4,7 @@ import type { Orders } from "@prisma/client";
 type OrderType = Orders;
 const initialState: OrderType = {
   aamardokanId: "",
+  orderId: "",
   clientId: "",
   serviceId: "",
   packageId: "",
@@ -46,11 +47,17 @@ const orderSlice = createSlice({
         status: action.payload.status,
       };
     },
+    setOrderId: (state, action) => {
+      return {
+        ...state,
+        orderId: action.payload,
+      };
+    },
     resetCart: (state) => {
       return initialState;
     },
   },
 });
 
-export const { addToCart, setOrderInfo, resetCart, setClientInfo } = orderSlice.actions;
+export const { addToCart, setOrderInfo, resetCart, setClientInfo,setOrderId } = orderSlice.actions;
 export default orderSlice.reducer;

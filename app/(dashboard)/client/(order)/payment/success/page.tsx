@@ -1,16 +1,23 @@
 "use client";
 
+import { resetCart } from "@/app/_redux-store/slice/orderSlice";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Check, CheckCircle, Copy } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
+import { useDispatch } from "react-redux";
 
 const PaymentSuccessPage = () => {
   const router = useRouter();
   const [copySuccess, setCopySuccess] = useState(false);
+  const dispatch = useDispatch();
 
   const transactionId = "AAD03212399999";
+
+  useEffect(() => {
+    dispatch(resetCart());
+  }, []);
 
   const handleViewService = () => {
     router.push("/client/my-services");
