@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import PageTitle from "@/components/PageTitle";
 import React from "react";
 import { BillingTypes, columns } from "./_components/columns";
@@ -8,6 +9,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 async function getData(): Promise<BillingTypes[]> {
   const session = await getServerSession(authOptions);
+  //@ts-ignore
   const aamardokanId: string | undefined = session?.user?.aamardokanId;
 
   if (!aamardokanId) {

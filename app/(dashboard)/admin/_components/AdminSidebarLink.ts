@@ -7,6 +7,7 @@ import {
   User,
   User2Icon,
   PackageIcon,
+  Logs,
 } from "lucide-react";
 import { MdOutlinePostAdd } from "react-icons/md";
 import { RiServiceLine, RiBillLine } from "react-icons/ri";
@@ -54,6 +55,13 @@ export const adminSidebarLinks: LinkType[] = [
     icon: User2Icon,
     variant: "ghost",
     href: "/admin/customers",
+  },
+  {
+    title: "Orders",
+    label: "",
+    icon: Logs,
+    variant: "ghost",
+    href: "/admin/orders",
   },
   {
     title: "Billing",
