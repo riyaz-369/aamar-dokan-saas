@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const uploadsFolder = join(process.cwd(), "public", "service-images");
+    const uploadsFolder = join(process.cwd(), "/", "service-images");
 
     // Ensure the folder exists
     if (!existsSync(uploadsFolder)) {
