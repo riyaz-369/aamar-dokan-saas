@@ -1,22 +1,47 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import PageTitle from "@/components/PageTitle";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
-import { columns } from "./_components/columns";
-import type { TBlogPost } from "./_components/columns";
+import { BillingTypes, columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
+import prisma from "@/prisma";
 
-async function getData(): Promise<TBlogPost[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "009",
-      photo: "http://example.com",
-      title: "Post tile",
-      publishDate: new Date().toLocaleDateString(),
-      category: "Tech",
+async function getData(): Promise<BillingTypes[]> {
+  const billings = await prisma.transaction.findMany({
+    select: {
+      id: true,
+      aamardokanId: true,
+      amount: true,
+      order: {
+        select: {
+          paymentStatus: true,
+          status: true,
+          paymentTerms: true,
+          orderId: true,
+          service: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
+        },
+      },
+      paymentId: true,
+      method: true,
+      currency: true,
+      transactionId: true,
+      merchantInvoiceNumber: true,
+      payerAccount: true,
+      customerMsisdn: true,
+      transactionStatus: true,
+      paymentExecuteTime: true,
+      statusMessage: true,
     },
-  ];
+  });
+
+  //@ts-ignore
+  return billings;
 }
 
 const BillingPage = async () => {

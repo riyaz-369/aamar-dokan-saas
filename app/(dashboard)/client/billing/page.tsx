@@ -1,22 +1,57 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import PageTitle from "@/components/PageTitle";
 import React from "react";
-import { columns } from "./_components/columns";
-import type { TBlogPost } from "./_components/columns";
+import { BillingTypes, columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 import prisma from "@/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-async function getData(): Promise<TBlogPost[]> {
-  const user = await getServerSession(authOptions);
-  if (!user || !user.aamarDokanId) {
-    return null;
+async function getData(): Promise<BillingTypes[]> {
+  const session = await getServerSession(authOptions);
+  //@ts-ignore
+  const aamardokanId: string | undefined = session?.user?.aamardokanId;
+
+  if (!aamardokanId) {
+    return [];
   }
-  const data = await prisma.transaction.findMany({
-    where: { aamrDokanId: user.aamarDokanId },
+
+  const billings = await prisma.transaction.findMany({
+    where: {
+      aamardokanId,
+    },
+    select: {
+      id: true,
+      aamardokanId: true,
+      amount: true,
+      order: {
+        select: {
+          paymentStatus: true,
+          status: true,
+          paymentTerms: true,
+          orderId: true,
+          service: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
+        },
+      },
+      paymentId: true,
+      method: true,
+      currency: true,
+      transactionId: true,
+      merchantInvoiceNumber: true,
+      payerAccount: true,
+      customerMsisdn: true,
+      transactionStatus: true,
+      paymentExecuteTime: true,
+      statusMessage: true,
+    },
   });
 
-  return data;
+  return billings;
 }
 
 const BillingPage = async () => {
@@ -27,7 +62,6 @@ const BillingPage = async () => {
       <div className="flex justify-between">
         <PageTitle title="Billing" />
       </div>
-      {/* Blog posts list */}
       <DataTable columns={columns} data={data || []} />
     </div>
   );
