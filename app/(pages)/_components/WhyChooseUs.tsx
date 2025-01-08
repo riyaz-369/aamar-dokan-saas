@@ -27,7 +27,7 @@ const WhyChooseUs = () => {
             src="/pos-terminal.png"
             height={400}
             width={300}
-            className="w-[200px] lg:w-[330px]"
+            className="absolute w-[200px] lg:w-[330px]"
           />
         </div>
       </div>

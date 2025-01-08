@@ -46,6 +46,10 @@ const footerLinks = [
         label: "Documentation",
         isExternal: true,
       },
+      {
+        href: "/why-free",
+        label: "Why Free?",
+      },
     ],
   },
   {
