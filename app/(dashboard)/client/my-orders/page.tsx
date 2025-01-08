@@ -1,14 +1,18 @@
 import PageTitle from "@/components/PageTitle";
 import React from "react";
-import { columns } from "./_components/columns";
+import { columns, MyOrdersTypes } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 import prisma from "@/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-const MyOrdersPage = async () => {
+async function getData(): Promise<MyOrdersTypes[]> {
   const session = await getServerSession(authOptions);
-  const aamardokanId: string = session?.user?.aamardokanId;
+  const aamardokanId: string | undefined = session?.user?.aamardokanId;
+
+  if (!aamardokanId) {
+    return [];
+  }
 
   const myOrders = await prisma.orders.findMany({
     where: {
@@ -33,6 +37,12 @@ const MyOrdersPage = async () => {
       createdAt: true,
     },
   });
+
+  return myOrders;
+}
+
+const MyOrdersPage = async () => {
+  const myOrders = await getData();
 
   return (
     <div>

@@ -14,11 +14,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 // import Image from "next/image";
 
-type MyOrdersTypes = {
-  title: string;
-  createdAt: string;
+export type MyOrdersTypes = {
   orderId: string;
   status: string;
+  createdAt: Date;
+  service: {
+    title: string;
+    photo: string;
+  };
 };
 
 export const columns: ColumnDef<MyOrdersTypes>[] = [
@@ -45,7 +48,7 @@ export const columns: ColumnDef<MyOrdersTypes>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Title
+          Service
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -94,9 +97,9 @@ export const columns: ColumnDef<MyOrdersTypes>[] = [
     id: "actions",
     header: "Action",
     cell: ({ row }) => {
-      const payment = row.original;
+      const orders = row.original;
 
-      console.log(payment);
+      console.log(orders);
 
       return (
         <DropdownMenu>
@@ -110,7 +113,7 @@ export const columns: ColumnDef<MyOrdersTypes>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => navigator.clipboard.writeText(payment.orderId)}
+              onClick={() => navigator.clipboard.writeText(orders.orderId)}
             >
               <Clipboard /> Order ID
             </DropdownMenuItem>
