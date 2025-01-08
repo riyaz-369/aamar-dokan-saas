@@ -1,97 +1,51 @@
 "use server";
 
-import { z } from "zod";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import bcrypt from "bcrypt";
 import prisma from "@/prisma";
-import { revalidatePath } from "next/cache";
-import { Status } from "@prisma/client";
-import { ProfileSettingFormSchema } from "./_components/ProfileSettingFormSchema";
+import { revalidateTag } from "next/cache";
 
-export type TService = z.infer<typeof ProfileSettingFormSchema>;
+export const UpdateProfileSettingsIntoDB = async (
+  data: any,
+  aamardokanId: string
+) => {
+  console.log("Settings info from action:", data, aamardokanId);
 
-export const SaveServiceIntoDB = async (data: TService, id: string) => {
-  // console.log(id, data);
+  if (!data && !aamardokanId) return "Invalid data";
+
   try {
-    const {
-      title,
-      categoryId,
-      meta,
-      slug,
-      description,
-      code,
-      privacyPolicy,
-      status,
-      tos,
-      photo,
-      apiUrl,
-      loginUrl,
-    } = data;
-
-    if (!id) {
-      const createdService = await prisma.services.create({
-        data: {
-          title,
-          description,
-          categoryId,
-          meta,
-          slug,
-          photo,
-          code,
-          privacyPolicy,
-          tos,
-          status,
-          apiUrl,
-          loginUrl,
-        },
-      });
-      if (createdService) {
-        revalidatePath("/admin/services");
-        return createdService;
-      }
-    } else {
-      const updatedService = await prisma.services.update({
-        where: { id },
-        data: {
-          title,
-          description,
-          categoryId,
-          meta,
-          slug,
-          photo,
-          code,
-          privacyPolicy,
-          tos,
-          status,
-          apiUrl,
-          loginUrl,
-        },
-      });
-      if (updatedService) {
-        revalidatePath("/admin/services");
-        return updatedService;
-      }
-    }
-  } catch (err) {
-    console.error(err);
+    const update = await prisma.client.update({
+      where: { aamardokanId: aamardokanId },
+      data: data,
+    });
+    console.log("update info", update);
+    revalidateTag("client-cache");
+    return update;
+  } catch (error) {
+    console.error("Error to update profile setting", error);
   }
 };
 
-export const UpdateServiceStatus = async (id: string, status: Status) => {
-  try {
-    const updateStatus = await prisma.services.update({
-      where: {
-        id: id,
-      },
-      data: { status },
-    });
+export const UpdateProfileSettingPasswordIntoDB = async (
+  data: any,
+  aamardokanId: string
+) => {
+  // console.log("form update client action:", data, aamardokanId);
 
-    if (updateStatus) {
-      revalidatePath("/admin/service");
-      return updateStatus;
-    } else {
-      return false;
-    }
+  if (!data && !aamardokanId) return "Invalid data";
+  try {
+    const hashPassword = await bcrypt.hash(data.password, 10);
+    const password = {
+      password: hashPassword,
+    };
+
+    const update = await prisma.client.update({
+      where: { aamardokanId: aamardokanId },
+      data: password,
+    });
+    revalidateTag("client-cache");
+    return update;
   } catch (error) {
-    console.error("service update error", error);
-    return false;
+    console.error("password update error", error);
   }
 };

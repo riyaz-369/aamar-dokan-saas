@@ -5,7 +5,7 @@ import { ThemeProvider } from "next-themes";
 import SessionProvider from "@/providers/AuthProvider";
 import { Toaster } from "@/components/ui/sonner";
 import StoreProvider from "@/providers/StoreProvider";
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <link rel="icon" href="/aamarDokan.ico" sizes="any" />
-      
+
       <body
         className={`${geistSans.variable} ${geistMono.variable}   antialiased`}
         suppressHydrationWarning={true}
@@ -44,7 +44,6 @@ export default function RootLayout({
             </SessionProvider>
           </StoreProvider>
         </main>
-        <Toaster />
       </body>
       <GoogleAnalytics gaId="G-62Q3RGYNSB" />
     </html>
