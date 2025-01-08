@@ -1,6 +1,6 @@
 "use client";
 
-import { Cog, LayoutDashboard, LucideIcon } from "lucide-react";
+import { Cog, LayoutDashboard, Logs, LucideIcon } from "lucide-react";
 import { MdHelpOutline } from "react-icons/md";
 import { RiServiceLine, RiBillLine } from "react-icons/ri";
 
@@ -26,6 +26,13 @@ export const clientSidebarLinks: LinkType[] = [
     icon: RiServiceLine,
     variant: "ghost",
     href: "/client/my-services",
+  },
+  {
+    title: "My Orders",
+    label: "",
+    icon: Logs,
+    variant: "ghost",
+    href: "/client/my-orders",
   },
   {
     title: "Billing",
