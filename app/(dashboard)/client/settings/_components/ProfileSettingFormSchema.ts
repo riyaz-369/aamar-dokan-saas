@@ -1,24 +1,28 @@
 import { z } from "zod";
 
-const StatusEnum = z.enum(["Active", "Inactive"]);
-
-export const ProfileSettingFormSchema = z.object({
+export const PersonalInfoFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
   phone: z.string().min(1, "Phone is required"),
   email: z.string().email().optional(),
+  dob: z.date().optional(),
   gender: z.enum(["Male", "Female", "Other"]),
+  photo: z.string().url().optional(),
+});
+
+export const AddressFormSchema = z.object({
   street: z.string().optional(),
   city: z.string().optional(),
   state: z.string().optional(),
   zip: z.string().optional(),
   country: z.string().optional(),
-  photo: z.string().url().optional(),
-  username: z.string().optional(),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
-  confirmPassword: z
-    .string()
-    .min(6, "Confirm Password must be at least 6 characters long"),
-  dob: z.date().optional(),
-  isPhoneVerified: z.boolean().optional(),
-  status: StatusEnum.default("Active"),
 });
+
+export const SecurityFormSchema = z
+  .object({
+    password: z.string().min(6, { message: "Password minimum 6 characters" }),
+    re_password: z.string(),
+  })
+  .refine((data) => data.password === data.re_password, {
+    message: "Passwords must match",
+    path: ["re_password"],
+  });

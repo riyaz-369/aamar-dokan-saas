@@ -13,9 +13,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ProfileSettingFormSchema } from "./ProfileSettingFormSchema";
+import {
+  AddressFormSchema,
+  PersonalInfoFormSchema,
+  SecurityFormSchema,
+} from "./ProfileSettingFormSchema";
 import type { z } from "zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -25,9 +29,11 @@ import {
 } from "@/components/ui/select";
 import PageTitle from "@/components/PageTitle";
 import {
-  BadgeInfoIcon,
   CalendarIcon,
+  ClipboardCopy,
+  LoaderCircle,
   Lock,
+  MapPinHouse,
   Save,
   UserCircle2Icon,
 } from "lucide-react";
@@ -39,69 +45,149 @@ import {
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "@/app/(pages)/auth/sign-up/_components/Calander";
+import {
+  UpdateProfileSettingPasswordIntoDB,
+  UpdateProfileSettingsIntoDB,
+} from "../_actions";
+import PasswordShowClose from "@/components/PasswordShowClose";
+import { toast } from "sonner";
 
 const ProfileSettingForm = ({ entry }: { entry: any }) => {
-  // const [loader, setLoader] = useState(false);
-  // const loaderClose = () => setLoader(false);
+  const [eyeOpen, setEyeOpen] = useState(false);
+  const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [loading3, setLoading3] = useState(false);
 
-  const form = useForm<z.infer<typeof ProfileSettingFormSchema>>({
-    resolver: zodResolver(ProfileSettingFormSchema),
+  const aamardokanId = entry?.aamardokanId;
+
+  const personalInfoForm = useForm<z.infer<typeof PersonalInfoFormSchema>>({
+    resolver: zodResolver(PersonalInfoFormSchema),
     defaultValues: {
       name: "",
       phone: "",
       email: "",
       gender: "Male",
+      dob: undefined,
+    },
+  });
+
+  const addressForm = useForm<z.infer<typeof AddressFormSchema>>({
+    resolver: zodResolver(AddressFormSchema),
+    defaultValues: {
       street: "",
       city: "",
       state: "",
       zip: "",
       country: "",
-      photo: "",
-      username: "",
+    },
+  });
+
+  const securityForm = useForm<z.infer<typeof SecurityFormSchema>>({
+    resolver: zodResolver(SecurityFormSchema),
+    defaultValues: {
       password: "",
-      dob: undefined,
-      isPhoneVerified: false,
+      re_password: "",
     },
   });
 
   useEffect(() => {
     if (entry?.id) {
-      form.setValue("name", entry.name);
-      form.setValue("phone", entry.phone);
-      form.setValue("email", entry.email);
-      form.setValue("gender", entry.gender);
-      form.setValue("street", entry.street);
-      form.setValue("city", entry.city);
-      form.setValue("state", entry.state);
-      form.setValue("zip", entry.zip);
-      form.setValue("country", entry.country);
-      form.setValue("photo", entry.photo);
-      form.setValue("username", entry.username);
-      form.setValue("password", entry.password);
-      form.setValue("dob", entry.dob ? new Date(entry.dob) : undefined);
-      form.setValue("isPhoneVerified", entry.isPhoneVerified);
-      form.setValue("status", entry.status);
+      personalInfoForm.setValue("name", entry.name);
+      personalInfoForm.setValue("phone", entry.phone);
+      personalInfoForm.setValue("email", entry.email);
+      personalInfoForm.setValue("gender", entry.gender || "Male");
+      personalInfoForm.setValue(
+        "dob",
+        entry.dob ? new Date(entry.dob) : undefined
+      );
+      addressForm.setValue("street", entry.street);
+      addressForm.setValue("city", entry.city);
+      addressForm.setValue("state", entry.state);
+      addressForm.setValue("zip", entry.zip);
+      addressForm.setValue("country", entry.country);
+      securityForm.setValue("password", "");
     }
   }, []);
 
-  async function onSubmit(data: z.infer<typeof ProfileSettingFormSchema>) {
-    console.log(data);
-  }
+  const handlePersonalInfoSubmit = async (
+    data: z.infer<typeof PersonalInfoFormSchema>
+  ) => {
+    // console.log("Personal Info Submitted", data);
+    try {
+      setLoading1(true);
+      const personalInfoRes = await UpdateProfileSettingsIntoDB(
+        data,
+        aamardokanId
+      );
+      // console.log("personal info update res:", personalInfoRes);
+      if (personalInfoRes) {
+        setLoading1(false);
+        toast.success("Personal information updated successfully!");
+      }
+    } catch (error) {
+      setLoading1(false);
+      console.error("Error to update  personal info:", error);
+    }
+  };
+
+  const handleAddressSubmit = async (
+    data: z.infer<typeof AddressFormSchema>
+  ) => {
+    // console.log("Address Info Submitted", data);
+    try {
+      setLoading2(true);
+      const addressUpdateRes = await UpdateProfileSettingsIntoDB(
+        data,
+        aamardokanId
+      );
+      if (addressUpdateRes) {
+        setLoading2(false);
+        toast.success("Address updated successfully!");
+      }
+    } catch (error) {
+      setLoading2(false);
+      console.error("Error to update address:", error);
+    }
+  };
+
+  const handleSecuritySubmit = async (
+    data: z.infer<typeof SecurityFormSchema>
+  ) => {
+    // console.log("Security Info Submitted", data);
+
+    try {
+      setLoading3(true);
+      const updatePass = await UpdateProfileSettingPasswordIntoDB(
+        data,
+        aamardokanId
+      );
+      if (updatePass) {
+        setLoading3(false);
+        toast.success("Password updated successfully!");
+      }
+    } catch (error) {
+      setLoading3(false);
+      console.error("Error to update password:", error);
+    }
+  };
 
   return (
-    <div className="xl:px-56 2xl:px-64 py-8 lg:py-16">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+    <div className="xl:px-56 2xl:px-64 py-8 lg:py-16 space-y-8">
+      {/* Personal Info Form */}
+      <Form {...personalInfoForm}>
+        <form
+          onSubmit={personalInfoForm.handleSubmit(handlePersonalInfoSubmit)}
+        >
           <div className="space-y-10">
-            {/* Basic information */}
             <div className="space-y-4">
               <span className="flex items-center gap-4 text-gray-600 dark:text-gray-300">
                 <UserCircle2Icon />
-                <PageTitle title="Basic Information" />
+                <PageTitle title="Personal Information" />
               </span>
+
               {/* Name */}
               <FormField
-                control={form.control}
+                control={personalInfoForm.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
@@ -113,43 +199,44 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
                   </FormItem>
                 )}
               />
-
-              {/* Phone */}
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your phone number" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Email */}
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter your email address"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="grid grid-cols-2 gap-4 items-center">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                 <FormField
-                  control={form.control}
+                  control={personalInfoForm.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone</FormLabel>
+                      <FormControl>
+                        <Input
+                          readOnly
+                          placeholder="Enter your phone number"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Email */}
+                <FormField
+                  control={personalInfoForm.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your email address"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={personalInfoForm.control}
                   name="dob"
                   render={({ field }) => (
                     <FormItem className="flex flex-col mt-2">
@@ -193,7 +280,7 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
 
                 {/* gender */}
                 <FormField
-                  control={form.control}
+                  control={personalInfoForm.control}
                   name="gender"
                   render={({ field }) => (
                     <FormItem>
@@ -219,17 +306,34 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
                 />
               </div>
             </div>
+            {/* Submit Button */}
+            <div className="flex  justify-end">
+              <Button type="submit" className="mr-2">
+                {loading1 ? (
+                  <LoaderCircle className="animate-spin" />
+                ) : (
+                  <Save />
+                )}
+                {loading1 ? "Saving" : "Save"}
+              </Button>
+            </div>
+          </div>
+        </form>
+      </Form>
 
-            {/* Address info */}
+      {/* Address form */}
+      <Form {...addressForm}>
+        <form onSubmit={addressForm.handleSubmit(handleAddressSubmit)}>
+          <div className="space-y-10">
             <div className="space-y-4">
               <span className="flex items-center gap-4 text-gray-600 dark:text-gray-300">
-                <BadgeInfoIcon />
+                <MapPinHouse />
                 <PageTitle title="Address" />
               </span>
 
               {/* Street */}
               <FormField
-                control={form.control}
+                control={addressForm.control}
                 name="street"
                 render={({ field }) => (
                   <FormItem>
@@ -245,67 +349,89 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
                 )}
               />
 
-              {/* City */}
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your city" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* City */}
+                <FormField
+                  control={addressForm.control}
+                  name="city"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>City</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your city" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              {/* State */}
-              <FormField
-                control={form.control}
-                name="state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>State</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your state" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                {/* State */}
+                <FormField
+                  control={addressForm.control}
+                  name="state"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>State</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your state" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              {/* ZIP */}
-              <FormField
-                control={form.control}
-                name="zip"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>ZIP</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your ZIP code" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                {/* ZIP */}
+                <FormField
+                  control={addressForm.control}
+                  name="zip"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>ZIP</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your ZIP code" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              {/* Country */}
-              <FormField
-                control={form.control}
-                name="country"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Country</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your country" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                {/* Country */}
+                <FormField
+                  control={addressForm.control}
+                  name="country"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Country</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your country" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
 
+            {/* Submit Button */}
+            <div className="flex justify-end">
+              <Button type="submit" className="mr-2">
+                {loading2 ? (
+                  <LoaderCircle className="animate-spin" />
+                ) : (
+                  <Save />
+                )}
+                {loading2 ? "Saving" : "Save"}
+              </Button>
+            </div>
+          </div>
+        </form>
+      </Form>
+
+      {/* Security Form */}
+      <Form {...securityForm}>
+        <form onSubmit={securityForm.handleSubmit(handleSecuritySubmit)}>
+          <div className="space-y-10">
+            {/* security */}
             <div className="space-y-4">
               <span className="flex items-center gap-4 text-gray-600 dark:text-gray-300">
                 <Lock />
@@ -313,64 +439,87 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
               </span>
 
               {/* Username */}
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Username</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your username" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="flex items-center gap-4">
+                <FormLabel>Username: </FormLabel>
+                <p className="font-semibold text-gray-600 dark:text-gray-300">
+                  {entry?.username}
+                </p>
 
-              {/* Password */}
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Enter your password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <span
+                  onClick={() => {
+                    navigator.clipboard.writeText(entry?.username);
+                    toast.success("Username copied to clipboard!");
+                  }}
+                >
+                  <ClipboardCopy
+                    size={24}
+                    className="text-primary/80 hover:cursor-pointer"
+                  />
+                </span>
+              </div>
 
-              {/* Confirm Password */}
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Enter your password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Password */}
+                <FormField
+                  control={securityForm.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>New Password</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            type={`${eyeOpen ? "text" : "password"}`}
+                            placeholder="Enter new password"
+                            {...field}
+                          />
+                          <PasswordShowClose
+                            eyeOpen={eyeOpen}
+                            setEyeOpen={setEyeOpen}
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Confirm Password */}
+                <FormField
+                  control={securityForm.control}
+                  name="re_password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            type={`${eyeOpen ? "text" : "password"}`}
+                            placeholder="Confirm password"
+                            {...field}
+                          />
+                          <PasswordShowClose
+                            eyeOpen={eyeOpen}
+                            setEyeOpen={setEyeOpen}
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
 
             {/* Submit Button */}
-            <div className="">
+            <div className="flex justify-end">
               <Button type="submit" className="mr-2">
-                <Save />
-                Save
+                {loading3 ? (
+                  <LoaderCircle className="animate-spin" />
+                ) : (
+                  <Save />
+                )}
+                {loading3 ? "Saving" : "Save"}
               </Button>
             </div>
           </div>
