@@ -57,6 +57,8 @@ export function PaymentOptions() {
         paymentData
       );
 
+      console.log({ createResponse });
+
       if (createResponse?.data?.bkashURL) {
         console.log("Payment Created Successfully", createResponse.data);
         window.location.href = createResponse.data.bkashURL;
