@@ -20,14 +20,16 @@ model PaymentTokens {
 
 // user model
 model User {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String
-  email      String?  @unique // Optional email field
-  phone      String   @unique
-  username   String   @unique
+  phone      String    @unique
+  email      String?   @unique
+  gender     Gender?
+  dob        DateTime?
+  username   String    @unique
   password   String
   type       UserType // Enum for user type
-  status     Status   @default(Active)
+  status     Status    @default(Active)
   photo      String?
   permission Json?
   blog       Blog[]
@@ -61,12 +63,6 @@ model Client {
   transactions    Transaction[]
 
   @@index([phone, email, username, aamardokanId])
-}
-
-enum Gender {
-  Male
-  Female
-  Other
 }
 
 //Services model
@@ -167,11 +163,6 @@ model Orders {
   @@index([aamardokanId, orderId])
 }
 
-enum PaymentStatus {
-  Unpaid
-  Paid
-}
-
 model Transaction {
   id                    String            @id @default(auto()) @map("_id") @db.ObjectId
   client                Client            @relation(fields: [clientId], references: [id])
@@ -194,6 +185,38 @@ model Transaction {
   updatedAt             DateTime          @updatedAt
 
   @@index([paymentId, transactionId])
+}
+
+model ContactUs {
+  id      String               @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  phone   String
+  email   String
+  subject String?
+  company String?
+  message String
+  status  ContactMessageStatus @default(Inbox)
+}
+
+enum ContactMessageStatus {
+  Inbox
+  Sent
+  Read
+  Unread
+  Drafts
+  Trash
+  Archive
+}
+
+enum Gender {
+  Male
+  Female
+  Other
+}
+
+enum PaymentStatus {
+  Unpaid
+  Paid
 }
 
 enum TransactionStatus {

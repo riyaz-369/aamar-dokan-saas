@@ -86,12 +86,6 @@ export const columns: ColumnDef<TUser>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() => navigator.clipboard.writeText(users.id)}
-            >
-              Copy User ID
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <Link href={`/admin/users/update/${users.id}`}>
               <DropdownMenuItem className="cursor-pointer">

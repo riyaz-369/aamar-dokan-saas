@@ -1,76 +1,49 @@
 import React from "react";
 import { Phone, MapPin, Mail } from "lucide-react";
-import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import {
+  FaAt,
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaYoutube,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const ContactInfo = () => {
   return (
-    <div className="">
-      <h2 className="text-2xl font-extrabold mb-6">Contact Information</h2>
+    <div className="flex flex-col h-full justify-between">
       <div className="space-y-6">
-        {/* Phone */}
-        <div className="flex items-center space-x-4">
-          <div className="p-2 rounded-full bg-primary text-white">
-            <Phone className="h-5 w-5" />
+        <h2 className="text-2xl font-extrabold mb-6">Contact Information</h2>
+        {contactDetails.map((detail, index) => (
+          <div key={index} className="flex items-center space-x-4">
+            <div className="p-2 rounded-full bg-primary text-white">
+              {detail.icon}
+            </div>
+            <div>
+              <h3 className="text-md font-semibold">{detail.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                {detail.content}
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-md font-semibold">Phone</h3>
-            <p className="text-gray-600 dark:text-gray-400">+880 9760-322699</p>
-          </div>
-        </div>
-
-        {/* Email */}
-        <div className="flex items-center space-x-4">
-          <div className="p-2 rounded-full bg-primary text-white">
-            <Mail className="h-5 w-5" />
-          </div>
-          <div>
-            <h3 className="text-md font-semibold">Email</h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              support@aamardokan.com
-            </p>
-          </div>
-        </div>
-
-        {/* Address */}
-        <div className="flex items-center space-x-4">
-          <div className="p-2 rounded-full bg-primary text-white">
-            <MapPin className="h-5 w-5" />
-          </div>
-          <div>
-            <h3 className="text-md font-semibold">Address</h3>
-            <p className="text-gray-600 dark:text-gray-400">Uttara, Dhaka</p>
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Social Media Links */}
       <div className="mt-8">
         <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
         <div className="flex space-x-6">
-          <a
-            href="https://facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-500 hover:text-blue-600 transition"
-          >
-            <FaFacebook className="h-6 w-6" />
-          </a>
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-500 hover:text-pink-500 transition"
-          >
-            <FaInstagram className="h-6 w-6" />
-          </a>
-          <a
-            href="https://twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-500 hover:text-blue-500 transition"
-          >
-            <FaTwitter className="h-6 w-6" />
-          </a>
+          {socialLinks.map((link, index) => (
+            <a
+              key={index}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`text-gray-500 transition ${link.colorClass}`}
+            >
+              {link.icon}
+            </a>
+          ))}
         </div>
       </div>
     </div>
@@ -78,3 +51,54 @@ const ContactInfo = () => {
 };
 
 export default ContactInfo;
+
+const contactDetails = [
+  {
+    icon: <Phone className="h-5 w-5" />,
+    title: "Phone",
+    content: "+880 9760-322699",
+  },
+  {
+    icon: <Mail className="h-5 w-5" />,
+    title: "Email",
+    content: "support@aamardokan.com",
+  },
+  {
+    icon: <MapPin className="h-5 w-5" />,
+    title: "Address",
+    content: "Uttara, Dhaka",
+  },
+];
+
+const socialLinks = [
+  {
+    href: "https://www.facebook.com/aamardokan.online",
+    icon: <FaFacebook className="h-6 w-6" />,
+    colorClass: "hover:text-blue-600",
+  },
+  {
+    href: "https://www.instagram.com/aamardokan.online",
+    icon: <FaInstagram className="h-6 w-6" />,
+    colorClass: "hover:text-pink-500",
+  },
+  {
+    href: "https://www.linkedin.com/company/105304258/admin/dashboard",
+    icon: <FaLinkedin className="h-6 w-6" />,
+    colorClass: "hover:text-blue-500",
+  },
+  {
+    href: "https://x.com/AamarDokan",
+    icon: <FaXTwitter className="h-6 w-6" />,
+    colorClass: "hover:text-gray-600",
+  },
+  {
+    href: "https://www.threads.net/@aamardokan.online",
+    icon: <FaAt className="h-6 w-6" />,
+    colorClass: "hover:text-gray-600",
+  },
+  {
+    href: "https://www.youtube.com/@AamarDokan",
+    icon: <FaYoutube className="h-6 w-6" />,
+    colorClass: "hover:text-red-500",
+  },
+];

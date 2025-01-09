@@ -8,6 +8,7 @@ import {
   User2Icon,
   PackageIcon,
   Logs,
+  Mail,
 } from "lucide-react";
 import { MdOutlinePostAdd } from "react-icons/md";
 import { RiServiceLine, RiBillLine } from "react-icons/ri";
@@ -27,6 +28,13 @@ export const adminSidebarLinks: LinkType[] = [
     icon: LayoutDashboard,
     variant: "default",
     href: "/admin",
+  },
+  {
+    title: "Mails",
+    label: "",
+    icon: Mail,
+    variant: "ghost",
+    href: "/admin/mails",
   },
   {
     title: "Services",

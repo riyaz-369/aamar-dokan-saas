@@ -20,7 +20,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { resetCart, setOrderId, setOrderInfo } from "@/app/_redux-store/slice/orderSlice";
+import { resetCart, setOrderId } from "@/app/_redux-store/slice/orderSlice";
 // import { useSession } from "next-auth/react";
 import { PackageType } from "../page";
 import { RootState } from "@/app/_redux-store/store";
@@ -43,10 +43,10 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   // Current date
-const currentDate = new Date();
+  const currentDate = new Date();
 
-// Date after 30 days
-const dateAfter30Days = add(currentDate, { days: 30 });
+  // Date after 30 days
+  const dateAfter30Days = add(currentDate, { days: 30 });
 
   // const { data: session } = useSession();
   // const dispatch = useDispatch();
@@ -64,7 +64,7 @@ const dateAfter30Days = add(currentDate, { days: 30 });
         return toast.error("Please accept our terms and conditions");
       } else {
         if (packages?.isFree) {
-          console.log("Free Order")
+          console.log("Free Order");
           const freeOrderData = {
             ...orderData,
             paymentTerms: "Free",
@@ -111,7 +111,7 @@ const dateAfter30Days = add(currentDate, { days: 30 });
             }
           }
         } else {
-          console.log("Paid Order")
+          console.log("Paid Order");
           //CREATE ORDER AND SENT ORDER ID TO PAYMENT PAGE
           const paidOrderData = {
             ...orderData,
@@ -119,7 +119,7 @@ const dateAfter30Days = add(currentDate, { days: 30 });
             paymentStatus: "Unpaid",
             status: "Ordered",
           };
-          console.log("PAID:", paidOrderData );
+          console.log("PAID:", paidOrderData);
           //@ts-ignore
           const createOrder = await SaveOrderIntoDB(paidOrderData);
 
@@ -163,18 +163,17 @@ const dateAfter30Days = add(currentDate, { days: 30 });
               // router.push("/client/payment/success");
               // dispatch(resetCart());
             }
+          }
         }
-       
       }
-    } 
-  }catch (error) {
+    } catch (error) {
       loaderClose();
       console.error("Error to place order:", error);
     }
   };
 
   return (
-    <Card className="space-y-4 shadow-none max-w-lg">
+    <Card className="space-y-4 shadow-none max-w-md lg:max-w-lg">
       <CardHeader>
         <CardTitle className="text-xl">Your order</CardTitle>
       </CardHeader>
