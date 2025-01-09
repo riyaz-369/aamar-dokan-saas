@@ -22,15 +22,17 @@ const getOrderSliceData = () => {
 };
 
 async function executePayment(paymentID: string, idToken: string) {
+  // `https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/execute`,
   const response = await fetch(
-    `https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/execute`,
+    process.env.BKASH_EXECUTE_PAYMENT_API as string,
     {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Accept: "application/json",
         authorization: idToken,
-        "x-app-key": "4f6o0cjiki2rfm34kfdadl1eqq",
+        // "x-app-key": "4f6o0cjiki2rfm34kfdadl1eqq",
+        "x-app-key": process.env.BKASH_APP_KEY as string,
       },
       body: JSON.stringify({
         paymentID: paymentID,
@@ -139,7 +141,8 @@ export async function GET(req: NextRequest) {
     console.log(`Payment Status: ${status}`);
     console.log(`Payment ID: ${paymentID}`);
     if (status === "cancel") {
-      return NextResponse.redirect("http://localhost:3000/client/my-services");
+      // return NextResponse.redirect("http://localhost:3000/client/payment");
+      return NextResponse.redirect("https://aamardokan.online/client/payment");
     }
 
     if (!paymentID || !status) {
@@ -154,9 +157,6 @@ export async function GET(req: NextRequest) {
     const executionResponse = await executePayment(paymentID, idToken);
     console.log("Execution Response:", executionResponse);
 
-
-
-    
     if (executionResponse.statusCode === "0000") {
       // Payment Done need to work with the response
       // get order Data
@@ -166,23 +166,23 @@ export async function GET(req: NextRequest) {
       // console.log("Info:",state);
 
       //GET ORDER DATA FROM DTAEBASE BY ORDER ID
-       const orderData = await prisma.orders.findUnique({
-        where:{
-          orderId: executionResponse?.merchantInvoiceNumber
-        }
-      })
+      const orderData = await prisma.orders.findUnique({
+        where: {
+          orderId: executionResponse?.merchantInvoiceNumber,
+        },
+      });
       //TODO:: UPDATE ORDER INFORMATION
       const orderInfo = {
         // ...orderInfo,
         paymentStatus: "Paid",
         status: "Complete",
-      }
+      };
 
       const updateOrderInfo = await updateOrder(orderInfo, orderData?.orderId);
 
-      if(updateOrderInfo){
+      if (updateOrderInfo) {
         console.log("Update Order Info:", updateOrderInfo);
-      //TODO:: Create transaction
+        //TODO:: Create transaction
         const transactionData = {
           orderId: updateOrderInfo?.id,
           amount: updateOrderInfo?.amount,
@@ -199,43 +199,43 @@ export async function GET(req: NextRequest) {
           statusMessage: executionResponse.statusMessage,
           paymentExecuteTime: executionResponse.paymentExecuteTime,
           paymentId: executionResponse.paymentID,
-        }
+        };
 
-      const transaction = await CreateTransactionIntoDB(transactionData);
+        const transaction = await CreateTransactionIntoDB(transactionData);
 
-      if(transaction){
+        if (transaction) {
+          console.log("TransactionData:", transactionData);
+          //TODO:: Update client service information
 
-        console.log("TransactionData:", transactionData);
-        //TODO:: Update client service information
-        
-        // const clientServiceData = {
-        //   serviceId: orderData?.serviceId,
-        //   packageId: orderData?.packageId,
-        //   amount: orderData?.amount,
-        //   nextPayment: new Date(),
-        //   status: "active",
-        // }
-        // console.log("ClientServiceData:", clientServiceData);
+          // const clientServiceData = {
+          //   serviceId: orderData?.serviceId,
+          //   packageId: orderData?.packageId,
+          //   amount: orderData?.amount,
+          //   nextPayment: new Date(),
+          //   status: "active",
+          // }
+          // console.log("ClientServiceData:", clientServiceData);
 
-        // const session = await getServerSession(authOptions);
-        // const orderData1 = getOrderSliceData();
-      
-        // console.log(
-        //   "order slice data from updateClientServiceInformation func:",
-        //   orderData
-        // );
-      
-        // @ts-ignore
-        const client = await getClientServicesList(aamardokanId)
-       
+          // const session = await getServerSession(authOptions);
+          // const orderData1 = getOrderSliceData();
 
-        console.log("client from savePaymentInformation", client);
+          // console.log(
+          //   "order slice data from updateClientServiceInformation func:",
+          //   orderData
+          // );
 
-        const { services, id } = client;
+          // @ts-ignore
+          const client = await getClientServicesList(aamardokanId);
+
+          console.log("client from savePaymentInformation", client);
+
+          const { services, id } = client;
           const marched = services.find(
             (service: any) => service.serviceId === orderData?.serviceId
           );
-          const reset = services.filter( (service: any) => service.serviceId !== orderData?.serviceId);
+          const reset = services.filter(
+            (service: any) => service.serviceId !== orderData?.serviceId
+          );
           let clientServices = services;
           if (!marched) {
             clientServices = [
@@ -248,7 +248,7 @@ export async function GET(req: NextRequest) {
                 status: "active",
               },
             ];
-          }else{
+          } else {
             clientServices = [
               ...reset,
               {
@@ -260,21 +260,23 @@ export async function GET(req: NextRequest) {
           console.log("clientServices:", clientServices);
           //@ts-ignore
           console.log("ID:", id);
-          const updateService = await updateClientServiceListIntoBD(clientServices, id);
-          if(updateService){
+          const updateService = await updateClientServiceListIntoBD(
+            clientServices,
+            id
+          );
+          if (updateService) {
             console.log("Update Service:", updateService);
             return NextResponse.redirect(
-              "http://localhost:3000/client/payment/success" //After Landing Success Page Reset the OrderSlice
+              "https://aamardokan.online/client/payment/success" //After Landing Success Page Reset the OrderSlice
             );
           }
-
+        }
+      } else {
+        return NextResponse.redirect(
+          "https://aamardokan.online/client/payment/failed"
+        );
+      }
     }
-  } else {
-      return NextResponse.redirect(
-        "http://localhost:3000/client/payment/failed"
-      );
-    }
-  }
   } catch (error) {
     console.error("Error in payment callback:", error);
     return NextResponse.json({

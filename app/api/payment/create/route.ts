@@ -18,29 +18,31 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Invalid data" });
     }
 
-
     //@ts-ignore
     const { idToken } = await GetToken(aamardokanId);
     //SET ORDER ID TO REFERANCE
     const body = {
       mode: "0011",
       payerReference: aamardokanId,
-      callbackURL: "http://localhost:3000/api/payment/callback",
+      // callbackURL: "http://localhost:3000/api/payment/callback",
+      callbackURL: process.env.CALLBACK_URL,
       merchantAssociationInfo: "MI05MID54RF09123456One",
       amount: amount,
       currency: "BDT",
       intent: "sale",
       merchantInvoiceNumber: orderId,
     };
+    // "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/create",
     const response = await fetch(
-      "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/create",
+      process.env.BKASH_CREATE_PAYMENT_API as string,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
           authorization: idToken,
-          "x-app-key": "4f6o0cjiki2rfm34kfdadl1eqq",
+          // "x-app-key": "4f6o0cjiki2rfm34kfdadl1eqq",
+          "x-app-key": process.env.BKASH_APP_KEY as string,
         },
         body: JSON.stringify(body),
       }

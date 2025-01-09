@@ -57,23 +57,25 @@ export const authCheck = async (aamardokanId: string) => {
 };
 
 const CreateGrantToken = async (aamardokanId: string) => {
+  // "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/token/grant",
   try {
-    const response = await fetch(
-      "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/token/grant",
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Accept: "application/json",
-          username: "sandboxTokenizedUser02",
-          password: "sandboxTokenizedUser02@12345",
-        },
-        body: JSON.stringify({
-          app_key: "4f6o0cjiki2rfm34kfdadl1eqq",
-          app_secret: "2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b",
-        }),
-      }
-    );
+    const response = await fetch(process.env.BKASH_GRAND_TOKEN_API as string, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+        // username: "sandboxTokenizedUser02",
+        // password: "sandboxTokenizedUser02@12345",
+        username: process.env.BKASH_USERNAME as string,
+        password: process.env.BKASH_PASSWORD as string,
+      },
+      body: JSON.stringify({
+        // app_key: "4f6o0cjiki2rfm34kfdadl1eqq",
+        // app_secret: "2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b",
+        app_key: process.env.BKASH_APP_KEY as string,
+        app_secret: process.env.BKASH_APP_SECRET_KEY as string,
+      }),
+    });
     const data = await response.json();
 
     await SetToken({
@@ -96,21 +98,26 @@ const CreateGrantToken = async (aamardokanId: string) => {
 };
 
 const RefreshToken = async (aamardokanId: string) => {
+  // "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/token/refresh",
   try {
     const token = await GetToken(aamardokanId);
     const response = await fetch(
-      "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/token/refresh",
+      process.env.BKASH_REFRESH_TOKEN_API as string,
       {
         method: "POST",
         headers: {
           "content-type": "application/json",
           Accept: "application/json",
-          username: "sandboxTokenizedUser02",
-          password: "sandboxTokenizedUser02@12345",
+          // username: "sandboxTokenizedUser02",
+          // password: "sandboxTokenizedUser02@12345",
+          username: process.env.BKASH_USERNAME as string,
+          password: process.env.BKASH_PASSWORD as string,
         },
         body: JSON.stringify({
-          app_key: "4f6o0cjiki2rfm34kfdadl1eqq",
-          app_secret: "2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b",
+          // app_key: "4f6o0cjiki2rfm34kfdadl1eqq",
+          // app_secret: "2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b",
+          app_key: process.env.BKASH_APP_KEY as string,
+          app_secret: process.env.BKASH_APP_SECRET_KEY as string,
           refresh_token: token?.refreshToken,
         }),
       }
