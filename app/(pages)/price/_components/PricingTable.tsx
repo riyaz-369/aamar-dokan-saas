@@ -33,12 +33,12 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
   // console.log("Packages:", plans);
   const dispatch = useDispatch();
   const { data: session } = useSession();
-  
-    const user = session?.user as {
-      id: string;
-      aamardokanId: string;
-      phone: string;
-    } | null;
+
+  const user = session?.user as {
+    id: string;
+    aamardokanId: string;
+    phone: string;
+  } | null;
 
   const orderData = useSelector((state: RootState) => state.orderSlice);
 
@@ -50,14 +50,16 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
     price: number
   ) => {
     // console.log(packageId, serviceId, price);]
-    if(user)  dispatch(
-      addToCart({
-        packageId,
-        serviceId,
-        amount: price,
-        aamardokanId: user.aamardokanId, clientId: user.id 
-      })
-    );
+    if (user)
+      dispatch(
+        addToCart({
+          packageId,
+          serviceId,
+          amount: price,
+          aamardokanId: user.aamardokanId,
+          clientId: user.id,
+        })
+      );
   };
 
   // console.log("all package from price table:", plans);
@@ -92,7 +94,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                           ? "Free"
                           : plan.price.monthly + "/mo"}
                       </p>
-                      <Link 
+                      <Link
                         href={
                           plan.custom
                             ? "https://techsoulbd.com/contact"
@@ -157,7 +159,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                     }
                   >
                     <Button
-                       onClick={() =>
+                      onClick={() =>
                         handleBuyPackage(
                           plan.id,
                           plan.serviceId,

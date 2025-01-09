@@ -19,13 +19,20 @@ import Loader from "@/components/Loader";
 import { ContactFormSchema } from "./ContactFormSchema";
 import { Send } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { SaveContactInfoIntoDB } from "../_action";
+import { toast } from "sonner";
+
+// import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactUs = () => {
   const [loader, setLoader] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
+  const loaderClose = () => setLoader(false);
+  const loaderShow = () => setLoader(true);
 
   const form = useForm<z.infer<typeof ContactFormSchema>>({
     resolver: zodResolver(ContactFormSchema),
-
     defaultValues: {
       name: "",
       phone: "",
@@ -36,13 +43,36 @@ const ContactUs = () => {
     },
   });
 
+  // const handleCaptchaChange = (token: string | null) => {
+  //   console.log("token", token);
+  //   setCaptchaToken(token);
+  // };
+
   async function onSubmit(data: z.infer<typeof ContactFormSchema>) {
-    // console.log(data);
+    if (!captchaToken) {
+      toast.error("Please complete the CAPTCHA.");
+      return;
+    }
+
+    try {
+      loaderShow();
+      const payload = { ...data, captchaToken };
+      const contactUsRes = await SaveContactInfoIntoDB(payload);
+      if (contactUsRes) {
+        form.reset();
+        setCaptchaToken(null);
+        loaderClose();
+        toast.success("Message sent successfully!");
+      }
+    } catch (error) {
+      loaderClose();
+      console.error("Error saving contact info:", error);
+      toast.error("Failed to send message.");
+    }
   }
 
   return (
     <div className="space-y-6 rounded-md">
-      {/* <h2 className="text-xl font-bold mb-4">Send Us a Message</h2> */}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           {/* Full Name */}
@@ -135,6 +165,16 @@ const ContactUs = () => {
             )}
           />
 
+          {/* reCAPTCHA */}
+          {/* <div className="flex justify-center">
+            <ReCAPTCHA
+              // sitekey={process.env.GOOGLE_SITE_KEY as string}
+              sitekey="6LfFX7IqAAAAABj2BqZPQi0R6RjXyNYlZjGhcC7R"
+              ref={captchaRef}
+              onChange={handleCaptchaChange}
+            />
+          </div> */}
+
           <div className="flex justify-end">
             <Button type="submit">
               <Send className="h-5 w-5 mr-2" />
@@ -143,7 +183,7 @@ const ContactUs = () => {
           </div>
         </form>
       </Form>
-      <Loader isOpen={loader} onClose={setLoader} title="Please Wait" />
+      <Loader isOpen={loader} onClose={setLoader} title="Message Sending" />
     </div>
   );
 };
