@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle2 } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/_redux-store/slice/orderSlice";
+import { useSession } from "next-auth/react";
 
 type FeatureType = {
   title: string;
@@ -30,8 +31,29 @@ type MobilePricingTableProps = {
 const MobilePricingTable: React.FC<MobilePricingTableProps> = ({ plans }) => {
   const dispatch = useDispatch();
 
-  const handleByPackage = async (packageId: string, serviceId: string) => {
-    dispatch(addToCart({ packageId, serviceId }));
+  const { data: session } = useSession();
+
+  const user = session?.user as {
+    id: string;
+    phone: string;
+    aamardokanId: string;
+  } | null;
+
+  const handleByPackage = async (
+    packageId: string,
+    serviceId: string,
+    price: number
+  ) => {
+    if (user)
+      dispatch(
+        addToCart({
+          packageId,
+          serviceId,
+          amount: price,
+          aamardokanId: user.aamardokanId,
+          clientId: user.id,
+        })
+      );
   };
 
   return (
@@ -76,7 +98,9 @@ const MobilePricingTable: React.FC<MobilePricingTableProps> = ({ plans }) => {
 
           <Link href={plan.custom ? "/contact" : "/client/cart"}>
             <Button
-              onClick={() => handleByPackage(plan.id, plan.serviceId)}
+              onClick={() =>
+                handleByPackage(plan.id, plan.serviceId, plan.price.monthly)
+              }
               size="lg"
               className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
             >
