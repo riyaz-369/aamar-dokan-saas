@@ -6,7 +6,13 @@ import {
   Link2Icon,
 } from "lucide-react";
 import Image from "next/image";
-import { FaAt, FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+import {
+  FaAt,
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaYoutube,
+} from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 const footerLinks = [
@@ -99,7 +105,7 @@ const footerLinks = [
 const Footer = () => {
   return (
     <footer className="w-full">
-      <div className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 py-12">
+      <div className="bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-gray-200 py-12">
         <div className="container py-6 mt-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
           {footerLinks.map(({ title, icon: Icon, links }) => (
             <div key={title}>

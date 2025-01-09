@@ -13,7 +13,7 @@ const ClientDashboardMain = async () => {
   return (
     <div className="flex flex-1 flex-col gap-4">
       <div className="flex flex-col md:flex-row gap-4">
-        <div className="flex-1 md:w-4/6 w-full flex items-center rounded-xl px-12 bg-[#2ECC71] overflow-hidden">
+        <div className="flex-1 md:w-4/6 w-full flex items-center rounded-xl px-6 md:px-12 py-6 md:py-0 bg-[#2ECC71] overflow-auto">
           {/* <div className="h-28 w-28 border-[#27AE60] rounded-full border-[20px] absolute top-0 left-0" /> */}
           {/* <div className="h-28 w-28 border-[#27AE60] rounded-full border-[20px] absolute bottom-0 right-0" /> */}
           <div className="w-2/3">
