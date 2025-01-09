@@ -27,6 +27,7 @@ const MyServicesPage = async () => {
       meta: true,
       category: true,
       photo: true,
+      status: true,
     },
   });
 
@@ -80,7 +81,7 @@ const MyServicesPage = async () => {
                   isExist={service.myServicesid === service?.id}
                 />
               ))
-            : "Not found"}
+            : "You have not purchase any service."}
         </div>
       </div>
       <div>

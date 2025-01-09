@@ -78,6 +78,8 @@ const CreateGrantToken = async (aamardokanId: string) => {
     });
     const data = await response.json();
 
+    // console.log("token data response from payment action:", data);
+
     await SetToken({
       aamardokanId: aamardokanId,
       idToken: data.id_token,
