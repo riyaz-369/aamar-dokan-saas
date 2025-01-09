@@ -20,14 +20,16 @@ model PaymentTokens {
 
 // user model
 model User {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String
-  email      String?  @unique // Optional email field
-  phone      String   @unique
-  username   String   @unique
+  phone      String    @unique
+  email      String?   @unique
+  gender     Gender?
+  dob        DateTime?
+  username   String    @unique
   password   String
   type       UserType // Enum for user type
-  status     Status   @default(Active)
+  status     Status    @default(Active)
   photo      String?
   permission Json?
   blog       Blog[]

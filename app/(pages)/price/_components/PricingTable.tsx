@@ -1,13 +1,13 @@
 "use client";
 
 import { addToCart } from "@/app/_redux-store/slice/orderSlice";
-import { RootState } from "@/app/_redux-store/store";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { UserType } from "@/types/interface";
 import { CheckCircle2, Minus } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 type FeatureType = {
   title: string;
@@ -34,15 +34,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
   const dispatch = useDispatch();
   const { data: session } = useSession();
 
-  const user = session?.user as {
-    id: string;
-    aamardokanId: string;
-    phone: string;
-  } | null;
-
-  const orderData = useSelector((state: RootState) => state.orderSlice);
-
-  // console.log("orderData from PriceTable:", orderData);
+  const user = session?.user as UserType;
 
   const handleBuyPackage = (
     packageId: string,
