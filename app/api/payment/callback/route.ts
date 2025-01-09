@@ -141,8 +141,7 @@ export async function GET(req: NextRequest) {
     console.log(`Payment Status: ${status}`);
     console.log(`Payment ID: ${paymentID}`);
     if (status === "cancel") {
-      // return NextResponse.redirect("http://localhost:3000/client/payment");
-      return NextResponse.redirect("https://aamardokan.online/client/payment");
+      return NextResponse.redirect(`${process.env.BASE_URL}/client/payment`);
     }
 
     if (!paymentID || !status) {
@@ -267,13 +266,13 @@ export async function GET(req: NextRequest) {
           if (updateService) {
             console.log("Update Service:", updateService);
             return NextResponse.redirect(
-              "https://aamardokan.online/client/payment/success" //After Landing Success Page Reset the OrderSlice
+              `${process.env.BASE_URL}/client/payment/success` //After Landing Success Page Reset the OrderSlice
             );
           }
         }
       } else {
         return NextResponse.redirect(
-          "https://aamardokan.online/client/payment/failed"
+          `${process.env.BASE_URL}/client/payment/failed`
         );
       }
     }

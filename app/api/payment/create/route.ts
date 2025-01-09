@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
       mode: "0011",
       payerReference: aamardokanId,
       // callbackURL: "http://localhost:3000/api/payment/callback",
-      callbackURL: process.env.CALLBACK_URL,
+      callbackURL: `${process.env.BASE_URL}/api/payment/callback`,
       merchantAssociationInfo: "MI05MID54RF09123456One",
       amount: amount,
       currency: "BDT",
