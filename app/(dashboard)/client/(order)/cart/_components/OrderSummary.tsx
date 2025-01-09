@@ -20,11 +20,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  resetCart,
-  setOrderId,
-  setOrderInfo,
-} from "@/app/_redux-store/slice/orderSlice";
+import { resetCart, setOrderId } from "@/app/_redux-store/slice/orderSlice";
 // import { useSession } from "next-auth/react";
 import { PackageType } from "../page";
 import { RootState } from "@/app/_redux-store/store";

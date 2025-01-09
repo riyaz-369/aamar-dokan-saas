@@ -75,13 +75,9 @@ const ClientDashboard = async () => {
 
   const resolvedServices = await Promise.all(parsedServices || []);
 
-  // const session = await getServerSession(authOptions);
-
-  // if (typeof window === "undefined") return null;
-
   return (
     <div className="flex flex-col h-full w-full pb-4">
-      <DashboardMain resolvedServices={resolvedServices} />
+      <DashboardMain />
       <div>
         <PageTitle
           title="View Popular Services"
@@ -91,7 +87,13 @@ const ClientDashboard = async () => {
           {allServices.length > 0
             ? allServices.map((service) => (
                 // @ts-ignore
-                <ServiceCard key={service.id} service={service}    isExist={isServiceIdExist(myServices?.services, service?.id)}/>
+                <ServiceCard
+                  key={service.id}
+                  // @ts-ignore
+                  service={service}
+                  // @ts-ignore
+                  isExist={isServiceIdExist(myServices?.services, service?.id)}
+                />
               ))
             : "Not found"}
         </div>
