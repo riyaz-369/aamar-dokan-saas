@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 
 import {
@@ -21,7 +22,7 @@ const DashboardBreadCrumb = () => {
 
   const { theme, setTheme } = useTheme();
   return (
-    <div className="flex justify-between items-center w-full">
+    <div className="flex justify-between items-center w-full z-50">
       <Breadcrumb>
         <BreadcrumbList>
           {segments.map((segment, index) => {

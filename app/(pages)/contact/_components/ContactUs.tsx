@@ -26,7 +26,7 @@ import { toast } from "sonner";
 
 const ContactUs = () => {
   const [loader, setLoader] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  // const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const loaderClose = () => setLoader(false);
   const loaderShow = () => setLoader(true);
@@ -49,18 +49,18 @@ const ContactUs = () => {
   // };
 
   async function onSubmit(data: z.infer<typeof ContactFormSchema>) {
-    if (!captchaToken) {
-      toast.error("Please complete the CAPTCHA.");
-      return;
-    }
+    // if (!captchaToken) {
+    //   toast.error("Please complete the CAPTCHA.");
+    //   return;
+    // }
 
     try {
       loaderShow();
-      const payload = { ...data, captchaToken };
+      const payload = { ...data }; //captchaToken
       const contactUsRes = await SaveContactInfoIntoDB(payload);
       if (contactUsRes) {
         form.reset();
-        setCaptchaToken(null);
+        // setCaptchaToken(null);
         loaderClose();
         toast.success("Message sent successfully!");
       }
