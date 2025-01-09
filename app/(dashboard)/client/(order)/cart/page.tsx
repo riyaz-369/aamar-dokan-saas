@@ -44,14 +44,16 @@ const OrderCartPage = () => {
   }, []);
 
   return (
-    <div className="flex justify-between gap-4">
+    <div className="">
       {orderSliceData.serviceId ? (
-        <>
+        <div className="flex flex-col md:flex-row justify-between gap-4">
+          {/* CART */}
           <div className="flex-1">
             {packages && <OrderCart packages={packages} />}
           </div>
-          {packages && <OrderSummary packages={packages} />}
-        </>
+          {/* ORDER SUMMARY */}
+          <div>{packages && <OrderSummary packages={packages} />}</div>
+        </div>
       ) : (
         <div className="flex-1 flex-col flex items-center justify-center h-screen gap-4">
           <CircleAlert className="h-10 w-10 text-primary" />
