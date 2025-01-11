@@ -134,8 +134,8 @@ const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
       const url = `${serviceData}/aamarDokan/create`;
 
       const posAccount = await axios.post(
-        // url,
-        "http://localhost:5001/api/aamardokan/create",
+        url,
+        // "http://localhost:5001/api/aamardokan/create",
         accountData
       );
       // console.log("posAccount", posAccount);

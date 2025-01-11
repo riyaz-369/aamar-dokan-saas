@@ -1,7 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Clipboard, MoreHorizontal } from "lucide-react";
+import { Clipboard, File, MoreHorizontal } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -142,7 +142,10 @@ export const columns: ColumnDef<BillingTypes>[] = [
               <Clipboard /> Transaction ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View Details</DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              <File className="h-4 w-4" />
+              View Details
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
