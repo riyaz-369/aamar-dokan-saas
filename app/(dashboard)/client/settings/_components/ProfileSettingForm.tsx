@@ -30,9 +30,11 @@ import {
 import PageTitle from "@/components/PageTitle";
 import {
   CalendarIcon,
+  Clipboard,
   ClipboardCopy,
   LoaderCircle,
   Lock,
+  MapPin,
   MapPinHouse,
   Save,
   UserCircle2Icon,
@@ -51,6 +53,7 @@ import {
 } from "../_actions";
 import PasswordShowClose from "@/components/PasswordShowClose";
 import { toast } from "sonner";
+import { FaMarker } from "react-icons/fa";
 
 const ProfileSettingForm = ({ entry }: { entry: any }) => {
   const [eyeOpen, setEyeOpen] = useState(false);
@@ -327,7 +330,7 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
           <div className="space-y-10">
             <div className="space-y-4">
               <span className="flex items-center gap-4 text-gray-600 dark:text-gray-300">
-                <MapPinHouse />
+                <MapPin className="h-6 w-6" />
                 <PageTitle title="Address" />
               </span>
 
@@ -451,10 +454,7 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
                     toast.success("Username copied to clipboard!");
                   }}
                 >
-                  <ClipboardCopy
-                    size={24}
-                    className="text-primary/80 hover:cursor-pointer"
-                  />
+                  <Clipboard className="h-4 w-4 cursor-pointer hover:text-primary" />
                 </span>
               </div>
 
