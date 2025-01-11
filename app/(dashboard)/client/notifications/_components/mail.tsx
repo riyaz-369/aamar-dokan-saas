@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import * as React from "react";
@@ -13,19 +12,23 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { type Mail } from "../data";
+import { useMail } from "../use-mail";
 import { MailList } from "./mail-list";
 import { MailDisplay } from "./mail-display";
-import { useMail } from "../use-mail";
-import { MailsType } from "../mails.interface";
 
 interface MailProps {
-  mails: MailsType[];
+  accounts: {
+    label: string;
+    email: string;
+    icon: React.ReactNode;
+  }[];
+  mails: Mail[];
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
 }
 
-//@ts-ignore
-export function Mail({ mails, defaultLayout = [30, 48] }: MailProps) {
+export function Mail({ mails, defaultLayout = [10, 48] }: MailProps) {
   const [mail] = useMail();
 
   return (
@@ -37,12 +40,17 @@ export function Mail({ mails, defaultLayout = [30, 48] }: MailProps) {
             sizes
           )}`;
         }}
-        className="h-full max-h-[800px] items-stretch"
+        className="h-[80vh] min-h-full items-stretch"
       >
-        <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
+        <ResizablePanel
+          defaultSize={defaultLayout[1]}
+          maxSize={30}
+          minSize={20}
+          className="h-[85vh]"
+        >
           <Tabs defaultValue="all">
-            <div className="py-2">
-              {/* <h1 className="text-xl font-bold">Inbox</h1> */}
+            <div className="flex items-center px-4 py-2">
+              <h1 className="text-xl font-bold">Inbox</h1>
               <TabsList className="ml-auto">
                 <TabsTrigger
                   value="all"
@@ -51,40 +59,10 @@ export function Mail({ mails, defaultLayout = [30, 48] }: MailProps) {
                   All mail
                 </TabsTrigger>
                 <TabsTrigger
-                  value="Read"
-                  className="text-zinc-600 dark:text-zinc-200"
-                >
-                  Read
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Unread"
+                  value="unread"
                   className="text-zinc-600 dark:text-zinc-200"
                 >
                   Unread
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Sent"
-                  className="text-zinc-600 dark:text-zinc-200"
-                >
-                  Sent
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Drafts"
-                  className="text-zinc-600 dark:text-zinc-200"
-                >
-                  Drafts
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Trash"
-                  className="text-zinc-600 dark:text-zinc-200"
-                >
-                  Trash
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Archive"
-                  className="text-zinc-600 dark:text-zinc-200"
-                >
-                  Archive
                 </TabsTrigger>
               </TabsList>
             </div>
@@ -100,15 +78,8 @@ export function Mail({ mails, defaultLayout = [30, 48] }: MailProps) {
             <TabsContent value="all" className="m-0">
               <MailList items={mails} />
             </TabsContent>
-            <TabsContent value="Unread" className="m-0">
-              <MailList
-                items={mails.filter((item) => item.status === "Unread")}
-              />
-            </TabsContent>
-            <TabsContent value="Read" className="m-0">
-              <MailList
-                items={mails.filter((item) => item.status === "Read")}
-              />
+            <TabsContent value="unread" className="m-0">
+              <MailList items={mails.filter((item) => !item.read)} />
             </TabsContent>
           </Tabs>
         </ResizablePanel>

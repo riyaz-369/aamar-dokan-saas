@@ -12,7 +12,6 @@ import {
   MoreVertical,
   Reply,
   ReplyAll,
-  Send,
   Trash2,
 } from "lucide-react";
 
@@ -41,24 +40,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { MailsType } from "../mails.interface";
-import { ContactMessageStatus } from "@prisma/client";
-import { UpdateMailStatusIntoDB } from "../_action";
+import { Mail } from "../data";
 
 interface MailDisplayProps {
-  mail: MailsType | null;
+  mail: Mail | null;
 }
 
 export function MailDisplay({ mail }: MailDisplayProps) {
   const today = new Date();
-
-  const handleUpdateMailStatus = async (
-    status: ContactMessageStatus,
-    id: string
-  ) => {
-    console.log(status);
-    await UpdateMailStatusIntoDB(status, id);
-  };
 
   return (
     <div className="flex h-full flex-col">
@@ -190,27 +179,10 @@ export function MailDisplay({ mail }: MailDisplayProps) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() =>
-                handleUpdateMailStatus(
-                  mail?.status === "Read" ? "Unread" : "Read",
-                  mail?.id as string
-                )
-              }
-            >
-              {mail?.status == "Read" && <p>Mark as unread</p>}
-              {mail?.status == "Unread" && <p>Mark as read</p>}
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              Star thread
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              Add label
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              Mute thread
-            </DropdownMenuItem>
+            <DropdownMenuItem>Mark as unread</DropdownMenuItem>
+            <DropdownMenuItem>Star thread</DropdownMenuItem>
+            <DropdownMenuItem>Add label</DropdownMenuItem>
+            <DropdownMenuItem>Mute thread</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -236,15 +208,15 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                 </div>
               </div>
             </div>
-            {mail.createdAt && (
+            {mail.date && (
               <div className="ml-auto text-xs text-muted-foreground">
-                {format(new Date(mail.createdAt), "PPpp")}
+                {format(new Date(mail.date), "PPpp")}
               </div>
             )}
           </div>
           <Separator />
           <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
-            {mail.message}
+            {mail.text}
           </div>
           <Separator className="mt-auto" />
           <div className="p-4">
@@ -267,7 +239,6 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                     size="sm"
                     className="ml-auto"
                   >
-                    <Send />
                     Send
                   </Button>
                 </div>

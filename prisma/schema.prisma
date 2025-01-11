@@ -188,21 +188,22 @@ model Transaction {
 }
 
 model ContactUs {
-  id      String               @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
-  phone   String
-  email   String
-  subject String?
-  company String?
-  message String
-  status  ContactMessageStatus @default(Inbox)
+  id        String               @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  phone     String
+  email     String
+  subject   String?
+  company   String?
+  message   String
+  status    ContactMessageStatus @default(Unread)
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
 }
 
 enum ContactMessageStatus {
-  Inbox
-  Sent
   Read
   Unread
+  Sent
   Drafts
   Trash
   Archive
