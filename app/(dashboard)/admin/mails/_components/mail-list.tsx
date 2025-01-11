@@ -32,7 +32,7 @@ export function MailList({ items }: MailListProps) {
     status: ContactMessageStatus,
     id: string
   ) => {
-    console.log(status);
+    // console.log(status);
     await UpdateMailStatusIntoDB(status, id);
   };
 

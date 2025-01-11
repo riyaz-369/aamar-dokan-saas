@@ -122,7 +122,7 @@ export const columns: ColumnDef<BillingTypes>[] = [
     cell: ({ row }) => {
       const payment = row.original;
 
-      console.log(payment);
+      // console.log(payment);
 
       return (
         <DropdownMenu>

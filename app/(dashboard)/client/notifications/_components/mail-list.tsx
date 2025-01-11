@@ -17,7 +17,7 @@ export function MailList({ items }: MailListProps) {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
-  console.log(id);
+  // console.log(id);
 
   useEffect(() => {
     const matched = items.filter((item) => item.id === id);

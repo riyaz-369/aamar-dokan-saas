@@ -9,7 +9,7 @@ export const UpdateProfileSettingsIntoDB = async (
   data: any,
   aamardokanId: string
 ) => {
-  console.log("Settings info from action:", data, aamardokanId);
+  // console.log("Settings info from action:", data, aamardokanId);
 
   if (!data && !aamardokanId) return "Invalid data";
 
@@ -18,7 +18,7 @@ export const UpdateProfileSettingsIntoDB = async (
       where: { aamardokanId: aamardokanId },
       data: data,
     });
-    console.log("update info", update);
+    // console.log("update info", update);
     revalidateTag("client-cache");
     return update;
   } catch (error) {

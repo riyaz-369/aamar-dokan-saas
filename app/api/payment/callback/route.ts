@@ -138,8 +138,8 @@ export async function GET(req: NextRequest) {
     //@ts-ignore
     const { idToken } = await GetToken(aamardokanId);
 
-    console.log(`Payment Status: ${status}`);
-    console.log(`Payment ID: ${paymentID}`);
+    // console.log(`Payment Status: ${status}`);
+    // console.log(`Payment ID: ${paymentID}`);
     if (status === "cancel") {
       return NextResponse.redirect(`${process.env.BASE_URL}/client/payment`);
     }
@@ -154,7 +154,7 @@ export async function GET(req: NextRequest) {
 
     // Execute the payment
     const executionResponse = await executePayment(paymentID, idToken);
-    console.log("Execution Response:", executionResponse);
+    // console.log("Execution Response:", executionResponse);
 
     if (executionResponse.statusCode === "0000") {
       // Payment Done need to work with the response
@@ -180,7 +180,7 @@ export async function GET(req: NextRequest) {
       const updateOrderInfo = await updateOrder(orderInfo, orderData?.orderId);
 
       if (updateOrderInfo) {
-        console.log("Update Order Info:", updateOrderInfo);
+        // console.log("Update Order Info:", updateOrderInfo);
         //TODO:: Create transaction
         const transactionData = {
           orderId: updateOrderInfo?.id,
@@ -203,7 +203,7 @@ export async function GET(req: NextRequest) {
         const transaction = await CreateTransactionIntoDB(transactionData);
 
         if (transaction) {
-          console.log("TransactionData:", transactionData);
+          // console.log("TransactionData:", transactionData);
           //TODO:: Update client service information
 
           // const clientServiceData = {
@@ -226,7 +226,7 @@ export async function GET(req: NextRequest) {
           // @ts-ignore
           const client = await getClientServicesList(aamardokanId);
 
-          console.log("client from savePaymentInformation", client);
+          // console.log("client from savePaymentInformation", client);
 
           const { services, id } = client;
           const marched = services.find(
@@ -256,15 +256,15 @@ export async function GET(req: NextRequest) {
               },
             ];
           }
-          console.log("clientServices:", clientServices);
+          // console.log("clientServices:", clientServices);
           //@ts-ignore
-          console.log("ID:", id);
+          // console.log("ID:", id);
           const updateService = await updateClientServiceListIntoBD(
             clientServices,
             id
           );
           if (updateService) {
-            console.log("Update Service:", updateService);
+            // console.log("Update Service:", updateService);
             return NextResponse.redirect(
               `${process.env.BASE_URL}/client/payment/success` //After Landing Success Page Reset the OrderSlice
             );

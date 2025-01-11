@@ -70,7 +70,9 @@ export const createClient = async (data: TClient) => {
   }
 };
 
-export const getClientServicesList = async (aamardokanId: string): Promise<any> => {
+export const getClientServicesList = async (
+  aamardokanId: string
+): Promise<any> => {
   try {
     // Check if a client exists with the given phone number
     const clientServicesList = await prisma.client.findUnique({
@@ -112,7 +114,7 @@ export const checkUsername = async (username: {
 }): Promise<boolean> => {
   // console.log("Checking username", username);
   // const apiUrl = "http://localhost:5001/api";z
-  
+
   //TODO:: change the api url from service
   const apiUrl = "https://api.aamardokan.online/api";
   try {
@@ -121,7 +123,7 @@ export const checkUsername = async (username: {
       `${apiUrl}/aamarDokan/username/${username}`
     );
 
-    console.log("existCustomer", existCustomer.data);
+    // console.log("existCustomer", existCustomer.data);
 
     if (existCustomer?.data?.status) {
       return true;

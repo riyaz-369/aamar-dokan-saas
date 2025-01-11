@@ -90,7 +90,7 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
   const handlePersonalInfoSubmit = async (
     data: z.infer<typeof PersonalInfoFormSchema>
   ) => {
-    console.log("Personal Info Submitted", data);
+    // console.log("Personal Info Submitted", data);
     try {
       setLoading1(true);
       const personalInfoRes = await UpdateAdminPersonalInfoIntoDB(data, id);

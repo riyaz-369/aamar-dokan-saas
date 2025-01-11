@@ -57,10 +57,10 @@ export function PaymentOptions() {
         paymentData
       );
 
-      console.log({ createResponse });
+      // console.log({ createResponse });
 
       if (createResponse?.data?.bkashURL) {
-        console.log("Payment Created Successfully", createResponse.data);
+        // console.log("Payment Created Successfully", createResponse.data);
         window.location.href = createResponse.data.bkashURL;
       } else {
         console.error("Payment creation failed: Missing bKash URL");
