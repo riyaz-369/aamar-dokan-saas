@@ -64,7 +64,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
         return toast.error("Please accept our terms and conditions");
       } else {
         if (packages?.isFree) {
-          console.log("Free Order");
+          // console.log("Free Order");
           const freeOrderData = {
             ...orderData,
             paymentTerms: "Free",
@@ -78,7 +78,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
           if (createOrder) {
             // console.log("saved order:", createOrder);
             const client = await getClientServicesList(orderData?.aamardokanId);
-            console.log("client for services list:", client);
+            // console.log("client for services list:", client);
             const { services } = client;
 
             const marched = services.find(
@@ -111,7 +111,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
             }
           }
         } else {
-          console.log("Paid Order");
+          // console.log("Paid Order");
           //CREATE ORDER AND SENT ORDER ID TO PAYMENT PAGE
           const paidOrderData = {
             ...orderData,
@@ -119,17 +119,17 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
             paymentStatus: "Unpaid",
             status: "Ordered",
           };
-          console.log("PAID:", paidOrderData);
+          // console.log("PAID:", paidOrderData);
           //@ts-ignore
           const createOrder = await SaveOrderIntoDB(paidOrderData);
 
           if (createOrder) {
-            console.log("saved order:", createOrder);
+            // console.log("saved order:", createOrder);
             dispatch(setOrderId(createOrder.orderId));
-            console.log("Order Id Added to Slice", createOrder.orderId);
+            // console.log("Order Id Added to Slice", createOrder.orderId);
 
             const client = await getClientServicesList(orderData?.aamardokanId);
-            console.log("client for services list:", client);
+            // console.log("client for services list:", client);
             const { services } = client;
 
             const marched = services.find(
@@ -157,7 +157,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
             );
 
             if (updateService) {
-              console.log("Client Service Updated", updateService);
+              // console.log("Client Service Updated", updateService);
               router.push("/client/payment");
               loaderClose();
               // router.push("/client/payment/success");

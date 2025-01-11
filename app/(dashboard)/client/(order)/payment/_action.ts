@@ -54,7 +54,7 @@ type TransactionDataProsType = {
 
 export const SaveOrderIntoDB = async (data: OrderDataProsType) => {
   const orderId = await generateOrderId();
-  console.log("data from action:", data);
+  // console.log("data from action:", data);
   const {
     aamardokanId,
     clientId,
@@ -81,7 +81,7 @@ export const SaveOrderIntoDB = async (data: OrderDataProsType) => {
           paymentStatus,
         },
       });
-      console.log("order after create:", order);
+      // console.log("order after create:", order);
       return order;
     } else {
       console.error("Failed to generate order ID");
@@ -93,23 +93,22 @@ export const SaveOrderIntoDB = async (data: OrderDataProsType) => {
   }
 };
 
-
-export const updateOrder = async (data: any, orderId:string) => {
+export const updateOrder = async (data: any, orderId: string) => {
   const update = await prisma.orders.update({
     where: { orderId: orderId },
     data: {
       ...data,
     },
-  })
+  });
 
-  return update
-}
-
+  return update;
+};
 
 export const CreateTransactionIntoDB = async (
   data: TransactionDataProsType
 ) => {
-  const {clientId,
+  const {
+    clientId,
     orderId,
     aamardokanId,
     paymentId,
@@ -122,9 +121,10 @@ export const CreateTransactionIntoDB = async (
     customerMsisdn,
     transactionStatus,
     statusMessage,
-    paymentExecuteTime} = data
+    paymentExecuteTime,
+  } = data;
 
-    console.log("data from create transaction:", data);
+  // console.log("data from create transaction:", data);
   try {
     const transaction = await prisma.transaction.create({
       data: {
@@ -155,7 +155,7 @@ export const updateClientServiceListIntoBD = async (
   data: any[],
   id: string
 ) => {
-  console.log("form update client action:", data, id);
+  // console.log("form update client action:", data, id);
   if (id) {
     try {
       const update = await prisma.client.update({
@@ -170,6 +170,3 @@ export const updateClientServiceListIntoBD = async (
     }
   }
 };
-
-
-

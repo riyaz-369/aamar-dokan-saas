@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import React from "react";
@@ -15,12 +16,27 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Bell, Languages, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import NotificationPopoverContent from "../client/notifications/_components/ClientNotificationPopoverContent";
+import { cn } from "@/lib/utils";
+import { useSession } from "next-auth/react";
+import AdminNotificationPopoverContent from "../admin/_components/AdminNotificationPopoverContent";
+
 const DashboardBreadCrumb = () => {
   const pathName = usePathname();
   const segments = pathName.split("/").filter((segment) => segment);
-  //   console.log(segments);
-
   const { theme, setTheme } = useTheme();
+  const { data: session } = useSession();
+
+  //@ts-ignore
+  const role = session?.user?.role;
+
+  console.log(role);
+
   return (
     <div className="flex justify-between items-center w-full z-50">
       <Breadcrumb>
@@ -56,9 +72,21 @@ const DashboardBreadCrumb = () => {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="flex items-center justify-center">
-        <Button variant="ghost">
-          <Bell className="h-4 w-4" />
-        </Button>
+        <Popover>
+          <PopoverTrigger>
+            <Button variant="ghost">
+              <Bell className="h-4 w-4" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className={cn("w-80")}>
+            {role === "Admin" ? (
+              <AdminNotificationPopoverContent />
+            ) : (
+              <NotificationPopoverContent />
+            )}
+          </PopoverContent>
+        </Popover>
+
         <Button variant="ghost">
           <Languages className="h-4 w-4" />
         </Button>

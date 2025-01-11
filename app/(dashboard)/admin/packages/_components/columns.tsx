@@ -1,7 +1,14 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Copy, Edit, File, MoreHorizontal, Sunrise, Sunset } from "lucide-react";
+import {
+  Copy,
+  Edit,
+  File,
+  MoreHorizontal,
+  Sunrise,
+  Sunset,
+} from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +20,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { GetPackageById, SavePackageIntoDB, UpdatePackageStatus } from "../_actions";
+import {
+  GetPackageById,
+  SavePackageIntoDB,
+  UpdatePackageStatus,
+} from "../_actions";
 import { toast } from "sonner";
 
 export type TService = {
@@ -29,16 +40,15 @@ export type TService = {
 const handleUpdateStatus = async (service: TService) => {
   await UpdatePackageStatus(
     service.id,
-    service.status === "Active" ? "Inactive" : "Active",
+    service.status === "Active" ? "Inactive" : "Active"
   );
 };
 
-
-const handleDuplicate = async ( id : { id: string }) => {
+const handleDuplicate = async (id: { id: string }) => {
   // console.log("Duplicate: ", id);
   const pkg = await GetPackageById(id);
 
-  console.log("Package: ", pkg);
+  // console.log("Package: ", pkg);
   const data = {
     title: `${pkg?.title}-copy`,
     subtitle: pkg?.subtitle,
@@ -48,14 +58,14 @@ const handleDuplicate = async ( id : { id: string }) => {
     serviceId: pkg?.serviceId,
     status: pkg?.status,
     custom: pkg?.custom,
-}
+  };
 
-console.log("Data: ", data);
- const createdPackage = await SavePackageIntoDB(data, "");
+  // console.log("Data: ", data);
+  const createdPackage = await SavePackageIntoDB(data, "");
   if (createdPackage) {
     toast.success(`Package ${pkg?.code} duplicated successfully`);
   }
-}
+};
 
 export const columns: ColumnDef<TService>[] = [
   {
@@ -116,23 +126,32 @@ export const columns: ColumnDef<TService>[] = [
               // onClick={() => navigator.clipboard.writeText(packages.id)}
               onClick={() => handleDuplicate(packages.id)}
             >
-              <Copy className="h-4 w-4"/> Duplicate
+              <Copy className="h-4 w-4" /> Duplicate
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <Link href={`/admin/packages/${packages.id}`}>
               <DropdownMenuItem className="cursor-pointer">
-              <Edit className="h-4 w-4"/>Edit
+                <Edit className="h-4 w-4" />
+                Edit
               </DropdownMenuItem>
             </Link>
             <DropdownMenuItem
               className="cursor-pointer"
               onClick={() => handleUpdateStatus(packages)}
             >
-              {packages.status === `Active` ? <><Sunset className="h-4 w-4"/> Inactive</> : <><Sunrise className="h-4 w-4"/> Active</>}
+              {packages.status === `Active` ? (
+                <>
+                  <Sunset className="h-4 w-4" /> Inactive
+                </>
+              ) : (
+                <>
+                  <Sunrise className="h-4 w-4" /> Active
+                </>
+              )}
             </DropdownMenuItem>
             <DropdownMenuItem>
-            <File className="h-4 w-4"/> View details
-              </DropdownMenuItem>
+              <File className="h-4 w-4" /> View details
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

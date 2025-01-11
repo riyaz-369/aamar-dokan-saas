@@ -8,13 +8,13 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    console.log("Payment data", data); //{ amount: '1000', aamardokanId: '167310', orderId: 'AD340124' }
+    // console.log("Payment data", data); //{ amount: '1000', aamardokanId: '167310', orderId: 'AD340124' }
     const { aamardokanId, amount, orderId } = data;
 
     await authCheck(aamardokanId);
 
     if (!amount || amount < 1 || !aamardokanId || !orderId) {
-      console.log("Invalid data");
+      // console.log("Invalid data");
       return NextResponse.json({ message: "Invalid data" });
     }
 

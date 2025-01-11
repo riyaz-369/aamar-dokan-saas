@@ -12,7 +12,6 @@ import {
   MoreVertical,
   Reply,
   ReplyAll,
-  Send,
   Trash2,
 } from "lucide-react";
 
@@ -41,61 +40,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { MailsType } from "../mails.interface";
-import { ContactMessageStatus } from "@prisma/client";
-import { SendEmail, UpdateMailStatusIntoDB } from "../_action";
-import { FormEvent, useState } from "react";
-import Loader from "@/components/Loader";
-import { toast } from "sonner";
+import { Mail } from "../data";
 
 interface MailDisplayProps {
-  mail: MailsType | null;
+  mail: Mail | null;
 }
 
 export function MailDisplay({ mail }: MailDisplayProps) {
-  const [loader, setLoader] = useState(false);
-  const loaderClose = () => setLoader(false);
-  const loaderShow = () => setLoader(true);
   const today = new Date();
-
-  const handleUpdateMailStatus = async (
-    status: ContactMessageStatus,
-    id: string
-  ) => {
-    // console.log(status);
-    try {
-      await UpdateMailStatusIntoDB(status, id);
-    } catch (error) {
-      console.error("Error to update status", error);
-    }
-  };
-
-  const handleSendEmail = async (event: FormEvent) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.target as HTMLFormElement);
-    const message = formData.get("message") as string;
-
-    try {
-      loaderShow();
-      const sendMail = await SendEmail({
-        name: mail?.name,
-        email: mail?.email,
-        phone: mail?.phone,
-        message: message,
-      });
-
-      if (sendMail.success) {
-        loaderClose();
-        toast.success("Email sent successfully!");
-        await UpdateMailStatusIntoDB("Sent", mail?.id as string);
-      }
-    } catch (error) {
-      loaderClose();
-      toast.error("Failed try again!");
-      console.error("Error to send email", error);
-    }
-  };
 
   return (
     <div className="flex h-full flex-col">
@@ -227,27 +179,10 @@ export function MailDisplay({ mail }: MailDisplayProps) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() =>
-                handleUpdateMailStatus(
-                  mail?.status === "Read" ? "Unread" : "Read",
-                  mail?.id as string
-                )
-              }
-            >
-              {mail?.status == "Read" && <p>Mark as unread</p>}
-              {mail?.status == "Unread" && <p>Mark as read</p>}
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              Star thread
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              Add label
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              Mute thread
-            </DropdownMenuItem>
+            <DropdownMenuItem>Mark as unread</DropdownMenuItem>
+            <DropdownMenuItem>Star thread</DropdownMenuItem>
+            <DropdownMenuItem>Add label</DropdownMenuItem>
+            <DropdownMenuItem>Mute thread</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -273,22 +208,21 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                 </div>
               </div>
             </div>
-            {mail.createdAt && (
+            {mail.date && (
               <div className="ml-auto text-xs text-muted-foreground">
-                {format(new Date(mail.createdAt), "PPpp")}
+                {format(new Date(mail.date), "PPpp")}
               </div>
             )}
           </div>
           <Separator />
           <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
-            {mail.message}
+            {mail.text}
           </div>
           <Separator className="mt-auto" />
           <div className="p-4">
-            <form onSubmit={handleSendEmail}>
+            <form>
               <div className="grid gap-4">
                 <Textarea
-                  name="message"
                   className="p-4"
                   placeholder={`Reply ${mail.name}...`}
                 />
@@ -300,8 +234,11 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                     <Switch id="mute" aria-label="Mute thread" /> Mute this
                     thread
                   </Label>
-                  <Button type="submit" size="sm" className="ml-auto">
-                    <Send />
+                  <Button
+                    onClick={(e) => e.preventDefault()}
+                    size="sm"
+                    className="ml-auto"
+                  >
                     Send
                   </Button>
                 </div>
@@ -314,7 +251,6 @@ export function MailDisplay({ mail }: MailDisplayProps) {
           No message selected
         </div>
       )}
-      <Loader isOpen={loader} onClose={setLoader} title="Please wait..." />
     </div>
   );
 }

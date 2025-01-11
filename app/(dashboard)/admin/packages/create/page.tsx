@@ -6,11 +6,11 @@ import prisma from "@/prisma";
 const CreateNewPackagePage = async () => {
   const services = await prisma.services.findMany({
     where: {
-      NOT:{status: "Inactive"},
+      NOT: { status: "Inactive" },
     },
   });
 
-  console.log("services", services);
+  // console.log("services", services);
 
   return (
     <div className=" px-8">
