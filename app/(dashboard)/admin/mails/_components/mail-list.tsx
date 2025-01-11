@@ -33,8 +33,7 @@ export function MailList({ items }: MailListProps) {
     id: string
   ) => {
     console.log(status);
-    const updatedStatus = await UpdateMailStatusIntoDB(status, id);
-    console.log(updatedStatus);
+    await UpdateMailStatusIntoDB(status, id);
   };
 
   return (
@@ -48,7 +47,10 @@ export function MailList({ items }: MailListProps) {
               mail.selected === item.id && "bg-muted"
             )}
             onClick={() => {
-              handleUpdateMailStatus("Read", item.id);
+              handleUpdateMailStatus(
+                item.status !== "Sent" ? "Read" : item.status,
+                item.id
+              );
               setMail({
                 ...mail,
                 selected: item.id,
@@ -82,10 +84,11 @@ export function MailList({ items }: MailListProps) {
               </p>
             </div>
             <Badge
+              // disabled={item.status === "Sent"}
               className="cursor-pointer"
               variant={item.status === "Read" ? "outline" : "destructive"}
             >
-              {item.status}{" "}
+              {item.status}
               {item.status === "Read" && (
                 <CheckCheck size={16} className="ml-1" />
               )}{" "}

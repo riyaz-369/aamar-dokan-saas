@@ -110,6 +110,11 @@ export function Mail({ mails, defaultLayout = [30, 48] }: MailProps) {
                 items={mails.filter((item) => item.status === "Read")}
               />
             </TabsContent>
+            <TabsContent value="Sent" className="m-0">
+              <MailList
+                items={mails.filter((item) => item.status === "Sent")}
+              />
+            </TabsContent>
           </Tabs>
         </ResizablePanel>
         <ResizableHandle withHandle />

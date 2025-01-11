@@ -43,21 +43,58 @@ import {
 } from "@/components/ui/tooltip";
 import { MailsType } from "../mails.interface";
 import { ContactMessageStatus } from "@prisma/client";
-import { UpdateMailStatusIntoDB } from "../_action";
+import { SendEmail, UpdateMailStatusIntoDB } from "../_action";
+import { FormEvent, useState } from "react";
+import Loader from "@/components/Loader";
+import { toast } from "sonner";
 
 interface MailDisplayProps {
   mail: MailsType | null;
 }
 
 export function MailDisplay({ mail }: MailDisplayProps) {
+  const [loader, setLoader] = useState(false);
+  const loaderClose = () => setLoader(false);
+  const loaderShow = () => setLoader(true);
   const today = new Date();
 
   const handleUpdateMailStatus = async (
     status: ContactMessageStatus,
     id: string
   ) => {
-    console.log(status);
-    await UpdateMailStatusIntoDB(status, id);
+    // console.log(status);
+    try {
+      await UpdateMailStatusIntoDB(status, id);
+    } catch (error) {
+      console.error("Error to update status", error);
+    }
+  };
+
+  const handleSendEmail = async (event: FormEvent) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target as HTMLFormElement);
+    const message = formData.get("message") as string;
+
+    try {
+      loaderShow();
+      const sendMail = await SendEmail({
+        name: mail?.name,
+        email: mail?.email,
+        phone: mail?.phone,
+        message: message,
+      });
+
+      if (sendMail.success) {
+        loaderClose();
+        toast.success("Email sent successfully!");
+        await UpdateMailStatusIntoDB("Sent", mail?.id as string);
+      }
+    } catch (error) {
+      loaderClose();
+      toast.error("Failed try again!");
+      console.error("Error to send email", error);
+    }
   };
 
   return (
@@ -248,9 +285,10 @@ export function MailDisplay({ mail }: MailDisplayProps) {
           </div>
           <Separator className="mt-auto" />
           <div className="p-4">
-            <form>
+            <form onSubmit={handleSendEmail}>
               <div className="grid gap-4">
                 <Textarea
+                  name="message"
                   className="p-4"
                   placeholder={`Reply ${mail.name}...`}
                 />
@@ -262,11 +300,7 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                     <Switch id="mute" aria-label="Mute thread" /> Mute this
                     thread
                   </Label>
-                  <Button
-                    onClick={(e) => e.preventDefault()}
-                    size="sm"
-                    className="ml-auto"
-                  >
+                  <Button type="submit" size="sm" className="ml-auto">
                     <Send />
                     Send
                   </Button>
@@ -280,6 +314,7 @@ export function MailDisplay({ mail }: MailDisplayProps) {
           No message selected
         </div>
       )}
+      <Loader isOpen={loader} onClose={setLoader} title="Please wait..." />
     </div>
   );
 }
