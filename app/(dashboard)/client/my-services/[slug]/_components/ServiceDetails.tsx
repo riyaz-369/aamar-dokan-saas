@@ -46,7 +46,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
           <Image
             className="rounded-lg"
             src={service.photo}
-            alt="Camera"
+            alt={service.title}
             height={200}
             width={300}
           />

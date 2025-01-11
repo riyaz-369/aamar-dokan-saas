@@ -7,6 +7,8 @@ import { z } from "zod";
 import type { SignUpFormSchema } from "./sign-up/_components/SignUpFormSchema";
 import bcrypt from "bcrypt";
 import axios from "axios";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 // Verification pin
 export const generateAamarDokanPin = async () => {
@@ -114,13 +116,15 @@ export const checkUsername = async (username: {
 }): Promise<boolean> => {
   // console.log("Checking username", username);
   // const apiUrl = "http://localhost:5001/api";z
+  const auth = await getServerSession(authOptions)
+  const aamarId = auth?.user?.aamardokanId;
 
   //TODO:: change the api url from service
   const apiUrl = "https://api.aamardokan.online/api";
   try {
     // Check if a client exists with the given username
     const existCustomer = await axios.get(
-      `${apiUrl}/aamarDokan/username/${username}`
+      `${apiUrl}/aamarDokan/username/${username}/${aamarId}`
     );
 
     // console.log("existCustomer", existCustomer.data);
