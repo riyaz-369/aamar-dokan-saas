@@ -94,7 +94,7 @@ const VerificationForm: React.FC<VerificationFormProps> = ({
     const to = customerPhone;
     sendMessage({ to, message });
 
-    console.log(message, to);
+    // console.log(message, to);
 
     if (newPin) {
       setSecondsRemaining(300); // Reset the countdown to 120 seconds
