@@ -70,24 +70,26 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                   <th key={index} className="pb-4 border-b text-left">
                     <div
                       className={cn(
-                        "w-56 rounded-lg py-4 px-4 shadow-md border"
+                        "w-60 h-52 rounded-lg py-4 px-4 shadow-lg flex flex-col justify-between"
                       )}
                       style={{ backgroundColor: plan.color }}
                     >
-                      <h3 className="text-xl font-semibold text-left">
-                        {plan.title}
-                      </h3>
-                      <p className="text-sm font-normal text-gray-800 text-left mb-6">
-                        {plan.subtitle}
-                      </p>
-                      <p className="text-4xl font-bold text-left mb-4 mt-4">
-                        {plan.custom === true
-                          ? "Custom"
-                          : plan?.price?.monthly === 0 ||
-                            plan.price.yearly === 0
-                          ? "Free"
-                          : plan.price.monthly + "/mo"}
-                      </p>
+                      <div>
+                        <h3 className="text-xl font-semibold text-left text-gray-50">
+                          {plan.title}
+                        </h3>
+                        <p className="text-sm font-normal text-gray-50 text-left mb-6">
+                          {plan.subtitle}
+                        </p>
+                        <p className="text-3xl font-bold text-left mb-4 mt-4 text-gray-50">
+                          {plan.custom === true
+                            ? "Custom"
+                            : plan?.price?.monthly === 0 ||
+                              plan.price.yearly === 0
+                            ? "Free"
+                            : plan.price.monthly + "৳/ month"}
+                        </p>
+                      </div>
                       <Link
                         href={
                           plan.custom
@@ -103,7 +105,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans }) => {
                               plan.price.monthly
                             )
                           }
-                          className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
+                          className="w-full bg-black text-gray-50 py-2 rounded-md hover:bg-gray-800"
                         >
                           {plan.custom ? "Contact Us" : "Get Started"}
                         </Button>

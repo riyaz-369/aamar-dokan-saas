@@ -72,14 +72,14 @@ const MobilePricingTable: React.FC<MobilePricingTableProps> = ({ plans }) => {
               ? "Contact"
               : plan.price.yearly === 0
               ? "Free"
-              : `Monthly: ${plan.price.monthly} / month`}
+              : `Monthly: ${plan.price.monthly} ৳/ month`}
           </p>
           <p className="text-lg text-gray-600 text-left mb-6">
             {plan.custom
               ? "Contact"
               : plan.price.yearly === 0
               ? "Free"
-              : `Yearly: ${plan.price.yearly} / month`}
+              : `Yearly: ${plan.price.yearly} ৳/ month`}
           </p>
 
           <div className="mb-6">
