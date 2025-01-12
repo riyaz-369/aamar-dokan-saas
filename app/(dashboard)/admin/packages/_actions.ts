@@ -128,3 +128,21 @@ export const UpdatePackageStatus = async (id: string, status: Status) => {
     return false;
   }
 };
+
+export const DeleteAPackageFromDB = async (id: string) => {
+  try {
+    const deletedPackage = await prisma.package.delete({
+      where: {
+        id,
+      },
+    });
+    if (deletedPackage) {
+      revalidatePath("/admin/packages");
+      return deletedPackage;
+    }
+    return false;
+  } catch (error) {
+    console.error("Package update error", error);
+    return false;
+  }
+};

@@ -8,6 +8,7 @@ import {
   MoreHorizontal,
   Sunrise,
   Sunset,
+  Trash,
 } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import {
+  DeleteAPackageFromDB,
   GetPackageById,
   SavePackageIntoDB,
   UpdatePackageStatus,
@@ -35,6 +37,9 @@ export type TService = {
   category: string;
   status: string;
   slug: string;
+  price: {
+    monthly: number;
+  };
 };
 
 const handleUpdateStatus = async (service: TService) => {
@@ -44,7 +49,7 @@ const handleUpdateStatus = async (service: TService) => {
   );
 };
 
-const handleDuplicate = async (id: { id: string }) => {
+const handleDuplicate = async (id: string) => {
   // console.log("Duplicate: ", id);
   const pkg = await GetPackageById(id);
 
@@ -64,6 +69,18 @@ const handleDuplicate = async (id: { id: string }) => {
   const createdPackage = await SavePackageIntoDB(data, "");
   if (createdPackage) {
     toast.success(`Package ${pkg?.code} duplicated successfully`);
+  }
+};
+
+const handleDeletePackage = async (id: string) => {
+  try {
+    const deletedPackage = await DeleteAPackageFromDB(id);
+    if (deletedPackage) {
+      toast.success("Package deleted successfully!");
+    }
+  } catch (error) {
+    console.error("Error to delete package", error);
+    toast.error("An error to delete package");
   }
 };
 
@@ -135,6 +152,13 @@ export const columns: ColumnDef<TService>[] = [
                 Edit
               </DropdownMenuItem>
             </Link>
+            <DropdownMenuItem
+              onClick={() => handleDeletePackage(packages.id)}
+              className="cursor-pointer"
+            >
+              <Trash className="h-4 w-4" />
+              Delete
+            </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
               onClick={() => handleUpdateStatus(packages)}
