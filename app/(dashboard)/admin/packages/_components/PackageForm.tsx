@@ -34,6 +34,16 @@ import { Monitor, PlusIcon, Smartphone, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
+const defaultColors = [
+  { id: 0, color: "#ff6a39", name: "Coral Orange" },
+  { id: 1, color: "#bdc3c7", name: "Silver Gray" },
+  { id: 2, color: "#2ecc71", name: "Emerald Green" },
+  { id: 3, color: "#34495e", name: "Blue Gray" },
+  { id: 4, color: "#e67e22", name: "Carrot Orange" },
+  { id: 5, color: "#1abc9c", name: "Turquoise" },
+  { id: 6, color: "#e74c3c", name: "Alizarin Red" },
+];
+
 export type FeatureType = {
   title: string;
   value: string;
@@ -84,21 +94,11 @@ const PackageForm = ({
         yearly: 0,
       },
       status: "Active",
+      color: "",
     },
   });
 
-  // console.log(entry);
-
   const id = entry?.id;
-
-  const defaultColors = [
-    "#ff6a39",
-    "#2ecc71",
-    "#34495e",
-    "#e67e22",
-    "#1abc9c",
-    "#e74c3c",
-  ];
 
   const handleDragEnd = (event) => {
     const { source, destination } = event;
@@ -134,8 +134,8 @@ const PackageForm = ({
       form.setValue("subtitle", entry.subtitle);
       form.setValue("code", entry.code);
       form.setValue("features", entry.features);
-      form.setValue("custom", entry.custom);
-      form.setValue("isFree", entry.isFree);
+      form.setValue("custom", entry.custom || false);
+      form.setValue("isFree", entry.isFree || false);
       form.setValue("price.monthly", entry.price.monthly);
       form.setValue("price.yearly", entry.price.yearly);
       form.setValue("status", entry.status);
@@ -375,7 +375,7 @@ const PackageForm = ({
                       <FormLabel>Select a color</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={entry ? entry.color : field.value}
+                        defaultValue={entry.color ? entry.color : field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -383,27 +383,26 @@ const PackageForm = ({
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {defaultColors.length > 0
-                            ? defaultColors.map((color) => (
-                                <SelectItem key={color} value={color}>
-                                  <span className="flex items-center gap-4 uppercase">
-                                    <span
-                                      className="h-5 w-16 cursor-pointer rounded"
-                                      style={{ backgroundColor: color }}
-                                      onClick={() => field.onChange(color)}
-                                    />
-                                    {color}
-                                  </span>
-                                </SelectItem>
-                              ))
-                            : "Color not found"}
+                          {defaultColors.map((item) => (
+                            <SelectItem key={item.id} value={item.color}>
+                              <div className="flex items-center gap-4">
+                                <span
+                                  className="h-5 w-16 cursor-pointer rounded"
+                                  style={{ backgroundColor: item.color }}
+                                  onVolumeChange={() =>
+                                    field.onChange(item.color)
+                                  }
+                                />
+                                {item.name}
+                              </div>
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                {/* <span>Or</span> */}
                 <FormField
                   control={form.control}
                   name="color"
@@ -411,15 +410,11 @@ const PackageForm = ({
                     <FormItem className="min-w-20">
                       <FormLabel>Pick a Color</FormLabel>
                       <FormControl>
-                        <div className="flex items-center gap-2">
-                          <Input
-                            type="color"
-                            className="cursor-pointer"
-                            value={field.value || defaultColors[0]}
-                            onChange={(e) => field.onChange(e.target.value)}
-                            {...field}
-                          />
-                        </div>
+                        <Input
+                          type="color"
+                          className="cursor-pointer"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

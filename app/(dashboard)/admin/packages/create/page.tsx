@@ -6,7 +6,7 @@ import prisma from "@/prisma";
 const CreateNewPackagePage = async () => {
   const services = await prisma.services.findMany({
     where: {
-      NOT: { status: "Inactive" },
+      status: "Active",
     },
   });
 
