@@ -33,10 +33,8 @@ type PricingTableProps = {
   service: ServiceType;
 };
 
-
-
 const PricingTable: React.FC<PricingTableProps> = ({ plans, service }) => {
-  // console.log("Packages:", plans);
+  console.log("Packages:", plans);
   const dispatch = useDispatch();
   const { data: session } = useSession();
 
@@ -52,7 +50,16 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans, service }) => {
     price: number
   ) => {
     //TODO: Add - aaamardokanId - clientId
-    if(user) dispatch(addToCart({ packageId, serviceId, amount: price, aamardokanId: user.aamardokanId, clientId: user.id }));
+    if (user)
+      dispatch(
+        addToCart({
+          packageId,
+          serviceId,
+          amount: price,
+          aamardokanId: user.aamardokanId,
+          clientId: user.id,
+        })
+      );
   };
 
   return (
@@ -93,7 +100,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans, service }) => {
                         }
                       >
                         <Button
-                           onClick={() =>
+                          onClick={() =>
                             handleBuyPackage(
                               plan.id,
                               plan.serviceId,
@@ -150,7 +157,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans, service }) => {
                     }
                   >
                     <Button
-                       onClick={() =>
+                      onClick={() =>
                         handleBuyPackage(
                           plan.id,
                           plan.serviceId,
