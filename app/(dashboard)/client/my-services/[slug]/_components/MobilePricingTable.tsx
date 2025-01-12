@@ -21,6 +21,7 @@ type PlanType = {
   custom: boolean;
   code: string;
   serviceId: string;
+  color: string;
 };
 
 type ServiceType = {
@@ -92,7 +93,8 @@ const MobilePricingTable: React.FC<MobilePricingTableProps> = ({
                 handleByPackage(plan.id, service.id, plan.price.monthly)
               }
               size="lg"
-              className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
+              className="w-full py-2 rounded-md hover:bg-primary"
+              style={{ backgroundColor: plan.color }}
             >
               {plan.custom ? "Contact" : "Get Started"}
             </Button>

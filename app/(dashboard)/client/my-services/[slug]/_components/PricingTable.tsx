@@ -22,6 +22,7 @@ type PlanType = {
   custom: boolean;
   code: string;
   serviceId: string;
+  color: string;
 };
 
 type ServiceType = {
@@ -34,7 +35,7 @@ type PricingTableProps = {
 };
 
 const PricingTable: React.FC<PricingTableProps> = ({ plans, service }) => {
-  console.log("Packages:", plans);
+  // console.log("Packages:", plans);
   const dispatch = useDispatch();
   const { data: session } = useSession();
 
@@ -75,8 +76,9 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans, service }) => {
                   <th key={index} className="pb-4 border-b text-left">
                     <div
                       className={cn(
-                        "w-56 rounded-lg py-4 px-4 shadow-md border border-primary"
+                        "w-56 rounded-lg py-4 px-4 shadow-md border"
                       )}
+                      style={{ backgroundColor: plan.color }}
                     >
                       <h3 className="text-xl font-semibold text-left">
                         {plan.title}
@@ -165,6 +167,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ plans, service }) => {
                         )
                       }
                       className="w-full"
+                      style={{ backgroundColor: plan.color }}
                     >
                       {" "}
                       {plan.custom ? "Contact Us" : "Get Started"}
