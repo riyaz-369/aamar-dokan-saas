@@ -121,13 +121,14 @@ export const checkUsername = async (username: {
 
   //TODO:: change the api url from service
   const apiUrl = "https://api.aamardokan.online/api";
+  // const apiUrl = "http://localhost:5001/api";
   try {
     // Check if a client exists with the given username
     const existCustomer = await axios.get(
       `${apiUrl}/aamarDokan/username/${username}/${aamarId}`
     );
 
-    // console.log("existCustomer", existCustomer.data);
+    console.log("existCustomer", existCustomer.data);
 
     if (existCustomer?.data?.status) {
       return true;
