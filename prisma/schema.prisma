@@ -101,6 +101,7 @@ model Package {
   isFree      Boolean? @default(false)
   price       Json // type: (monthly, weekly)
   trialPeriod Int?     @default(0)
+  color       String?
   status      Status   @default(Active)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

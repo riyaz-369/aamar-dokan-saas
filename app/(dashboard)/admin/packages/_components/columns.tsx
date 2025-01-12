@@ -75,11 +75,12 @@ const handleDuplicate = async (id: string) => {
 const handleDeletePackage = async (id: string) => {
   try {
     const deletedPackage = await DeleteAPackageFromDB(id);
+    console.log({ deletedPackage });
     if (deletedPackage) {
       toast.success("Package deleted successfully!");
     }
   } catch (error) {
-    console.error("Error to delete package", error);
+    console.error("Failed to delete package!", error);
     toast.error("An error to delete package");
   }
 };

@@ -13,4 +13,5 @@ export const PackageFormSchema = z.object({
     yearly: z.number().min(0, { message: "Yearly price is required" }),
   }),
   status: z.enum(["Active", "Inactive"]),
+  color: z.string().optional(),
 });
