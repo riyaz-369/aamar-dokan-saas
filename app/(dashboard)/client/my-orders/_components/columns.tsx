@@ -1,7 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Clipboard, MoreHorizontal } from "lucide-react";
+import { Clipboard, File, MoreHorizontal } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Image from "next/image";
 // import Image from "next/image";
 
 export type MyOrdersTypes = {
@@ -25,23 +26,11 @@ export type MyOrdersTypes = {
 };
 
 export const columns: ColumnDef<MyOrdersTypes>[] = [
-  // {
-  //   accessorKey: "service.photo",
-  //   header: "Photo",
-  //   cell: ({ row }) => {
-  //     return (
-  //       <Image
-  //         src={row.original.photo}
-  //         alt={row.original.slug}
-  //         width={100}
-  //         height={100}
-  //         className="rounded"
-  //       />
-  //     );
-  //   },
-  // },
+
   {
-    accessorKey: "service.title",
+    accessorKey: "service.title", // Make sure this matches the structure of your data
+    id: "service.title", // Ensure the column id is correctly set for filtering
+    filterFn: "arrIncludes", 
     header: ({ column }) => {
       return (
         <Button
@@ -51,6 +40,23 @@ export const columns: ColumnDef<MyOrdersTypes>[] = [
           Service
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const service = row.original.service;
+      return (
+        <div className="flex items-center gap-4">
+          <Image
+            className="rounded-lg"
+            src={service.photo}
+            alt={service.title}
+            height={50}
+            width={50}
+          />
+          <div>
+            <p>{service.title}</p>
+          </div>
+        </div>
       );
     },
   },
@@ -118,7 +124,11 @@ export const columns: ColumnDef<MyOrdersTypes>[] = [
               <Clipboard /> Order ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View details</DropdownMenuItem>
+            <DropdownMenuItem 
+            className="cursor-pointer">
+              <File className="h-6 w-6"/>
+              View details
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

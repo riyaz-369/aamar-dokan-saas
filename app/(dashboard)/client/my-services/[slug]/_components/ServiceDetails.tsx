@@ -46,7 +46,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
           <Image
             className="rounded-lg object-cover w-full sm:w-auto lg:w-[300px] h-auto"
             src={service.photo}
-            alt="Service Image"
+            alt={service.title}
             height={200}
             width={300}
           />

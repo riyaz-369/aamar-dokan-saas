@@ -58,7 +58,7 @@ const Nav = () => {
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger className="text-md font-medium text-gray-900 dark:text-gray-200">
-              Getting started
+              Our Products
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -66,7 +66,7 @@ const Nav = () => {
                   <NavigationMenuLink asChild>
                     <Link
                       className="flex h-full w-full select-none flex-col items-center justify-center rounded-md bg-gradient-to-b from-muted/50 to-muted px-6 py-4 no-underline outline-none focus:shadow-md"
-                      href="/"
+                      href="/service/aamardokan-pos-system"
                     >
                       {/* <Icons.logo className="h-6 w-6" /> */}
                       <div className="mb-4  text-lg font-medium">
@@ -79,25 +79,28 @@ const Nav = () => {
                           priority
                         />
                       </div>
+                      <h3 className="text-md font-ador">আমার দোকান পস সিস্টেম</h3>
                       <p className="text-sm leading-tight text-muted-foreground">
-                        বাংলাদেশের ব্যবসাগুলোর জন্য সাশ্রয়ী, সহজ, এবং কার্যকরী
+                        বাংলাদেশের ব্যবসার জন্য সাশ্রয়ী, সহজ, এবং কার্যকরী
                         পস সিস্টেম। দোকানের বিক্রি থেকে শুরু করে স্টক
                         ব্যবস্থাপনা
                       </p>
                     </Link>
                   </NavigationMenuLink>
                 </li>
-                <ListItem href="/how-it-works#sign-up" title="Sign Up">
-                  Re-usable components built using Radix UI and Tailwind CSS.
-                </ListItem>
-                <ListItem href="/how-it-works#store-setup" title="Setup Store">
-                  How to install dependencies and structure your app.
-                </ListItem>
                 <ListItem
-                  href="/how-it-works#start-selling"
-                  title="Start Selling"
+                
+                  href="/service/pharmacy-pos-system"
+                  title="ফার্মেসি পস সিস্টেম"
                 >
-                  Styles for headings, paragraphs, lists...etc
+                  ফার্মেসির ইনভেন্টরি এবং বিক্রয় সহজ ও কার্যকর করতে উন্নত সফটওয়্যার।
+                </ListItem>
+                <ListItem href="/service/restaurant-management" title="রেস্টুরেন্ট ম্যানেজমেন্ট সিস্টেম" className="pointer-events-none">
+                    মেনু, টেবিল, এবং বিক্রয় পরিচালনায় সম্পূর্ণ ডিজিটাল সমাধান।
+                </ListItem>
+                <ListItem 
+                className="pointer-events-none" href="/service/import-management-system" title="ইম্পোর্ট ম্যানেজমেন্ট সিস্টেম">
+                আমদানি প্রক্রিয়া সহজ ও সময় সাশ্রয়ী করার জন্য সঠিক টুলস।
                 </ListItem>
               </ul>
             </NavigationMenuContent>
