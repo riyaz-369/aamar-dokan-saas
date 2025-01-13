@@ -58,3 +58,29 @@ export const getServiceById = async (id: string) => {
     return null;
   }
 };
+
+export const GetAllPackageFromDB = async () => {
+  try {
+    const pack = await prisma.package.findMany({
+      where: {
+        isFree: false,
+        status: "Active",
+      },
+      // select: {
+      //   id: true,
+      //   title: true,
+      //   subtitle: true,
+      //   price: true,
+      //   serviceId: true,
+      //   code: true,
+      //   service: true,
+      //   isFree: true,
+      //   features: true,
+      // },
+    });
+    console.log("package res from action:", pack);
+    return pack;
+  } catch (error) {
+    console.error(error);
+  }
+};
