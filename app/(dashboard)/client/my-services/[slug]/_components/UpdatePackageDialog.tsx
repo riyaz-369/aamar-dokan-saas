@@ -15,16 +15,15 @@ import { cn } from "@/lib/utils";
 
 import React, { useEffect, useState } from "react";
 import { GetAllPackageFromDB } from "../_action";
-
-type Service = {
-  photo: string;
-  slug: string;
-  title: string;
-  description: string;
-};
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useDispatch } from "react-redux";
+import { UserType } from "@/types/interface";
+import { addToCart } from "@/app/_redux-store/slice/orderSlice";
+import Loader from "@/components/Loader";
 
 export type PackageType = {
-  service: Service;
+  serviceId: string;
   id: string;
   title: string;
   subtitle: string | null;
@@ -45,6 +44,14 @@ export type PackageType = {
 
 const UpdatePackageDialog = () => {
   const [packages, setPackages] = useState<PackageType[]>([]);
+  const router = useRouter();
+  const [loader, setLoader] = useState(false);
+  const loaderClose = () => setLoader(false);
+  const loaderShow = () => setLoader(true);
+  const dispatch = useDispatch();
+  const { data: session } = useSession();
+
+  const user = session?.user as UserType;
 
   const getPackage = async () => {
     const res = await GetAllPackageFromDB();
@@ -58,14 +65,43 @@ const UpdatePackageDialog = () => {
     getPackage();
   }, []);
 
+  const handleSelectPackage = async (pkg: PackageType) => {
+    console.log("Package selected: ", pkg);
+    try {
+      if (pkg.custom) {
+        return window.open("https://techsoulbd.com/contact", "_blank");
+      }
+      loaderShow();
+      if (user) {
+        dispatch(
+          addToCart({
+            packageId: pkg.id,
+            serviceId: pkg.serviceId,
+            amount: pkg.price.monthly,
+            aamardokanId: user.aamardokanId,
+            clientId: user.id,
+          })
+        );
+        setTimeout(() => {
+          loaderClose();
+          router.push(`/client/cart`);
+        }, 1000);
+      } else {
+        loaderClose();
+        router.push("/auth/sign-in");
+      }
+    } catch (error) {
+      loaderClose();
+      console.error("Error: ", error);
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger>
-        <Button size="sm">Update Package</Button>
+        <Button size="sm">Upgrade Package</Button>
       </DialogTrigger>
-      <DialogContent
-        className={cn("min-w-[90%] max-w-[95%] md:min-w-[70%] lg:max-w-[60%]")}
-      >
+      <DialogContent className={cn("min-w-[70%] pr-0")}>
         <DialogHeader>
           <DialogTitle className="text-center text-xl md:text-2xl">
             Upgrade Your Package
@@ -76,7 +112,7 @@ const UpdatePackageDialog = () => {
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="max-h-[80vh]">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pr-6">
             {packages.map((pkg) => (
               <div
                 key={pkg.id}
@@ -96,31 +132,22 @@ const UpdatePackageDialog = () => {
                           !pkg.custom ? "/ month" : ""
                         }`}
                   </p>
-                  {/* <Button
-                    className={cn(
-                      "mt-4 bg-transparent border hover:bg-primary hover:border-primary transition-all duration-300 text-sm md:text-base"
-                    )}
-                  >
-                    {pkg.title === "Custom" || pkg.custom
-                      ? "Contact"
-                      : `Select ${pkg.title}`}
-                  </Button> */}
                 </div>
-                <ScrollArea className="h-[60vh]">
-                  <ul className="mt-4 space-y-2 text-gray-700 dark:text-gray-200 px-4 pt-0">
+                <ScrollArea className="h-[55vh]">
+                  <ul className="mt-4 space-y-2 text-gray-700 dark:text-gray-100 px-4 pt-0">
                     {pkg.features.map((feature, index) => (
                       <li key={index} className="flex items-center space-x-3">
-                        <span className="flex items-center justify-center w-6 h-6 rounded-full text-sm md:text-base">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full text-sm font-light">
                           {feature.value === "Yes" || feature.value !== "No"
                             ? "✔"
                             : "✘"}
                         </span>
                         <div className="flex items-center justify-between w-full">
-                          <span className="font-medium text-sm md:text-base">
+                          <span className="font-light text-sm">
                             {feature.title}
                           </span>
                           {feature.value && (
-                            <span className="text-xs md:text-sm text-gray-500 dark:text-gray-400">
+                            <span className="text-xs font-light md:text-sm">
                               {feature.value}
                             </span>
                           )}
@@ -131,7 +158,8 @@ const UpdatePackageDialog = () => {
                 </ScrollArea>
                 <div className="p-4 pt-0">
                   <Button
-                    className="mt-6 w-full text-sm md:text-base"
+                    onClick={() => handleSelectPackage(pkg)}
+                    className="mt-6 w-full text-sm md:text-base text-gray-50"
                     style={{ backgroundColor: pkg.color }}
                   >
                     {pkg.title === "Custom" || pkg.custom
@@ -144,6 +172,7 @@ const UpdatePackageDialog = () => {
           </div>
         </ScrollArea>
       </DialogContent>
+      <Loader isOpen={loader} onClose={loaderClose} title="Please Wait" />
     </Dialog>
   );
 };

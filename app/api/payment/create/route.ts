@@ -31,7 +31,6 @@ export async function POST(req: NextRequest) {
       intent: "sale",
       merchantInvoiceNumber: orderId,
     };
-    // "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/create",
     const response = await fetch(
       process.env.BKASH_CREATE_PAYMENT_API as string,
       {
@@ -40,7 +39,6 @@ export async function POST(req: NextRequest) {
           "Content-Type": "application/json",
           Accept: "application/json",
           authorization: idToken,
-          // "x-app-key": "4f6o0cjiki2rfm34kfdadl1eqq",
           "x-app-key": process.env.BKASH_APP_KEY as string,
         },
         body: JSON.stringify(body),

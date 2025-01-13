@@ -42,14 +42,10 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
   const loaderShow = () => setLoader(true);
   const router = useRouter();
   const dispatch = useDispatch();
-  // Current date
   const currentDate = new Date();
 
   // Date after 30 days
   const dateAfter30Days = add(currentDate, { days: 30 });
-
-  // const { data: session } = useSession();
-  // const dispatch = useDispatch();
 
   const orderData = useSelector((state: RootState) => state.orderSlice);
 
@@ -160,8 +156,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
               // console.log("Client Service Updated", updateService);
               router.push("/client/payment");
               loaderClose();
-              // router.push("/client/payment/success");
-              // dispatch(resetCart());
             }
           }
         }
@@ -173,7 +167,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
   };
 
   return (
-    <Card className="space-y-4 shadow-none max-w-md lg:max-w-lg">
+    <Card className="space-y-4 shadow-none lg:max-w-xs xl:max-w-md">
       <CardHeader>
         <CardTitle className="text-xl">Your order</CardTitle>
       </CardHeader>
@@ -197,7 +191,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ packages }) => {
             <TableRow>
               <TableCell></TableCell>
               <TableCell className="text-right font-semibold">
-                0.00 BDT
+                {packages.price.monthly} BDT
               </TableCell>
             </TableRow>
           </TableBody>

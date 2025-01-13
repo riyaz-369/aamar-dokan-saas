@@ -46,7 +46,7 @@ const OrderCartPage = () => {
   return (
     <div className="">
       {orderSliceData.serviceId ? (
-        <div className="flex flex-col md:flex-row justify-between gap-4">
+        <div className="flex flex-col lg:flex-row justify-between gap-4">
           {/* CART */}
           <div className="flex-1">
             {packages && <OrderCart packages={packages} />}
