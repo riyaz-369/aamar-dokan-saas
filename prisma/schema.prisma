@@ -20,19 +20,20 @@ model PaymentTokens {
 
 // user model
 model User {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
   name       String
-  phone      String    @unique
-  email      String?   @unique
+  phone      String     @unique
+  email      String?    @unique
   gender     Gender?
   dob        DateTime?
-  username   String    @unique
+  username   String     @unique
   password   String
   type       UserType // Enum for user type
-  status     Status    @default(Active)
+  status     Status     @default(Active)
   photo      String?
   permission Json?
   blog       Blog[]
+  UserLogs   UserLogs[]
 
   @@index([phone, email, username])
 }
@@ -61,6 +62,7 @@ model Client {
   services        Json[]
   orders          Orders[]
   transactions    Transaction[]
+  UserLogs        UserLogs[]
 
   @@index([phone, email, username, aamardokanId])
 }
@@ -199,6 +201,29 @@ model ContactUs {
   status    ContactMessageStatus @default(Unread)
   createdAt DateTime             @default(now())
   updatedAt DateTime             @updatedAt
+}
+
+model UserLogs {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  user         User?    @relation(fields: [userId], references: [id])
+  userId       String?  @db.ObjectId
+  client       Client?  @relation(fields: [clientId], references: [id])
+  clientId     String?  @db.ObjectId
+  aamardokanId String?
+  name         String
+  module       String
+  itemId       String
+  action       String
+  date         DateTime
+  logsType     LogType  @default(ClientActivity)
+  status       Status   @default(Active)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum LogType {
+  ClientActivity
+  AdminActivity
 }
 
 enum ContactMessageStatus {
