@@ -34,6 +34,16 @@ import { Monitor, PlusIcon, Smartphone, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
+const defaultColors = [
+  { id: 0, color: "#ff6a39", name: "Coral Orange" },
+  { id: 1, color: "#bdc3c7", name: "Silver Gray" },
+  { id: 2, color: "#2ecc71", name: "Emerald Green" },
+  { id: 3, color: "#34495e", name: "Blue Gray" },
+  { id: 4, color: "#e67e22", name: "Carrot Orange" },
+  { id: 5, color: "#1abc9c", name: "Turquoise" },
+  { id: 6, color: "#e74c3c", name: "Alizarin Red" },
+];
+
 export type FeatureType = {
   title: string;
   value: string;
@@ -83,10 +93,10 @@ const PackageForm = ({
         monthly: 0,
         yearly: 0,
       },
+      status: "Active",
+      color: "",
     },
   });
-
-  // console.log(entry);
 
   const id = entry?.id;
 
@@ -124,11 +134,12 @@ const PackageForm = ({
       form.setValue("subtitle", entry.subtitle);
       form.setValue("code", entry.code);
       form.setValue("features", entry.features);
-      form.setValue("custom", entry.custom);
-      form.setValue("isFree", entry.isFree);
+      form.setValue("custom", entry.custom || false);
+      form.setValue("isFree", entry.isFree || false);
       form.setValue("price.monthly", entry.price.monthly);
       form.setValue("price.yearly", entry.price.yearly);
       form.setValue("status", entry.status);
+      form.setValue("color", entry.color);
       form.setValue("serviceId", entry.serviceId);
       setFeaturesState(entry.features);
     }
@@ -160,8 +171,8 @@ const PackageForm = ({
   }
 
   return (
-    <div className="xl:px-24 2xl:px-48 py-8 lg:py-16 flex gap-4">
-      <div className="w-1/2">
+    <div className="xl:px-16 2xl:px-36 py-8 lg:py-12 flex md:flex-row flex-col gap-y-8 md:gap-4">
+      <div className="md:w-1/2">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
             <div className="lg:col-span-4 space-y-4">
@@ -200,39 +211,45 @@ const PackageForm = ({
               />
 
               <div>
-                {/* service */}
-                <FormField
-                  control={form.control}
-                  name="serviceId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Services</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={entry ? entry.serviceId : field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select Service" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {services.length > 0
-                            ? services.map((service) => (
-                                <SelectItem key={service.id} value={service.id}>
-                                  {service.title}
-                                </SelectItem>
-                              ))
-                            : "Service not found"}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="flex justify-between w-full items-center gap-4">
+                  {/* service */}
+                  <FormField
+                    control={form.control}
+                    name="serviceId"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Services</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={entry ? entry.serviceId : field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select Service" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {services.length > 0
+                              ? services.map((service) => (
+                                  <SelectItem
+                                    key={service.id}
+                                    value={service.id}
+                                  >
+                                    {service.title}
+                                  </SelectItem>
+                                ))
+                              : "Service not found"}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
                 <div className="flex justify-end">
-                  <div className="flex gap-8">
-                    <div className="flex items-center gap-2 justify-end my-4">
+                  <div className="flex gap-4">
+                    <div className="flex items-center gap-1 justify-end my-4">
                       <Label className="font-semibold">Is Free?</Label>
                       <Checkbox
                         // checked={entry?.isFree}
@@ -242,7 +259,7 @@ const PackageForm = ({
                         }
                       />
                     </div>
-                    <div className="flex items-center gap-2 justify-end my-4">
+                    <div className="flex items-center gap-1 justify-end my-4">
                       <Label className="font-semibold">Custom Price?</Label>
                       <Checkbox
                         defaultChecked={entry?.custom}
@@ -255,7 +272,7 @@ const PackageForm = ({
                 </div>
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex gap-2">
                 {/* price monthly */}
                 <FormField
                   control={form.control}
@@ -312,7 +329,7 @@ const PackageForm = ({
                       <FormControl>
                         <Input
                           className=""
-                          placeholder="Enter code (e.g., pack0023)"
+                          placeholder="Enter code"
                           {...field}
                         />
                       </FormControl>
@@ -320,12 +337,13 @@ const PackageForm = ({
                     </FormItem>
                   )}
                 />
+
                 {/* Status */}
                 <FormField
                   control={form.control}
                   name="status"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="min-w-20">
                       <FormLabel className="text-white dark:text-black">
                         Status
                       </FormLabel>
@@ -348,13 +366,70 @@ const PackageForm = ({
                   )}
                 />
               </div>
+              <div className="flex gap-2 justify-between">
+                <FormField
+                  control={form.control}
+                  name="color"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Select a color</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={entry.color ? entry.color : field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Color" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {defaultColors.map((item) => (
+                            <SelectItem key={item.id} value={item.color}>
+                              <div className="flex items-center gap-4">
+                                <span
+                                  className="h-5 w-16 cursor-pointer rounded"
+                                  style={{ backgroundColor: item.color }}
+                                  onVolumeChange={() =>
+                                    field.onChange(item.color)
+                                  }
+                                />
+                                {item.name}
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="color"
+                  render={({ field }) => (
+                    <FormItem className="min-w-20">
+                      <FormLabel>Pick a Color</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="color"
+                          className="cursor-pointer"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               {/* Submit Button */}
-              <Button type="submit">Submit</Button>
+              <Button className="w-full md:w-auto" type="submit">
+                Submit
+              </Button>
             </div>
           </form>
         </Form>
       </div>
-      <div className="w-1/2 border px-4 rounded-md ">
+      <div className="md:w-1/2 border px-4 rounded-md ">
         <div className="flex justify-between items-center border-b py-2 ">
           <h1 className="font-bold text-lg">Features</h1>
           <Button onClick={handleAddNewFeature}>

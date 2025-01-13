@@ -19,6 +19,7 @@ export const SavePackageIntoDB = async (data: PackagePropsType, id: string) => {
       price,
       serviceId,
       status,
+      color,
       custom,
       isFree,
     } = data;
@@ -35,6 +36,7 @@ export const SavePackageIntoDB = async (data: PackagePropsType, id: string) => {
           isFree,
           price,
           status,
+          color,
         },
       });
       if (createdPackage) {
@@ -51,6 +53,7 @@ export const SavePackageIntoDB = async (data: PackagePropsType, id: string) => {
           code,
           features,
           status,
+          color,
           price,
           custom,
           isFree,
@@ -130,6 +133,11 @@ export const UpdatePackageStatus = async (id: string, status: Status) => {
 };
 
 export const DeleteAPackageFromDB = async (id: string) => {
+  if (!id) {
+    return {
+      message: "id is missing",
+    };
+  }
   try {
     const deletedPackage = await prisma.package.delete({
       where: {
@@ -142,7 +150,7 @@ export const DeleteAPackageFromDB = async (id: string) => {
     }
     return false;
   } catch (error) {
-    console.error("Package update error", error);
+    console.error("Package delete error", error);
     return false;
   }
 };

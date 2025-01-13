@@ -6,11 +6,12 @@ export const PackageFormSchema = z.object({
   serviceId: z.string().nonempty(),
   code: z.string().min(3, { message: "Package code is required" }),
   features: z.array(z.any()),
-  custom: z.boolean(),
-  isFree: z.boolean().optional(),
+  custom: z.boolean().optional().default(false),
+  isFree: z.boolean().optional().default(false),
   price: z.object({
     monthly: z.number().min(0, { message: "Monthly price is required" }),
     yearly: z.number().min(0, { message: "Yearly price is required" }),
   }),
   status: z.enum(["Active", "Inactive"]),
+  color: z.string().optional().default(""),
 });

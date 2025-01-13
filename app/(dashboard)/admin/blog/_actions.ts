@@ -51,7 +51,7 @@ export const SaveBlogIntoDB = async (data: TBlogPost, id: string) => {
       }
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 

@@ -9,7 +9,7 @@ import prisma from "@/prisma";
 const PackagesPage = async () => {
   const data = await prisma.package.findMany({
     // where: {
-      // status: "Active",
+    // status: "Active",
     // },
     select: {
       id: true,
@@ -20,6 +20,7 @@ const PackagesPage = async () => {
       createdAt: true,
       updatedAt: true,
       price: true,
+      color: true,
     },
   });
 

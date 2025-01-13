@@ -22,6 +22,7 @@ type PlanType = {
   custom: boolean;
   code: string;
   serviceId: string;
+  color: string;
 };
 
 type MobilePricingTableProps = {
@@ -71,14 +72,14 @@ const MobilePricingTable: React.FC<MobilePricingTableProps> = ({ plans }) => {
               ? "Contact"
               : plan.price.yearly === 0
               ? "Free"
-              : `Monthly: ${plan.price.monthly} / month`}
+              : `Monthly: ${plan.price.monthly} ৳/ month`}
           </p>
           <p className="text-lg text-gray-600 text-left mb-6">
             {plan.custom
               ? "Contact"
               : plan.price.yearly === 0
               ? "Free"
-              : `Yearly: ${plan.price.yearly} / month`}
+              : `Yearly: ${plan.price.yearly} ৳/ month`}
           </p>
 
           <div className="mb-6">
@@ -102,7 +103,8 @@ const MobilePricingTable: React.FC<MobilePricingTableProps> = ({ plans }) => {
                 handleByPackage(plan.id, plan.serviceId, plan.price.monthly)
               }
               size="lg"
-              className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
+              className="w-full text-gray-950 py-2 rounded-md"
+              style={{ backgroundColor: plan.color }}
             >
               {plan.custom ? "Contact" : "Get Started"}
             </Button>

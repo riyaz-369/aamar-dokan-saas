@@ -99,7 +99,7 @@ export const columns: ColumnDef<OrdersTypes>[] = [
     cell: ({ row }) => {
       const orders = row.original;
 
-      console.log(orders);
+      // console.log(orders);
 
       return (
         <DropdownMenu>

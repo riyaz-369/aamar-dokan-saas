@@ -51,7 +51,7 @@ export const SaveUserIntoDB = async (data: TUser, id: string) => {
       }
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 

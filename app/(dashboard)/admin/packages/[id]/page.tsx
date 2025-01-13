@@ -4,10 +4,10 @@ import prisma from "@/prisma";
 import PackageForm from "../_components/PackageForm";
 
 const UpdatePackagePage = async ({ params }: { params: { id: string } }) => {
-  const id = params.id;
+  const id = params?.id;
   const services = await prisma.services.findMany({
     where: {
-      NOT: { status: "Inactive" },
+      status: "Active",
     },
   });
 
