@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -10,7 +10,14 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
-import { Bell, Copy, Globe, KeyRoundIcon, User2 } from "lucide-react";
+import {
+  Bell,
+  Clipboard,
+  Copy,
+  Globe,
+  KeyRoundIcon,
+  User2,
+} from "lucide-react";
 import StoreSetupDialog from "./StoreSetupDialog";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -72,58 +79,64 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
           )}
           {isMyServiceExist && (
             <div className="px-4">
-              {!checkStoreSetup ? (
+              {checkStoreSetup ? (
                 <div>
                   <div className="w-full flex justify-center">
                     <UpdatePackageDialog />
                   </div>
                   <div className="border-t py-3 mt-3 flex flex-col gap-2">
                     <div>
-                      <Link
-                        target="_blank"
-                        className="flex items-center justify-start gap-2 hover:underline hover:text-primary text-sm"
-                        href={service.loginUrl}
-                      >
-                        <Globe className="h-4 w-4" />
-                        aamardokan.online
-                      </Link>
+                      {service?.loginUrl && (
+                        <Link
+                          target="_blank"
+                          className="flex items-center justify-start gap-2 hover:underline hover:text-primary text-sm"
+                          href={service.loginUrl}
+                        >
+                          <Globe className="h-4 w-4" />
+                          aamardokan.online
+                        </Link>
+                      )}
                     </div>
                     <div className="flex items-center gap-2">
                       <User2 className="h-4 w-4" />
                       <span className="flex justify-between w-full items-center text-sm">
-                        <p>{matchedServices.username}</p>
-                        <Copy
-                          className="h-4 w-4 text-gray-400 cursor-pointer"
-                          onClick={() => {
-                            navigator.clipboard
-                              .writeText(matchedServices.username)
-                              .then(() => {
-                                toast.success("Username Is Copied!");
-                              });
-                          }}
-                        />
+                        <p>{matchedServices?.username || "Loading..."}</p>
+                        {matchedServices?.username && (
+                          <Clipboard
+                            className="h-4 w-4 text-gray-400 cursor-pointer"
+                            onClick={() => {
+                              navigator.clipboard
+                                .writeText(matchedServices.username)
+                                .then(() => {
+                                  toast.success("Username Is Copied!");
+                                });
+                            }}
+                          />
+                        )}
                       </span>
                     </div>
                     <div className="flex items-center gap-2 hover:underline">
                       <KeyRoundIcon className="h-4 w-4" />
                       <span className="flex justify-between w-full items-center text-sm">
-                        <p>{matchedServices.password}</p>
-                        <Copy
-                          className="h-4 w-4 text-gray-400 cursor-pointer"
-                          onClick={() => {
-                            navigator.clipboard
-                              .writeText(matchedServices.password)
-                              .then(() => {
-                                toast.success("Password Is Copied!");
-                              });
-                          }}
-                        />
+                        <p>{matchedServices?.password || "Loading..."}</p>
+                        {matchedServices?.password && (
+                          <Clipboard
+                            className="h-4 w-4 text-gray-400 cursor-pointer"
+                            onClick={() => {
+                              navigator.clipboard
+                                .writeText(matchedServices.password)
+                                .then(() => {
+                                  toast.success("Password Is Copied!");
+                                });
+                            }}
+                          />
+                        )}
                       </span>
                     </div>
                   </div>
                 </div>
               ) : (
-                <StoreSetupDialog id={service.id} />
+                <StoreSetupDialog id={service?.id} />
               )}
             </div>
           )}

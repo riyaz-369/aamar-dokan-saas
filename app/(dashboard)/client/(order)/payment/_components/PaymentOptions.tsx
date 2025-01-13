@@ -57,7 +57,7 @@ export function PaymentOptions() {
         paymentData
       );
 
-      // console.log({ createResponse });
+      console.log("created", createResponse);
 
       if (createResponse?.data?.bkashURL) {
         // console.log("Payment Created Successfully", createResponse.data);

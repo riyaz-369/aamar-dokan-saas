@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -29,7 +30,7 @@ import { toast } from "sonner";
 import { GetPackageCodeByPackageId } from "@/app/(dashboard)/admin/packages/_actions";
 
 const StoreSetupForm = ({ id, setIsOpen }: { id: string; setIsOpen: any }) => {
-  const [client, setClient] = useState();
+  const [client, setClient] = useState<any>();
   const [serviceData, setServiceData] = useState();
   const [packageCode, setPackageCode] = useState("");
   const [loader, setLoader] = useState(false);
