@@ -5,18 +5,15 @@ import { NotificationDataTypes } from "@/lib/action.notification";
 import { Separator } from "@/components/ui/separator";
 
 interface MailDisplayProps {
-  notification: NotificationDataTypes;
+  notification: NotificationDataTypes | null;
 }
 
 export function NotificationDisplay({ notification }: MailDisplayProps) {
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center p-2">
-        <div className="flex items-center gap-2"></div>
-      </div>
       {notification ? (
         <div className="flex flex-1 flex-col">
-          <div className="flex items-start p-4">
+          <div className="flex items-start px-4 py-1">
             <div className="flex items-start gap-4 text-sm">
               <div className="grid gap-1">
                 <div className="font-semibold">{notification.title}</div>

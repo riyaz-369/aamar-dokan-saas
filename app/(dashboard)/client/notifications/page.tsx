@@ -20,13 +20,11 @@ export default async function NotificationPage() {
 
   return (
     <>
-      <div className="hidden flex-col md:flex">
-        <Notification
-          notifications={notifications}
-          defaultLayout={defaultLayout}
-          defaultCollapsed={defaultCollapsed}
-        />
-      </div>
+      <Notification
+        notifications={notifications}
+        defaultLayout={defaultLayout}
+        defaultCollapsed={defaultCollapsed}
+      />
     </>
   );
 }

@@ -7,7 +7,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNotification } from "../use-notification";
 import { useSearchParams } from "next/navigation";
 import { CheckCheck } from "lucide-react";
-import { NotificationDataTypes } from "@/lib/action.notification";
+import {
+  NotificationDataTypes,
+  updateNotificationStatus,
+} from "@/lib/action.notification";
+import { NotificationStatus } from "@prisma/client";
 
 interface MailListProps {
   items: NotificationDataTypes[];
@@ -26,13 +30,10 @@ export function MailList({ items }: MailListProps) {
     });
   }, [id]);
 
-  // const handleUpdateMailStatus = async (
-  //   status: ContactMessageStatus,
-  //   id: string
-  // ) => {
-  //   // console.log(status);
-  //   await UpdateMailStatusIntoDB(status, id);
-  // };
+  const handleMarkAsRead = async (status: NotificationStatus, id: string) => {
+    const updateReadStatus = await updateNotificationStatus(status, id);
+    console.log("update read status", updateReadStatus);
+  };
 
   return (
     <ScrollArea className="h-screen">
@@ -45,10 +46,7 @@ export function MailList({ items }: MailListProps) {
               mail.selected === item.id && "bg-muted"
             )}
             onClick={() => {
-              // handleUpdateMailStatus(
-              //   item.status !== "Sent" ? "Read" : item.status,
-              //   item.id
-              // );
+              handleMarkAsRead("Read", item.id);
               setMail({
                 ...mail,
                 selected: item.id,

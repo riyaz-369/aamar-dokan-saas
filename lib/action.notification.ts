@@ -89,16 +89,34 @@ export const deleteNotification = async (id: string) => {
   }
 };
 
-export const updateNotificationStatus = async (status: NotificationStatus) => {
+export const updateNotificationStatus = async (
+  status: NotificationStatus,
+  id: string
+) => {
   try {
-    const updateAllNotificationStatus = await prisma.notification.updateMany({
-      data: {
-        notificationStatus: status,
-      },
-    });
-    if (updateAllNotificationStatus) {
-      revalidatePath("/client");
-      return updateAllNotificationStatus;
+    if (id) {
+      const updateANotificationStatus = await prisma.notification.update({
+        where: {
+          id: id,
+        },
+        data: {
+          notificationStatus: status,
+        },
+      });
+      if (updateANotificationStatus) {
+        revalidatePath("/client");
+        return updateANotificationStatus;
+      }
+    } else {
+      const updateAllNotificationStatus = await prisma.notification.updateMany({
+        data: {
+          notificationStatus: status,
+        },
+      });
+      if (updateAllNotificationStatus) {
+        revalidatePath("/client");
+        return updateAllNotificationStatus;
+      }
     }
   } catch (error) {
     console.error("Error updating notification status", error);

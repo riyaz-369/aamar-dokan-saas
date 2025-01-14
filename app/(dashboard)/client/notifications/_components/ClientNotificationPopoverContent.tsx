@@ -31,8 +31,8 @@ const ClientNotificationPopoverContent: React.FC<
     console.log("clear all notifications", ua);
   };
 
-  const handleMarkAsRead = async (status: NotificationStatus) => {
-    const updateReadStatus = await updateNotificationStatus(status);
+  const handleMarkAsRead = async (status: NotificationStatus, id: string) => {
+    const updateReadStatus = await updateNotificationStatus(status, id);
     console.log("update read status", updateReadStatus);
   };
 
@@ -50,7 +50,7 @@ const ClientNotificationPopoverContent: React.FC<
               Clear All
             </Button>
             <Button
-              onClick={() => handleMarkAsRead("Read")}
+              onClick={() => handleMarkAsRead("Read", "")}
               size="sm"
               variant="link"
               className="pl-1 text-gray-900 dark:text-gray-200"
@@ -84,6 +84,7 @@ const ClientNotificationPopoverContent: React.FC<
                 <X size={16} />
               </button>
               <Link
+                onClick={() => handleMarkAsRead("Read", notification.id)}
                 href={{
                   pathname: `/client/notifications`,
                   query: { id: notification.id },
