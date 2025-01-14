@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Breadcrumb,
@@ -25,17 +25,46 @@ import NotificationPopoverContent from "../client/notifications/_components/Clie
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import AdminNotificationPopoverContent from "../admin/_components/AdminNotificationPopoverContent";
+import {
+  getNotificationsForUser,
+  NotificationDataTypes,
+} from "@/lib/action.notification";
+import { UserType } from "@/types/interface";
+import { Badge } from "@/components/ui/badge";
+
+export interface NotificationArrayType extends NotificationDataTypes {
+  id: string;
+}
 
 const DashboardBreadCrumb = () => {
   const pathName = usePathname();
   const segments = pathName.split("/").filter((segment) => segment);
   const { theme, setTheme } = useTheme();
+  const [notifications, setNotifications] = useState<NotificationArrayType[]>(
+    []
+  );
+  const [loading, setLoading] = useState(false);
+
   const { data: session } = useSession();
+  const user = session?.user as UserType;
 
-  //@ts-ignore
-  const role = session?.user?.role;
+  const fetchNotifications = async () => {
+    try {
+      setLoading(true);
+      const response = await getNotificationsForUser(user?.id as string);
+      //@ts-ignore
+      setNotifications(response);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error("Failed to fetch notifications", error);
+    }
+  };
+  useEffect(() => {
+    fetchNotifications();
+  }, [user?.aamardokanId, user?.id]);
 
-  console.log(role);
+  const role = user?.role;
 
   return (
     <div className="flex justify-between items-center w-full z-50">
@@ -74,7 +103,12 @@ const DashboardBreadCrumb = () => {
       <div className="flex items-center justify-center">
         <Popover>
           <PopoverTrigger>
-            <Button variant="ghost">
+            <Button variant="ghost" className="relative h-10 w-9">
+              <Badge
+                className={cn("rounded-full px-1 py-0 absolute top-0 right-0")}
+              >
+                {notifications.length}
+              </Badge>
               <Bell className="h-4 w-4" />
             </Button>
           </PopoverTrigger>
@@ -82,7 +116,10 @@ const DashboardBreadCrumb = () => {
             {role === "Admin" ? (
               <AdminNotificationPopoverContent />
             ) : (
-              <NotificationPopoverContent />
+              <NotificationPopoverContent
+                loading={loading}
+                notifications={notifications}
+              />
             )}
           </PopoverContent>
         </Popover>

@@ -31,11 +31,9 @@ import PageTitle from "@/components/PageTitle";
 import {
   CalendarIcon,
   Clipboard,
-  ClipboardCopy,
   LoaderCircle,
   Lock,
   MapPin,
-  MapPinHouse,
   Save,
   UserCircle2Icon,
 } from "lucide-react";
@@ -53,7 +51,11 @@ import {
 } from "../_actions";
 import PasswordShowClose from "@/components/PasswordShowClose";
 import { toast } from "sonner";
-import { FaMarker } from "react-icons/fa";
+import {
+  NotificationDataTypes,
+  saveNotification,
+} from "@/lib/action.notification";
+import { NotificationType } from "@prisma/client";
 
 const ProfileSettingForm = ({ entry }: { entry: any }) => {
   const [eyeOpen, setEyeOpen] = useState(false);
@@ -62,6 +64,7 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
   const [loading3, setLoading3] = useState(false);
 
   const aamardokanId = entry?.aamardokanId;
+  const clientId = entry?.id;
 
   const personalInfoForm = useForm<z.infer<typeof PersonalInfoFormSchema>>({
     resolver: zodResolver(PersonalInfoFormSchema),
@@ -123,7 +126,20 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
         aamardokanId
       );
       // console.log("personal info update res:", personalInfoRes);
+      const notificationTypeMsg: { message: string; type: NotificationType } = {
+        type: personalInfoRes ? "Success" : "Failed",
+        message: personalInfoRes
+          ? "Personal information updated successfully"
+          : "Personal information update failed. Please try again",
+      };
       if (personalInfoRes) {
+        const notificationData: NotificationDataTypes = {
+          title: "Personal information update",
+          ...notificationTypeMsg,
+          clientId: clientId,
+          aamardokanId: aamardokanId,
+        };
+        await saveNotification(notificationData);
         setLoading1(false);
         toast.success("Personal information updated successfully!");
       }
@@ -143,7 +159,20 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
         data,
         aamardokanId
       );
+      const notificationTypeMsg: { message: string; type: NotificationType } = {
+        type: addressUpdateRes ? "Success" : "Failed",
+        message: addressUpdateRes
+          ? "Address updated successfully"
+          : "Address update failed. Please try again",
+      };
       if (addressUpdateRes) {
+        const notificationData: NotificationDataTypes = {
+          title: "Address update",
+          ...notificationTypeMsg,
+          clientId: clientId,
+          aamardokanId: aamardokanId,
+        };
+        await saveNotification(notificationData);
         setLoading2(false);
         toast.success("Address updated successfully!");
       }
@@ -164,12 +193,26 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
         data,
         aamardokanId
       );
+      const notificationTypeMsg: { message: string; type: NotificationType } = {
+        type: updatePass ? "Success" : "Failed",
+        message: updatePass
+          ? "Your password has been updated successfully."
+          : "Failed to update your password. Please try again",
+      };
       if (updatePass) {
+        const notificationData: NotificationDataTypes = {
+          title: "Password Update",
+          ...notificationTypeMsg,
+          clientId: clientId,
+          aamardokanId: aamardokanId,
+        };
+        await saveNotification(notificationData);
         setLoading3(false);
         toast.success("Password updated successfully!");
       }
     } catch (error) {
       setLoading3(false);
+      toast.error("Failed to update password, please try again");
       console.error("Error to update password:", error);
     }
   };

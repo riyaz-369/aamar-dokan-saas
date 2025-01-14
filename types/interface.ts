@@ -4,5 +4,5 @@ export type UserType = {
   phone: string;
   email: string;
   name: string;
-  // role: "Admin" | "Manager" | "CustomerSupport";
+  role?: "Admin" | "Manager" | "CustomerSupport";
 } | null;
