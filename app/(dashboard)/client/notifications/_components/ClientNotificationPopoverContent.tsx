@@ -11,6 +11,7 @@ import {
   updateNotificationStatus,
 } from "@/lib/action.notification";
 import { NotificationStatus } from "@prisma/client";
+import { formatDistanceToNow } from "date-fns";
 
 type ClientNotificationPopoverContentProps = {
   notifications: NotificationArrayType[];
@@ -75,7 +76,7 @@ const ClientNotificationPopoverContent: React.FC<
           <NotificationSkeleton />
         ) : notifications.length > 0 ? (
           notifications.map((notification) => (
-            <div key={notification.id} className="mt-2 relative">
+            <div key={notification.id} className="mt-3 relative">
               <button
                 onClick={() => handleClearANotification(notification.id)}
                 className="absolute right-1 top-2 hover:bg-muted p-1 rounded-full"
@@ -87,15 +88,19 @@ const ClientNotificationPopoverContent: React.FC<
                   pathname: `/client/notifications`,
                   query: { id: notification.id },
                 }}
-                className={`${"flex w-full flex-col gap-2 p-3 rounded-md hover:bg-muted focus:bg-gray-100 dark:focus:bg-gray-900 border"} ${
+                className={`${"flex w-full flex-col gap-y-2 p-3 rounded-md hover:bg-muted focus:bg-gray-100 dark:focus:bg-gray-900 border"} ${
                   notification.notificationStatus === "Read" && "bg-muted"
                 }`}
               >
-                <h4 className="font-semibold text-sm">{notification.title}</h4>
+                <div className="flex items-center">
+                  <h4 className="font-semibold text-sm">
+                    {notification.title}
+                  </h4>
+                </div>
                 <p className="line-clamp-2 text-xs text-gray-600 dark:text-gray-300 text-start">
                   {notification.message}
                 </p>
-                <div className="flex gap-2">
+                <div className="flex justify-between items-center">
                   <Badge
                     className={cn(
                       "text-[10px]",
@@ -105,6 +110,11 @@ const ClientNotificationPopoverContent: React.FC<
                   >
                     {notification.type}
                   </Badge>
+                  <span className="text-[11px] text-gray-700 dark:text-gray-400">
+                    {formatDistanceToNow(new Date(notification.createdAt), {
+                      addSuffix: true,
+                    })}
+                  </span>
                 </div>
               </Link>
             </div>

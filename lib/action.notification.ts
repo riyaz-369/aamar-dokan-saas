@@ -5,6 +5,7 @@ import prisma from "@/prisma";
 import { NotificationStatus, NotificationType, Status } from "@prisma/client";
 
 export interface NotificationDataTypes {
+  id: string;
   clientId: string;
   aamardokanId: string | null;
   title: string;
@@ -12,6 +13,7 @@ export interface NotificationDataTypes {
   type: NotificationType;
   notificationStatus?: NotificationStatus;
   status?: Status;
+  createdAt: Date;
 }
 
 export const saveNotification = async (data: NotificationDataTypes) => {

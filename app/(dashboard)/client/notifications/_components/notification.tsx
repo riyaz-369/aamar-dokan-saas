@@ -12,57 +12,55 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { type Mail } from "../data";
-import { useMail } from "../use-mail";
-import { MailList } from "./mail-list";
-import { MailDisplay } from "./mail-display";
+import { MailList } from "./notification-list";
+import { NotificationDisplay } from "./notification-display";
+import { useNotification } from "../use-notification";
+import { NotificationDataTypes } from "@/lib/action.notification";
 
-interface MailProps {
-  accounts: {
-    label: string;
-    email: string;
-    icon: React.ReactNode;
-  }[];
-  mails: Mail[];
+interface NotificationsProps {
+  notifications: NotificationDataTypes[];
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
 }
 
-export function Mail({ mails, defaultLayout = [10, 48] }: MailProps) {
-  const [mail] = useMail();
+export function Notification({
+  notifications,
+  defaultLayout = [30, 48],
+}: NotificationsProps) {
+  const [notification] = useNotification();
 
   return (
     <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
         direction="horizontal"
         onLayout={(sizes: number[]) => {
-          document.cookie = `react-resizable-panels:layout:mail=${JSON.stringify(
+          document.cookie = `react-resizable-panels:layout:notification=${JSON.stringify(
             sizes
           )}`;
         }}
-        className="h-[80vh] min-h-full items-stretch"
+        className="h-full max-h-[800px] items-stretch"
       >
-        <ResizablePanel
-          defaultSize={defaultLayout[1]}
-          maxSize={30}
-          minSize={20}
-          className="h-[85vh]"
-        >
+        <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
           <Tabs defaultValue="all">
-            <div className="flex items-center px-4 py-2">
-              <h1 className="text-xl font-bold">Inbox</h1>
+            <div className="py-2">
               <TabsList className="ml-auto">
                 <TabsTrigger
                   value="all"
                   className="text-zinc-600 dark:text-zinc-200"
                 >
-                  All mail
+                  All notification
                 </TabsTrigger>
                 <TabsTrigger
-                  value="unread"
+                  value="Unread"
                   className="text-zinc-600 dark:text-zinc-200"
                 >
                   Unread
+                </TabsTrigger>
+                <TabsTrigger
+                  value="Read"
+                  className="text-zinc-600 dark:text-zinc-200"
+                >
+                  Read
                 </TabsTrigger>
               </TabsList>
             </div>
@@ -76,17 +74,31 @@ export function Mail({ mails, defaultLayout = [10, 48] }: MailProps) {
               </form>
             </div>
             <TabsContent value="all" className="m-0">
-              <MailList items={mails} />
+              <MailList items={notifications} />
             </TabsContent>
-            <TabsContent value="unread" className="m-0">
-              <MailList items={mails.filter((item) => !item.read)} />
+            <TabsContent value="Read" className="m-0">
+              <MailList
+                items={notifications.filter(
+                  (item) => item.notificationStatus === "Read"
+                )}
+              />
+            </TabsContent>
+            <TabsContent value="Unread" className="m-0">
+              <MailList
+                items={notifications.filter(
+                  (item) => item.notificationStatus === "Unread"
+                )}
+              />
             </TabsContent>
           </Tabs>
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={defaultLayout[2]} minSize={30}>
-          <MailDisplay
-            mail={mails.find((item) => item.id === mail.selected) || null}
+          <NotificationDisplay
+            notification={
+              notifications.find((item) => item.id === notification.selected) ||
+              null
+            }
           />
         </ResizablePanel>
       </ResizablePanelGroup>
