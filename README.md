@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SaaS Dashboard for POS Application
 
-## Getting Started
+### Live demo: https://aamardokan.online
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Introduction](#introduction)
+  - [Purpose](#purpose)
+  - [Scope](#scope)
+- [Features](#features)
+  - [Public Pages](#public-pages)
+  - [Admin Panel](#admin-panel)
+  - [Customer Portal](#customer-portal)
+- [System Architecture](#system-architecture)
+- [Diagrams](#diagrams)
+- [Technology Stack](#technology-stack)
+- [Milestones](#milestones)
+- [Glossary](#glossary)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Introduction
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Purpose
 
-## Learn More
+This SaaS Dashboard is designed for managing subscriptions, billing, and access control for a Point of Sale (POS) application. It provides a centralized platform for:
 
-To learn more about Next.js, take a look at the following resources:
+- Admins to manage customers, billing, and subscriptions.
+- Customers to manage their accounts, subscriptions, and invoices.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Scope
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The SaaS Dashboard operates as an independent system hosted separately from the POS application. It includes:
 
-## Deploy on Vercel
+- **Public Pages**: Home, Pricing, About, Registration, and Blogs.
+- **Admin Panel**: Customer management, billing, and access control.
+- **Customer Portal**: Subscription management, payment history, and account self-service.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Features
+
+### Public Pages
+
+1. **Home Page**
+
+   - Overview of POS application features.
+   - Embedded analytics (e.g., customer count, testimonials).
+   - CTAs for registration and pricing exploration.
+
+2. **Pricing Page**
+
+   - Subscription tier comparison.
+   - Add-ons and pricing breakdown.
+
+3. **About Page**
+
+   - POS product details, mission, and customer testimonials.
+
+4. **Customer Registration Page**
+
+   - Registration form for collecting customer details.
+   - Integration with payment gateway for onboarding.
+
+5. **Blogs**
+   - Informative articles and updates related to the POS application.
+
+---
+
+### Admin Panel
+
+1. **Dashboard**
+
+   - Overview of customers, subscriptions, and revenues.
+   - Real-time activity tracking.
+
+2. **Customer Management**
+
+   - Account activation/deactivation.
+   - Role-based access control for POS features.
+
+3. **Billing and Payments**
+
+   - Automated invoicing through payment gateways.
+   - Manage pending and overdue payments.
+
+4. **Access Control**
+   - Role-based management for admin and customer access to POS features.
+
+---
+
+### Customer Portal
+
+1. **Dashboard**
+
+   - Overview of active subscriptions.
+   - Notifications for renewals and payment due dates.
+
+2. **Billing and Payments**
+
+   - Secure payment options.
+   - Access to invoices and payment history.
+
+3. **Subscription Management**
+   - Upgrade/downgrade subscriptions dynamically.
+
+---
+
+## System Architecture
+
+- **Frontend**: Built with Next.js for server-side rendering (SSR) and static site generation (SSG).
+- **Backend**: Node.js with Express for API services.
+- **Database**: PostgreSQL for structured data storage and Redis for caching and session management.
+- **Payment Gateway**: Stripe for secure billing and invoicing.
+- **Authentication**: OAuth and JWT for secure access.
+
+---
+
+## Technology Stack
+
+- **Frontend**: Next.js, TypeScript, Tailwind CSS
+- **Backend**: Next.js, Prisma ORM
+- **Database**: MongoDB
+- **Payment Gateway**: Bkash
+- **Authentication**: OAuth, JWT
