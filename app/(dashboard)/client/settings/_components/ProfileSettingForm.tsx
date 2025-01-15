@@ -138,6 +138,8 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
           ...notificationTypeMsg,
           clientId: clientId,
           aamardokanId: aamardokanId,
+          id: "",
+          createdAt: undefined,
         };
         await saveNotification(notificationData);
         setLoading1(false);
@@ -205,6 +207,8 @@ const ProfileSettingForm = ({ entry }: { entry: any }) => {
           ...notificationTypeMsg,
           clientId: clientId,
           aamardokanId: aamardokanId,
+          id: "",
+          createdAt: undefined,
         };
         await saveNotification(notificationData);
         setLoading3(false);

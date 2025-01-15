@@ -5,7 +5,7 @@ import prisma from "@/prisma";
 import { NotificationStatus, NotificationType, Status } from "@prisma/client";
 
 export interface NotificationDataTypes {
-  id: string;
+  id?: string;
   clientId: string;
   aamardokanId: string | null;
   title: string;
@@ -13,7 +13,15 @@ export interface NotificationDataTypes {
   type: NotificationType;
   notificationStatus?: NotificationStatus;
   status?: Status;
-  createdAt: Date;
+  isAdminCreated?: boolean;
+  createdAt?: Date;
+  client?: {
+    id: string;
+    name: string;
+    email: string | null;
+    phone: string;
+    photo: string | null;
+  };
 }
 
 export const saveNotification = async (data: NotificationDataTypes) => {
@@ -30,6 +38,7 @@ export const saveNotification = async (data: NotificationDataTypes) => {
         title: data.title,
         message: data.message,
         type: data.type,
+        isAdminCreated: data.isAdminCreated || false,
       },
     });
     revalidatePath("/client");

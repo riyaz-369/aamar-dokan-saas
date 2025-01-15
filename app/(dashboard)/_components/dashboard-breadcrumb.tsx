@@ -66,6 +66,12 @@ const DashboardBreadCrumb = () => {
 
   const role = user?.role;
 
+  const notificationCount = notifications.filter(
+    (notification) => notification.notificationStatus === "Unread"
+  ).length;
+
+  console.log(notificationCount);
+
   return (
     <div className="flex justify-between items-center w-full z-50">
       <Breadcrumb>
@@ -107,7 +113,7 @@ const DashboardBreadCrumb = () => {
               <Badge
                 className={cn("rounded-full px-1 py-0 absolute top-0 right-0")}
               >
-                {notifications.length}
+                {notificationCount}
               </Badge>
               <Bell className="h-4 w-4" />
             </Button>

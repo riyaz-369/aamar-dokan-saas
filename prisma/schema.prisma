@@ -231,6 +231,7 @@ model Notification {
   message            String
   type               NotificationType   @default(Info)
   notificationStatus NotificationStatus @default(Unread)
+  isAdminCreated     Boolean            @default(false)
   status             Status             @default(Active)
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
